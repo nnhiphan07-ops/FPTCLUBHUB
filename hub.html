@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FPT CLUB HUB</title>
+<link class="favicon-link" rel="icon" type="image/png" href="https://i.postimg.cc/DzVgQMpw/logo-club-hub.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Montserrat,sans-serif}
+html{scroll-behavior:smooth}
+body{background:#fff;color:#111;overflow-x:hidden}
+
+/* === CSS GIAO DIỆN TRANG CHỦ === */
+.navbar{
+position:fixed;top:0;left:0;width:100%;z-index:1000;
+display:flex;justify-content:space-between;align-items:center;
+padding:18px 8%;background:rgba(0,0,0,.15);
+backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.2)
+}
+.logo{font-size:28px;font-weight:900;display:flex;align-items:center}
+.logo img{height:100px;width:auto;display:block;filter:drop-shadow(0 10px 25px rgba(243,112,33,.25))}
+.nav-links{display:flex;gap:28px;margin-left:auto}
+.nav-links a{text-decoration:none;color:#fff;font-weight:600}
+.hero{height:100vh;background:url('https://i.postimg.cc/rFM7xgZG/f4cfd110-2ea6-4cc4-b71c-debf48793462.png') center/cover;display:flex;align-items:center;justify-content:center;position:relative}
+.hero:before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.25)}
+.hero-content{position:relative;color:#fff;text-align:center;width:100%}
+.hero h1{font-size:clamp(4.5rem,8vw,7rem);font-weight:900;line-height:.9;letter-spacing:-0.04em;color:#fff;text-shadow:0 4px 10px rgba(0,0,0,.15),0 10px 25px rgba(243,112,33,.25),0 20px 50px rgba(243,112,33,.15)}
+
+/* --- THANH TÌM KIẾM ĐÃ ĐƯỢC FIX --- */
+.nav-search{position:relative;display:flex;align-items:center;gap:12px;width:min(750px,90vw);height:68px;padding:0 24px;margin:45px auto 0;background:rgba(255,255,255,.95);border:1px solid rgba(255,255,255,.4);border-radius:999px;box-shadow:0 15px 40px rgba(0,0,0,.12);transition:.3s;z-index: 1001;}
+.nav-search:hover{transform:translateY(-3px);box-shadow:0 20px 50px rgba(243,112,33,.18)}
+.nav-search input{flex:1;border:none;outline:none;background:transparent;font-size:17px;font-weight:600;color:#000}
+.nav-search input::placeholder{color:#666}
+
+/* Khối hiển thị kết quả tìm kiếm thả xuống */
+.searchResults-box{position:absolute;top:75px;left:0;width:100%;background:white;border-radius:20px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.15);display:none;z-index:2000;max-height:300px;overflow-y:auto;text-align:left;border:1px solid #eee}
+.search-item{padding:16px 20px;cursor:pointer;font-weight:600;color:#111;transition:0.2s;border-bottom:1px solid #f9f9f9;}
+.search-item:hover{background:#f5f5f5;color:#F37021;padding-left:25px;}
+
+.hero p{margin-top:16px}
+section{padding:90px 8%}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:30px}
+.stat{background:rgba(255,255,255,.65);backdrop-filter:blur(16px);border-radius:24px;box-shadow:0 20px 40px rgba(0,0,0,.08);transition:.4s;padding:28px}
+.stat:hover{transform:translateY(-10px)}
+.full-image{height:70vh;background-attachment:fixed;background-size:cover;background-position:center}
+
+#courses h2, #featured-clubs h2, #homepage-events h2 { margin-bottom: 25px; font-weight: 900; font-size: 2.2rem;}
+.slider-wrapper{position:relative}
+.slider-btn{position:absolute;top:40%;width:52px;height:52px;border:none;cursor:pointer;border-radius:50%;background:white;color:#F37021;font-size:24px;font-weight:700;transition:.3s;z-index:100;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+.slider-btn:hover{transform:scale(1.08);background:#F37021;color:white}
+.prev-btn{left:-30px}
+.next-btn{right:-30px}
+.club-slider{display:flex;gap:24px;overflow-x:auto;scroll-behavior:smooth;padding:20px 5px}
+.club-slider::-webkit-scrollbar{display:none}
+
+/* === CSS THANH MENU BỘ LỌC === */
+.category-menu {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0 35px;
+    padding: 10px 0;
+}
+.cat-btn {
+    padding: 14px 26px;
+    border: 1px solid #e0e0e0;
+    border-radius: 999px;
+    background: #f8f9fa;
+    color: #444;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+.cat-btn:hover {
+    background: #fff;
+    color: #F37021;
+    border-color: #F37021;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(243,112,33,0.1);
+}
+.cat-btn.active {
+    background: #F37021;
+    color: #fff;
+    border-color: #F37021;
+    box-shadow: 0 8px 20px rgba(243,112,33,0.25);
+}
+
+/* Định dạng thẻ Card */
+.card{
+    display:flex;
+    flex-direction:column;
+    width:350px;
+    min-width:350px;
+    height:400px;
+    text-decoration:none;
+    color:inherit;
+    background:rgba(255,255,255,.65);
+    backdrop-filter:blur(16px);
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 20px 40px rgba(0,0,0,.08);
+    transition: transform .4s, box-shadow .4s;
+    cursor:pointer;
+}
+.card:hover{transform:translateY(-10px); box-shadow: 0 25px 50px rgba(243,112,33,0.12);}
+.card img{width:100%;height:230px;object-fit:cover;display:block;transition:.5s}
+.card:hover img{transform:scale(1.05)}
+.card-content{padding:20px;flex:1;display:flex;flex-direction:column;justify-content:center}
+.card-content h3{font-size:1.3rem;font-weight:700;color:#111;margin-bottom:8px}
+.card-content p{font-size:0.9rem;color:#666;line-height:1.4;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+
+/* Hiệu ứng trượt lướt mượt bay lên (Fade-in effect) khi click Menu */
+.card.fade-in-effect {
+    animation: cardReveal 0.45s ease-out forwards;
+}
+@keyframes cardReveal {
+    from { opacity: 0; transform: translateY(25px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Quiz Modal */
+.quiz-modal{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;z-index:99999}
+.quiz-box{width:min(700px,90vw);padding:40px;background:white;border-radius:32px;text-align:center}
+.interest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0}
+.interest-btn{padding:18px;border:none;border-radius:18px;cursor:pointer;background:#f4f4f4;transition:.3s;font-weight:600;color:#111}
+.interest-btn.active{background:#F37021;color:white}
+#continueBtn{margin-top:20px;padding:16px 30px;border:none;border-radius:999px;background:#F37021;color:white;font-weight:700;cursor:pointer}
+
+.gallery{columns:3;column-gap:16px}
+.gallery img{width:100%;margin-bottom:16px;border-radius:18px}
+.faq-item{padding:20px;border-bottom:1px solid #ddd}
+.footer{background:#111;color:#fff;padding:80px 8%;text-align:center}
+.blob{position:fixed;width:500px;height:500px;border-radius:50%;background:#62dfff;filter:blur(120px);opacity:.25;top:-120px;right:-120px;z-index:-1}
+
+@media(max-width:768px){.nav-links{display:none} .gallery{columns:2}.interest-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* === GIAO DIỆN TRANG CHI TIẾT CÂU LẠC BỘ === */
+#new-club-page {
+    display: none;
+    min-height: 100vh;
+    background: #fdfdfd;
+    color: #111;
+    padding: 40px 8%;
+}
+.page-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 40px;}
+.back-btn { background: #111; color: white; padding: 14px 28px; border: none; border-radius: 999px; cursor: pointer; font-weight: 600; transition: 0.3s;}
+.back-btn:hover { background: #F37021; }
+.detail-container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-bottom: 60px;}
+.detail-img { width: 100%; height: 450px; object-fit: cover; border-radius: 28px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);}
+.detail-info h1 { font-size: 3.5rem; color: #111; margin-bottom: 24px; font-weight: 900;}
+.detail-info p { font-size: 1.15rem; line-height: 1.8; color: #444; margin-bottom: 24px;}
+.join-btn { background: #F37021; color: white; padding: 16px 40px; border: none; border-radius: 16px; font-size: 1.1rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(243,112,33,0.3); transition: 0.3s; text-decoration: none; display: inline-block;}
+.join-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(243,112,33,0.4); }
+
+.club-events-section {
+    border-top: 2px solid #eee;
+    padding-top: 50px;
+    margin-top: 40px;
+}
+.club-events-section h2 {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 30px;
+    color: #111;
+}
+
+/* === CSS ACCORDION GIỚI THIỆU CÁC BAN TRANG CHI TIẾT (ĐÃ THÊM THANH CUỘN) === */
+.club-departments-section {
+    border-top: 2px solid #eee;
+    padding-top: 50px;
+    margin-top: 40px;
+}
+.club-departments-section h2 {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 30px;
+    color: #111;
+}
+.accordion-item {
+    border: 1px solid #eee;
+    border-radius: 18px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+    transition: 0.3s;
+}
+.accordion-item:hover {
+    border-color: #F37021;
+}
+.accordion-header {
+    width: 100%;
+    padding: 22px 28px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+}
+.accordion-header:hover {
+    color: #F37021;
+}
+.accordion-icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #666;
+}
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0, 1, 0, 1);
+    background: #fcfcfc;
+}
+.accordion-content-inner {
+    padding: 24px 28px;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #555;
+}
+/* Thiết lập chiều cao tối đa và bật thanh cuộn dọc khi mở rộng */
+.accordion-item.active .accordion-content {
+    max-height: 350px; 
+    overflow-y: auto;
+    transition: max-height 0.45s cubic-bezier(1, 0, 1, 0);
+}
+.accordion-item.active .accordion-icon {
+    transform: rotate(90deg);
+    color: #F37021;
+}
+.accordion-item.active .accordion-header {
+    color: #F37021;
+    background: rgba(243,112,33,0.02);
+}
+
+/* Custom thanh cuộn mượt mà theo tông màu cam */
+.accordion-content::-webkit-scrollbar {
+    width: 6px;
+}
+.accordion-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+.accordion-content::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+.accordion-content::-webkit-scrollbar-thumb:hover {
+    background: #F37021;
+}
+</style>
+</head>
+<body>
+
+<div id="main-homepage-wrapper">
+    <div id="quizModal" class="quiz-modal" style="display: flex;">
+        <div class="quiz-box">
+            <h2>Tìm CLB phù hợp với bạn</h2>
+            <p>Chọn tối đa 3 sở thích</p>
+            <div class="interest-grid">
+                <button class="interest-btn" data-interest="tech">Công nghệ</button>
+                <button class="interest-btn" data-interest="Art">Nghệ thuật</button>
+                <button class="interest-btn" data-interest="media">Media</button>
+                <button class="interest-btn" data-interest="sport">Thể thao</button>
+                <button class="interest-btn" data-interest="community">Cộng đồng</button>
+                <button class="interest-btn" data-interest="business">Tài chính - kinh doanh</button>
+                <button class="interest-btn" data-interest="language">Ngôn ngữ</button>
+            </div>
+            <button id="continueBtn">Khám phá CLB</button>
+        </div>
+    </div>
+
+    <div class="blob"></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <img src="https://i.postimg.cc/MpDsGnS0/logo-hub-white.png" alt="Logo">
+        </div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#courses">Recommend</a>
+            <a href="#featured-clubs">Explore Clubs</a>
+            <a href="#homepage-events">Events</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>FPT CLUB HUB</h1>
+            <p>“Chỉ cần một cú search để tìm đúng cộng đồng dành cho bạn.”</p>
+            <div class="nav-search">
+                <svg style="width:24px; height:24px; color:#666;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0a7 7 0 0114 0z"/>
+                </svg>
+                <input id="searchInput" type="text" placeholder="Tìm CLB ...">
+                <div id="searchResults" class="searchResults-box"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2>Một nền tảng — Mọi câu lạc bộ FPT </h2>
+        <div class="stats">
+            <div class="stat"><h3>27</h3><p>Câu lạc bộ</p></div>
+            <div class="stat"><h3>5000+</h3><p>Sinh viên</p></div>
+            <div class="stat"><h3>100+</h3><p>Sự kiện/năm</p></div>
+            <div class="stat"><h3>1 HUB</h3><p>Kết nối tất cả câu lạc bộ</p></div>
+        </div>
+    </section>
+
+    <div class="full-image" style="background-image:url('https://i.postimg.cc/5yMSc7QD/a4d827a9-60f5-40c2-9298-02401a87910e.png')"></div>
+
+    <section id="courses">
+        <div class="section-header" style="text-align: center;">
+            <h2>Khám Phá Danh Mục Câu Lạc Bộ</h2>
+            <p style="color: #666; margin-top: -15px;">Chủ động lọc nhanh các câu lạc bộ theo từng lĩnh vực đam mê bằng thanh Menu dưới đây:</p>
+        </div>
+
+        <div class="category-menu" id="tabCategoryMenu">
+            <button class="cat-btn active" data-tab="quiz">Gợi ý cho bạn</button>
+            <button class="cat-btn" data-tab="tech">Công nghệ</button>
+            <button class="cat-btn" data-tab="Art"> Nghệ thuật</button>
+            <button class="cat-btn" data-tab="media">Media</button>
+            <button class="cat-btn" data-tab="sport">Thể thao</button>
+            <button class="cat-btn" data-tab="community">Cộng đồng</button>
+            <button class="cat-btn" data-tab="business">Tài chính - Kinh doanh</button>
+            <button class="cat-btn" data-tab="language">Ngôn ngữ</button>
+        </div>
+
+        <div class="slider-wrapper">
+            <button class="slider-btn prev-btn" onclick="scrollLeftCards()">❮</button>
+            <div class="club-slider" id="clubSlider"></div>
+            <button class="slider-btn next-btn" onclick="scrollRightCards()">❯</button>
+        </div>
+    </section>
+
+    <section id="featured-clubs" style="background: #fff; padding-top: 10px;">
+        <div class="section-header">
+            <h2>Câu Lạc Bộ Nổi Bật</h2>
+        </div>
+        <div class="slider-wrapper">
+            <button class="slider-btn prev-btn" onclick="scrollFeaturedLeft()">❮</button>
+            <div class="club-slider" id="featuredSlider"></div>
+            <button class="slider-btn next-btn" onclick="scrollFeaturedRight()">❯</button>
+        </div>
+    </section>
+
+    <section id="homepage-events" style="background: #fdfdfd; padding-top: 10px;">
+        <div class="section-header">
+            <h2>Sự Kiện Đang Diễn Ra</h2>
+        </div>
+        <div class="slider-wrapper">
+            <button class="slider-btn prev-btn" onclick="scrollEventsLeft()">❮</button>
+            <div class="club-slider" id="homepageEventsSlider"></div>
+            <button class="slider-btn next-btn" onclick="scrollEventsRight()">❯</button>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <h2>FPT CLUB HUB</h2>
+        <p>Một nền tảng — Mọi câu lạc bộ FPT</p>
+    </footer>
+</div>
+
+
+<div id="new-club-page">
+    <div class="page-header">
+        <button class="back-btn" onclick="backToHome()">⬅ Quay lại Trang chủ</button>
+        <span style="font-weight: 900; color: #F37021; font-size: 1.2rem;">FPT CLUB HUB</span>
+    </div>
+    
+    <div class="detail-container">
+        <img id="detail-image" src="" alt="Club Banner" class="detail-img">
+        <div class="detail-info">
+            <h1 id="detail-title">Tên CLB</h1>
+            <p id="detail-desc">Đang tải mô tả câu lạc bộ...</p>
+            <a id="detail-fb-link" href="#" target="_blank" class="join-btn">Liên kết đến fanpage</a>
+        </div>
+    </div>
+
+    <!-- KHỐI GIỚI THIỆU CÁC BAN (ACCORDION ĐỘNG) -->
+    <div id="departments-section-wrapper" class="club-departments-section" style="display: none;">
+        <h2>Cấu Trúc Các Ban</h2>
+        <div id="dynamic-accordion-container"></div>
+    </div>
+
+    <div id="event-section-wrapper" class="club-events-section" style="display: none;">
+        <h2> Sự Kiện Đang Diễn Ra</h2>
+        <div id="dynamic-event-card-container"></div>
+    </div>
+</div>
+
+
+<script>
+// === NGUỒN DỮ LIỆU CÂU LẠC BỘ CHUẨN ===
+const clubs = {
+    tech: [
+        { 
+            name: "ITSC - Innovative Technology Student Club", 
+            image: "https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-6/482250999_956301126678744_5494218134794243686_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=L0GXZjyAZjwQ7kNvwFwl5YE&_nc_oc=Adqx9vKqHKl5HzDffhOJoOPxj-n-2pyEjpV2b4D74on9PrJy3VFoGLwJZrlVV8tacthpRMJbWAkKu2bHVCsDOkus&_nc_zt=23&_nc_ht=scontent.fdad3-6.fna&_nc_gid=i-A1n1lleGTzitSfrUeCqw&_nc_ss=7b2a8&oh=00_Af-4KpTcFQPo6FduIM5vh5wbCN8l30RkMoEjbZ_FL-R46w&oe=6A3AC678",
+            desc: "Câu lạc bộ Công nghệ đổi mới và Sáng tạo là cộng đồng dành cho sinh viên đam mê công nghệ đổi mới: AI, Robotics, Blockchain<br> <b> Hoạt động chính:</b> Tổ chức training, workshop, các buổi meetup giúp đỡ thành viên cập nhật xu hướng mới và rèn luyện kĩ năng <br> <b> Địa chỉ email:</b> itsc.fptu@gmail.com",
+            fbLink: "https://www.facebook.com/itsc.fptu", 
+            eventLink: "https://agentic-spark.hoangblue.dev/?fbclid=IwY2xjawSajx5leHRuA2FlbQIxMABicmlkETFZVjJMZ2xwNjdWanpFUDNTc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHqua3hMcTftmZGCnoEzh-SldjKYKHLrd92TPB3pW3q6EpTD6dbhZ8kJmgUrH_aem_yWzR4Pf8_dxeEA-cxRiVxQ", 
+            eventImg: "https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-6/658217732_1255113203464200_1115212317577831841_n.jpg?stp=dst-jpg_tt6&cstp=mx1200x1200&ctp=s1200x1200&_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=t3W2sGlaFGIQ7kNvwHe6vxd&_nc_oc=AdpjOEMDdfQtXQB-hWnrlQ8fL2r1FR7ktvcbJ742Mcjupy87JVvEhHfDOfJQJFOWiSqwRyiDdYZzSmUlE3q0ZzCI&_nc_zt=23&_nc_ht=scontent.fdad3-6.fna&_nc_gid=RuC5Uml2r18tJyLnCQx5Gw&_nc_ss=7b2a8&oh=00_Af9yrRM1VDI29ncZ6GovFXFv85ZYrgD48LrfDtAZoUs27w&oe=6A3AAE4C",
+            eventTitle: "ITSC x DEVER: AGENTIC SPARK — 2026",
+            eventDesc: "Hiểu rằng con đường từ lý thuyết đến thực chiến không bao giờ dễ, Ban Tech ITSC tổ chức ITSC x DEVER: AGENTIC SPARK - một hackathon nội bộ được thiết kế như một bàn đạp thực sự: nơi để các thành viên lần đầu va chạm với bài toán thực tế, rèn giũa tư duy sản phẩm, và tích lũy kinh nghiệm trước khi bước ra các đấu trường lớn hơn. Đây là nơi bạn được phép thử, được phép sai, và được hỗ trợ để trưởng thành.",
+            departments: [
+                { title: "Ban Tech", content: "<b>MÔ TẢ CÔNG VIỆC</b><br>Là thành viên của <b>Innovative Technology Student Club - FPTU</b> và <b>Team Tech</b>, bạn sẽ đảm nhận các mảng liên quan đến kỹ thuật, học thuật và công nghệ, góp phần xây dựng sản phẩm mang đậm dấu ấn của ITSC.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Tham gia và đồng hành trong các sự kiện của ITSC.<br>• Phụ trách mảng kỹ thuật cho các sản phẩm cộng đồng.<br>• Phát triển và bảo trì các phần mềm, website của CLB.<br>• Đóng góp, chia sẻ kiến thức và công cụ công nghệ.<br>• Hợp tác tốt với các ban khác.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Nhanh chóng hòa nhập với văn hóa CLB.<br>• Có kinh nghiệm <b>Frontend, Backend</b>; có kiến thức về <b>AI, Blockchain</b> là lợi thế.<br>• Nhạy bén xu hướng công nghệ mới, làm việc nhóm và quản lý thời gian tốt.<br><br><b>LỢI ÍCH KHI THAM GIA:</b><br>• Mở rộng network, rèn luyện kỹ năng Công nghệ, Kinh doanh, Sự kiện.<br>• Học hỏi phong cách làm việc chuyên nghiệp, tối ưu hiệu suất.<br>• Cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia dự án, cuộc thi lớn ngoài trường.<br>• Training, workshop từ cố vấn giàu kinh nghiệm và chuyên gia <b>Solana Superteam</b>" },
+                { title: "Ban MedEv", content: "<u><b>1. CONTENT CREATOR</b></u><br><br><b>MÔ TẢ CÔNG VIỆC</b><br>Content Creators sẽ quản lý, kiểm duyệt và điều chỉnh nội dung, tận dụng khả năng sáng tạo và nhạy bén với xu hướng để sản xuất nội dung phù hợp với đối tượng mà CLB đang hướng đến.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Sáng tạo và xây dựng nội dung trên các kênh truyền thông của CLB.<br>• Lên kế hoạch cho các bài đăng và nội dung phù hợp.<br>• Luôn nắm bắt xu hướng và tạo ra nội dung hấp dẫn.<br>• Quản lý, kiểm duyệt và chỉnh sửa bài viết khi cần.<br>• Phối hợp với các team khác để phân tích số liệu, triển khai giải pháp cần thiết.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Làm quen và hòa nhập văn hóa CLB.<br>• Có khả năng viết tốt và nhanh nhạy trong xu hướng xã hội.<br>• Mọi phong cách viết đều được tôn trọng. Tuy nhiên lối hành văn hiện đại, trẻ trung là một lợi thế lớn.<br>• Có khả năng quản lý thời gian tốt và luôn sẵn sàng sáng tạo nội dung.<br>• Là một thành viên có khả năng giao tiếp và teamwork tốt.<br>• Chủ động trong các vấn đề sáng tạo của CLB.<br><br><b>LỢI ÍCH KHI THAM GIA</b><br>• Mở rộng mạng lưới quan hệ, rèn luyện các kỹ năng, kiến thức về Công nghệ, Kinh doanh, Tổ chức sự kiện,....<br>• Làm quen và học tập từ phong cách làm việc chuyên nghiệp, những mẹo và công cụ giúp tăng hiệu suất làm việc, học tập một cách hiệu quả nhất.<br>• Đồng hành cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia những hoạt động có quy mô ngoài trường, hợp tác với các đơn vị khác. Tham gia vào những dự án, cuộc thi có liên quan.<br>• Được tham gia các khóa học, training từ các anh chị cố vấn có kinh nghiệm của câu lạc bộ.<br><br>--------------------------------------------------<br><br><u><b>2. DESIGNER</b></u><br><br><b>MÔ TẢ CÔNG VIỆC</b><br>Là một Designer, bạn sẽ thiết kế các ấn phẩm truyền thông và sản phẩm dựa trên concept của ITSC - FPTU và Solana Superteam. Bạn sẽ hiện thực hóa các giá trị của CLB thông qua hình ảnh, ấn phẩm truyền thông và sự kiện.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Đưa ý tưởng vào các ấn phẩm truyền thông của CLB.<br>• Đề xuất ý tưởng và thiết kế các ấn phẩm truyền thông; chỉnh sửa khi cần.<br>• Sử dụng màu sắc, concept và bố cục phù hợp để truyền tải thông điệp rõ ràng.<br>• Kiểm duyệt và góp ý cho sản phẩm của các Designer khác.<br>• Phối hợp với các team khác, đặc biệt là Media & Event, để tối ưu hóa hiệu quả của sản phẩm thiết kế.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Làm quen và hòa nhập văn hóa CLB.<br>• Có khả năng thiết kế ấn phẩm truyền thông (các chứng chỉ Ps, Ai,...) là một lợi thế.<br>• Thành thạo sử dụng các phần mềm thiết kế hoặc có đam mê với thiết kế đồ họa.<br>• Có khả năng quản lý thời gian tốt và có tư duy sáng tạo về concept hoặc màu sắc.<br>• Là một thành viên có khả năng giao tiếp và teamwork tốt.<br>• Chủ động trong các ý tưởng sáng tạo của CLB.<br><br><b>LỢI ÍCH KHI THAM GIA</b><br>• Được nhận giấy chứng nhận và sự hậu thuẫn từ <b>Solana Superteam</b>.<br>• Mở rộng mạng lưới quan hệ, rèn luyện các kỹ năng, kiến thức về Công nghệ, Kinh doanh, Tổ chức sự kiện,....<br>• Làm quen và học tập từ phong cách làm việc chuyên nghiệp, những mẹo và công cụ giúp tăng hiệu suất làm việc, học tập một cách hiệu quả nhất.<br>• Đồng hành cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia những hoạt động có quy mô ngoài trường, hợp tác với các đơn vị khác. Tham gia vào những dự án, cuộc thi có liên quan.<br>• Được tham gia các khóa học, những buổi training và workshop không chỉ từ các anh chị cố vấn có kinh nghiệm và tài năng của câu lạc bộ mà còn các chuyên gia trong nhiều lĩnh vực đến từ <b>Solana Superteam</b>.<br><br>--------------------------------------------------<br><br><u><b>3. SOCIAL MEDIA</b></u><br><br><b>MÔ TẢ CÔNG VIỆC</b><br>Social Media phụ trách chính cho những hoạt động của ITSC - FPTU và của Solana Super Team trên các phương tiện truyền thông. Là người tìm hiểu, cập nhật chức năng và quản lý các kênh truyền thông của ITSC - FPTU, phân tích các dữ liệu liên quan đến người dùng khác thông qua các kênh truyền thông.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Quản lý các trang thông tin truyền thông (Fanpage, Instagram, Slack, YouTube, ...)<br>• Kiểm soát và chỉnh sửa các lỗi trong các bài đăng trên kênh truyền thông của ITSC - FPTU nhằm đảm bảo tính chuyên nghiệp cho các nội dung truyền thông.<br>• Tương tác, phản hồi tin nhắn, bình luận trên các kênh xã hội.<br>• Phân tích thông tin liên quan đến truyền thông.<br>• Thông báo đến các thành viên và leader về những vấn đề liên quan đến kênh xã hội.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Có kinh nghiệm về các mạng xã hội Facebook, Instagram, Slack, Youtube...<br>• Có khả năng tìm kiếm, kiểm định thông tin, trình bày, tương tác với cộng đồng online.<br>• Ưu thích sự hoàn hảo, đặc biệt trong việc kiểm soát nội dung văn bản.<br>• Có khả năng quản lý thời gian và chịu được áp lực về tiến độ công việc.<br>• Có khả năng nắm bắt các công cụ đo lường hiệu quả của phương tiện truyền thông.<br>• Nhanh nhẹn, nhạy bén nắm bắt xu hướng truyền thông mới.<br><br><b>LỢI ÍCH KHI THAM GIA</b><br>• Mở rộng mạng lưới quan hệ, rèn luyện các kỹ năng, kiến thức về Công nghệ, Kinh doanh, Tổ chức sự kiện,....<br>• Làm quen và học tập từ phong cách làm việc chuyên nghiệp, những mẹo và công cụ giúp tăng hiệu suất làm việc, học tập một cách hiệu quả nhất.<br>• Đồng hành cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia những hoạt động có quy mô ngoài trường, hợp tác với các đơn vị khác. Tham gia vào những dự án, cuộc thi có liên quan.<br>• Được tham gia các khóa học, training từ các anh chị cố vấn có kinh nghiệm của câu lạc bộ." },
+                { title: "Ban HR", content: "<b>MÔ TẢ CÔNG VIỆC</b><br>Nhân sự là bộ phận cốt lõi của CLB, đóng vai trò quan trọng trong việc điều phối, quản lý và tuyển chọn thành viên mới. Đội ngũ nhân sự còn hỗ trợ giải quyết các vấn đề cá nhân trong CLB, tạo dựng một môi trường làm việc thân thiện, hòa đồng và nâng cao tinh thần của các thành viên.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Điều phối nhân sự phù hợp với từng dự án, hoạt động của CLB.<br>• Quan sát, đánh giá và hỗ trợ phát triển từng thành viên trong CLB.<br>• Tìm hiểu và lập kế hoạch tuyển thành viên mới.<br>• Phối hợp chặt chẽ với các ban khác trong CLB.<br>• Lên kế hoạch tổ chức các buổi sinh hoạt và chia sẻ kiến thức cho CLB.<br>• Xây dựng môi trường CLB lành mạnh, vui vẻ và đoàn kết.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Tư duy mở, hòa đồng và khả năng tạo không khí vui vẻ trong CLB.<br>• Kinh nghiệm trong lĩnh vực HR (ngành học liên quan, dự án hoặc chứng chỉ) là một lợi thế.<br>• Kỹ năng làm việc nhóm và giao tiếp tốt.<br>• Khả năng giải quyết vấn đề hiệu quả và giữ khách quan trong mọi tình huống.<br><br><b>LỢI ÍCH KHI THAM GIA</b><br>• Mở rộng mạng lưới quan hệ, rèn luyện các kỹ năng, kiến thức về Công nghệ, Kinh doanh, Tổ chức sự kiện,....<br>• Làm quen và học tập từ phong cách làm việc chuyên nghiệp, những mẹo và công cụ giúp tăng hiệu suất làm việc, học tập một cách hiệu quả nhất.<br>• Đồng hành cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia những hoạt động có quy mô ngoài trường, hợp tác với các đơn vị khác. Tham gia vào những dự án, cuộc thi có liên quan.<br>• Được tham gia các khóa học, workshop miễn phí hoặc được tài trợ bởi <b>Solana Superteam</b>." }
+            ]
+        },
+        { 
+            name: "AI Club", 
+            image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e",
+            desc: "AI Club mang đến không gian nghiên cứu chuyên sâu về Trí tuệ nhân tạo, Machine Learning và Data Science dành cho những ai muốn làm chủ công nghệ tương lai.",
+            fbLink: "https://www.facebook.com"
+        }
+    ],
+    media: [
+        { 
+            name: "FUM-CLB TRUYỀN THÔNG ", 
+            image: "https://lh3.googleusercontent.com/a-/ALV-UjU3ulF7JD-HiZu60HEpriEsc33xdxGgIBaRG3eZq6tPV1o0m5A=s240-p-k-rw-no",
+            desc: "Câu Lạc Bộ Truyền Thông FU Media ( FUM) trực thuộc Trường Đại Học FPT Đà Nẵng. Câu Lạc bộ ra đời với mục đích quy tụ những thành viên là sinh viên FUDN có hứng thú về nhiếp ảnh, diễn xuất, thiết kế đồ họa, và truyền thông quảng bá tổ chức sự kiện. Cùng nhau trao đổi học hỏi những kinh nghiệm quý báu liên quan đến các lĩnh vực trên. <br> <b> Hoạt động chinh:</b> Hiện tại, các hoạt động của CLB chủ yếu xoay quanh công tác truyền thông cho các sự kiện của câu lạc bộ cũng như của trường, bao gồm chụp ảnh, quay phim, thiết kế, xây dựng nội dung truyền thông,... <br> <b> Địa chỉ email:</b> fumfptdn@gmail.com ",
+            fbLink: "https://www.facebook.com/share/1HFSoekjiR/?mibextid=wwXIfr",
+            eventLink: "https://www.facebook.com/share/p/1ChUWdYkNQ/",
+            eventImg: "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/724287486_1750276879761211_5547288671371370206_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s1080x1350&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEvZdy3yKS6evvrIMUtItl5DNucOB-9pFwM25w4H72kXFR_IMHXnzqWfXzWlcOi88K50og_Uz0AJrZXDKp_FR-9&_nc_ohc=RAYM5aG6VTMQ7kNvwHPk8oI&_nc_oc=AdofTUBkUM1FGSj2uo88o5NKv6WyIAL9wq_8Y1Mio6-9UvPDCFAe7hlzePT6Pz90lgw&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=hN8LeTj9kDe7_L98XUaoHQ&_nc_ss=7b2a8&oh=00_Af9Z7kCSObTYC33A5ZYgjNNgi7WVMZHQRLTv1lOWgSIPHw&oe=6A37DEF5",
+            eventTitle: "FATHER’S DAY WORKSHOP - CHIẾC HUY CHƯƠNG DÀNH RIÊNG CHO “NGƯỜI HÙNG” CỦA CHÚNG MÌNH ",
+            eventDesc: "Workshop Father’s Day là nơi bạn sẽ tự tay tạo nên những chiếc huy chương handmade xinh xắn, được thắt tỉ mỉ từ dải ruy băng để thay bạn trao gửi lòng biết ơn và sự ngưỡng mộ sâu sắc nhất đến người hùng thầm lặng ấy. Một chiếc huy chương tự tay thực hiện không chỉ là món quà, mà còn là lời cảm ơn cho người đàn ông tuyệt vời nhất trong lòng mỗi chúng ta. ",
+            departments: [
+                { title: "Ban Content (Nội Dung)", content: "Phụ trách lên ý tưởng kịch bản truyền thông, viết caption fanpage và lên kế hoạch thông điệp truyền tải bài viết." },
+                { title: "Ban Design (Thiết Kế Đồ Họa)", content: "Sáng tạo visual nghệ thuật cho CLB, thiết kế poster, avatar, các ấn phẩm in ấn sự kiện lớn của trường." },
+                { title: "Ban Photo & Camera (Nhiếp Ảnh/Quay Phim)", content: "Lực lượng trực tiếp 'bắt trọn' mọi khoảnh khắc tại sự kiện, quản lý phòng studio và thực hiện dựng video/clip recap." }
+            ]
+        }
+    ],
+    Art: [
+        { 
+            name: "MIC's Home - CLB MC ", 
+            image: "https://lh3.googleusercontent.com/a-/ALV-UjXJ1EAvhoOqjQ2OwBtYuxT_22FxoogdPJP8-oFAWHWY4g6bmNs=s300-p-k-rw-no", 
+            desc: "MIC's Home - FUDA MC Club_WHERE THE BEST BECOME BETTER !<br> <b> Hoạt động chính:</b> MIC’s Home - FUDA MC Club là câu lạc bộ MC của Đại học FPT Đà Nẵng, tập trung đào tạo kỹ năng dẫn chương trình, giao tiếp và thuyết trình; đồng thời tổ chức, hỗ trợ dẫn các sự kiện của trường, sản xuất nội dung truyền thông và tạo môi trường giao lưu, phát triển kỹ năng mềm cho sinh viên.<br> <b> Địa chỉ email:</b> michome.fptu.dn@gmail.com ", 
+            fbLink: "https://www.facebook.com/share/1D6sy6RT3z/?mibextid=wwXIfr",
+            eventLink: "https://www.facebook.com/share/p/1L3J3Wd92y/",
+            eventImg: "https://scontent.fsgn2-10.fna.fbcdn.net/v/t39.30808-6/717080742_979275571750121_4609581307719446157_n.jpg?stp=dst-jpg_tt6&cstp=mx1500x2000&ctp=s1500x2000&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEzewPYYQwXAbXD39OW-IUBe-WRX2-Rv3h75ZFfb5G_eNmi1IM24lWujm_2o4SJJsMgZ9bGGfsd2XcJYtlr0tWM&_nc_ohc=V1kplJYyRgAQ7kNvwGo0Ula&_nc_oc=Adr2f5v0y44hk3ukQap3PensyOu9AUdTQi_xO0afDGkwJb1kfaAgFUWIVCvRv-tGiGA&_nc_zt=23&_nc_ht=scontent.fsgn2-10.fna&_nc_gid=lMs6lHuxtD9UDgaFEAA3hQ&_nc_ss=7b2a8&oh=00_Af8L3V6nlDY5KQNMXB0g02c9jBd37Y26my3DRT93TmGgWw&oe=6A37C82B",
+            eventTitle: "CASTING CALL - MIC'S HOME CHÍNH THỨC MỞ ĐƠN TUYỂN THÀNH VIÊN ",
+            eventDesc: "Bạn không phải là một MC chuyên nghiệp? Chưa từng đứng trên sân khấu? Hay vẫn còn ngại ngùng khi nói trước đám đông? Điều đó hoàn toàn không sao cả. MIC's Home không tìm kiếm những ngôi sao hoàn hảo, chúng mình tìm kiếm những người sẵn sàng học hỏi, dám thử sức và mong muốn phát triển bản thân. ",
+            departments: [
+                { title: "Phân Ban MC Sự Kiện", content: "Dẫn dắt trực tiếp các đại nhạc hội, talkshow, hội thảo trang trọng của nhà trường. Đòi hỏi kỹ năng xử lý tình huống sân khấu nhạy bén." },
+                { title: "Phân Ban MC Voice Talent (Lồng Tiếng / Podcast)", content: "Phát triển giọng đọc radio, sản xuất chuỗi nội dung Podcast định kỳ, lồng tiếng cho các video quảng bá ngắn." }
+            ]
+        },
+        { 
+		name: "FGD - FUDA GRAPHIC DESIGN ",
+		image: "https://lh3.googleusercontent.com/a-/ALV-UjU-PPHvG5vu3DNE55actA56hkPYfDynEIAjLfnwroZoXPB15A8=s300-p-k-rw-no",
+		desc: "Câu lạc bộ Thiết kế đồ hoạ - Đại Học FPT Đà Nẵng.<br> <b> Hoạt động chính:</b>Chúng mình là FGD - Fuda Graphic Design, câu lạc bộ về Thiết Kế Mỹ Thuật Số trường Đại học FPT Đà Nẵng. Với sự mệnh mang tới một làn gió mới cho các bạn học tại trường yêu thích và đam mê về nghành.<br> <b> Địa chỉ email:</b> fudagraphicdesign@gmail.com ",
+		fbLink: "https://www.facebook.com/FudaGraphicDesign.FGD"}
+    ],
+    sport: [
+        { name: "FUFC-CLB BÓNG ĐÁ",
+		image: "https://lh3.googleusercontent.com/a-/ALV-UjWTQIbm76Jvrz6XVvrJO0No326jQhIk6vKoTDLp7Fwmv4Clu00=s48-p",
+		desc: "Câu lạc bộ bóng đá trường đại học Fpt Đà Nẵng.<br> <b> Hoạt động chính:</b> FUFC - CLB bóng đá FUĐN, hoạt động trở lại từ tháng 7.2020. Câu lạc bộ được thành lập with mục tiêu tạo 1 sân chơi, 1 nơi dành cho tất cả những ai yêu thích bóng đá. Hoặc đơn giản là một nơi có thể nuôi dưỡng đam mê, sở thích của của các ban SV trường FPT. Không chỉ đá bóng, FUFC còn hướng đến gắn kết các thành viên, biến CLB thành ngôi nhà thứ hai cho SV.<br> <b> Địa chỉ email:</b> clbbongdafudnfufc@gmail.com ",
+		fbLink: "https://www.facebook.com/fptuniversityfootballclub"},
+        { name: "FUB-CLB CẦU LÔNG",
+		image: "https://lh3.googleusercontent.com/a-/ALV-UjXWfdUo0fMRuc1b9QiSXqK3ZmMHNHJMttFlB-klAYgvIi6aJ48=s240-p-k-rw-no",
+		desc: "Câu lạc bộ cầu lông FPT University Đà Nẵng.<br> <b> Hoạt động chính:</b> CLB Cầu Lông FUB – nơi không chỉ rèn luyện thể thao mà còn là một cộng đồng thân thiện và đầy năng động!<br> <b> Địa chỉ email:</b> fubadclub0706@gmail.com ",
+		fbLink: "https://www.facebook.com/FUBadmintonClubDN" },
+        { name: "FHG-CLB BÓNG RỔ ",
+		image: "https://lh3.googleusercontent.com/a-/ALV-UjXfYhG55RYuQglfi11XVtRqKxnqhrpOSB7bzsF_NDkp2crBY5Q=s240-p-k-rw-no",
+		desc: "FUDA Hoops Gene-Câu lạc bộ bóng rổ FUDN.<br> <b> Hoạt động chính:</b> Nơi các sinh viên trường Đại học FPT Đà Nẵng được thỏa sức đam mê với bóng rổ. <br> <b> Địa chỉ email:</b> fudabasketballclub@gmail.com ",
+		fbLink: "https://www.facebook.com/fudnbasketball"}
+    ],
+    community: [
+        { name: "F2K-CLB THIỆN NGUYỆN ",
+		image: "https://lh3.googleusercontent.com/a-/ALV-UjXUQDvDUxFShoWWbHougyHjr0tFz3E38fX8e0bnTUpya-P0mXW=s48-p",
+		desc: "Câu lạc bộ được xây dựng như là một ngôi nhà chung của những con người trẻ tuổi có trong mình sự cảm thông và khát khao giúp đỡ những mảnh đời khó khăn trong cuộc sống. Với trái tim đầy nhựa sống, lòng nhân ái và khát khao giúp đỡ đồng loại, chúng tớ muốn truyền ngọn lửa ấm áp ấy đến những con người xứng đáng nhận được chúng, để thắp lên lại niềm hi vọng và ý chí vươn lên trong lòng những con người ấy và, tất nhiên, trong cả mỗi chúng ta nữa.<br> <b> Hoạt động chính:</b> Gây quỹ, làm tình nguyện đến thăm cái nơi nuôi dưỡng hoặc hoàn cảnh khó khăn trong địa bàn thành phố Đà Nẵng.<br> <b> Địa chỉ email:</b> fpt.kindness.krew@gmail.com ",
+		fbLink: "https://www.facebook.com/share/1cKhVuUMTH/?mibextid=wwXIfr" },
+        { 
+            name: "FENIOUS-CLB VĂN HÓA Ẩm THỰC ", 
+            image: "https://lh3.googleusercontent.com/a-/ALV-UjVP5ey-HWIVF0ktRoe8AFvP24yFlsOkYdw3Rps7BT6tur8Fui9K=s300-p-k-rw-no", 
+            desc: "Câu lạc bộ Văn hóa Ẩm thực trực thuộc Đại học FPT Đà Nẵng. <br> <b> Hoạt động chính:</b> Văn hoá Ẩm thực trên từng hành trình! Fenious là Câu lạc bộ Văn hoá Ẩm thực trực thuộc Đại học FPT, thành phố Đà Nẵng, nơi ẩm thực trở thành cầu nối gắn kết con người và lan toả những giá trị văn hoá trên mọi nẻo đường.<br> <b> Địa chỉ email:</b>  fenious.fuda@gmail.com ", 
+            fbLink: "https://www.facebook.com/share/18fBGgw3tZ/?mibextid=wwXIfr",
+            eventLink: "https://event.fptudn.com/",
+            eventImg: "https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/701003736_122169551234684119_5287170141170650822_n.jpg?stp=dst-jpg_tt6&cstp=mx1122x1402&ctp=s1122x1402&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFtU1ext3bdeqkQXQhW7rYV6YRFjs85YenphEWOzzlh6XG-mrSmHx1Dz-I9214AoUEy9Qw20mHKe-mUlirUvGPl&_nc_ohc=wzabyJvE_loQ7kNvwHTpjQN&_nc_oc=AdqCc9O0HtInMkKHZyN84HK6uToHGWZfEkXr2BLr6UZoVNSIQy8-OhTVL6-PhRZ6gVPZ29idkRuP_7VvSwDc6GZk&_nc_zt=23&_nc_ht=scontent.fsgn2-4.fna&_nc_gid=1uwKGk41Qo7kpEErDSxLAA&_nc_ss=7b2a8&oh=00_Af-WkHF3sc97Qlh8kAQ6xKtU8SdnDxGNVXw-RCL6oZw3iw&oe=6A3ACAC9",
+            eventTitle: "FPTU CAREER FAIR 2026 ",
+            eventDesc: "FPTU Career Fair 2026 không chỉ là nơi kết nối doanh nghiệp và sinh viên, mà còn là không gian để tiếp thêm năng lượng cho hành trình khám phá cơ hội nghề nghiệp. Đồng hành cùng chương trình năm nay, Câu lạc bộ Fenious mang đến gian hàng thức uống với những hương vị tươi mát dành riêng cho các bạn tham gia sự kiện. "
+        }
+    ],
+    business: [
+        { 
+            name: "FIC - CLB TÀI CHÍNH ", 
+            image: "https://lh3.googleusercontent.com/a-/ALV-UjUQvbnJUdhm4r0pYs9hl6WZT8PvYdfGmQKoMvL_D74XMX1MSE4=s300-p-k-rw-no", 
+            desc: "FIC-Financial Investing Club. <br> <b> Hoạt động chính:</b> Tổ chức các hoạt động và chia sẻ kiến thức liên quan đến tài chính và đầu tư.<br> <b> Địa chỉ email:</b>  ficfinance.club@gmail.com ", 
+            fbLink: "https://www.facebook.com/share/1EAtz36i1c/?mibextid=wwXIfr",
+            eventLink: "https://www.facebook.com/share/p/197VKE8Yyq/",
+            eventImg: "https://www.facebook.com/photo/?fbid=122234300852340220&set=a.122101348088340220&__cft__[0]=AZZdINDi1Cj3K8bKFvh78NlEWMb_4AksjZnTuPHs8DWE23ZsZ-chl7UBHA2pWX7b1nh1igANXnSz100GmHHydE9MKZySzevEYvpH4T6RMtErvEXFexOQloewBhiQxH5ppuER9x_VmXkP2bazTHka-w8JMgoeYUbDLGD-xNoZbFyf-g&__tn__=EH-R",
+            eventTitle: "NÂNG TẦM TINH HOA VIỆT: CÂU CHUYỆN KHỞI NGHIỆP TỪ BẢN SẮC ",
+            eventDesc: "Workshop 'Nâng Tầm Tinh Hoa Việt' sẽ mang đến những góc nhìn thực chiến về hành trình đưa giá trị Việt trở thành lợi thế cạnh tranh trong thời đại toàn cầu hóa. ",
+            departments: [
+                { title: "Ban Nghiên Cứu Thị Trường (Research Team)", content: "Phân tích số liệu tài chính, theo dõi biến động thị trường chứng khoán ảo và chuẩn bị tài liệu chuyên môn cho các buổi sinh hoạt." },
+                { title: "Ban Đối Ngoại (External Relations)", content: "Kết nối CLB với các diễn giả chuyên gia, các doanh nghiệp chứng khoán/ngân hàng tài trợ và hỗ trợ dự án thực chiến." }
+            ]
+        }
+    ],
+    language: [
+        { name: "Japanese Club", image: "https://images.unsplash.com/photo-1528164344705-47542687000d", desc: "Khám phá văn hóa, ngôn ngữ và con người xứ sở hoa anh đào cùng những người bạn đồng điệu.", fbLink: "https://www.facebook.com" }
+    ]
+};
+
+const featuredClubsData = [
+    { 
+        name: "F2K-CLB THIỆN NGUYỆN ", 
+        image: "https://lh3.googleusercontent.com/a-/ALV-UjXUQDvDUxFShoWWbHougyHjr0tFz3E38fX8e0bnTUpya-P0mXW=s48-p",
+        desc: "Gây quỹ, làm tình nguyện đến thăm cái nơi nuôi dưỡng hoặc hoàn cảnh khó khăn trong địa bàn thành phố Đà Nẵng. ",
+        fbLink: "https://www.facebook.com/share/1cKhVuUMTH/?mibextid=wwXIfr",
+        eventLink: "https://www.facebook.com/share/p/1BQ9xuP2cF/",
+        eventImg: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=500",
+        eventTitle: "Giọt Máu Hồng 2026 ",
+        eventDesc: "Mỗi đơn vị máu được trao đi không chỉ là sự sẻ chia, mà còn là niềm hy vọng được tiếp nối cho những người đang cần giúp đỡ. Những giọt máu hôm nay có thể trở thành món quà vô giá, mang đến cơ hội sống cho ai đó vào ngày mai. ",
+        departments: [
+            { title: "Ban Tình Nguyện Viên", content: "Lực lượng nòng cốt tham gia hỗ trợ điều phối trực tiếp, chăm sóc các hoàn cảnh khó khăn tại địa điểm thiện nguyện." },
+            { title: "Ban Hậu Cần & Gây Quỹ", content: "Quản lý ngân quỹ, lên kế hoạch sản xuất đồ handmade hoặc tổ chức bán hàng gây quỹ cho các chiến dịch xã hội." }
+        ]
+    },
+    { name: "FPT Guitar Club", image: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1", desc: "Nơi hòa nhịp những cung đàn mộc mạc, tổ chức các đêm nhạc Acoustic lãng mạn dưới mái trường FPT.", fbLink: "https://www.facebook.com" },
+    { name: "CLB Khởi nghiệp Biz", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f", desc: "Bệ phóng tư duy kinh doanh, khởi nghiệp tài chính dành cho các chủ doanh nghiệp tương lai.", fbLink: "https://www.facebook.com" },
+    { name: "Cờ Vua FPT", image: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b", desc: "Nơi đấu trí cân não, rèn luyện tư duy chiến thuật và giao lưu giữa các kỳ thủ FPT.", fbLink: "https://www.facebook.com" },
+];
+
+function renderRecommendedClubs(interests) {
+    const slider = document.getElementById("clubSlider");
+    if (!slider) return;
+    slider.innerHTML = "";
+
+    let hasClubs = false;
+    interests.forEach(interest => {
+        if (clubs[interest]) {
+            clubs[interest].forEach(club => {
+                hasClubs = true;
+                const card = document.createElement("div");
+                card.className = "card fade-in-effect"; 
+                card.innerHTML = `
+                    <img src="${club.image}">
+                    <div class="card-content">
+                        <h3>${club.name}</h3>
+                        <p>${club.desc || 'Bấm để xem chi tiết.'}</p>
+                    </div>
+                `;
+                card.addEventListener("click", () => openDetailedPage(club));
+                slider.appendChild(card);
+            });
+        }
+    });
+
+    if (!hasClubs) {
+        slider.innerHTML = `<p style="padding: 20px; color: #999; font-weight: 600; width:100%; text-align:center;">Hãy làm Quiz chọn sở thích để nhận gợi ý!</p>`;
+    }
+}
+
+function setupTabCategoryMenu() {
+    const tabButtons = document.querySelectorAll("#tabCategoryMenu .cat-btn");
+    
+    tabButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            tabButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            
+            const targetTab = btn.dataset.tab;
+            const slider = document.getElementById("clubSlider");
+            if (!slider) return;
+            
+            slider.scrollTo({ left: 0, behavior: 'smooth' });
+            slider.innerHTML = ""; 
+
+            if (targetTab === "quiz") {
+                const savedInterests = JSON.parse(localStorage.getItem('interests'));
+                if (savedInterests && savedInterests.length > 0) {
+                    renderRecommendedClubs(savedInterests);
+                } else {
+                    slider.innerHTML = `<p style="padding: 20px; color: #999; font-weight: 600; width:100%; text-align:center;">Bạn chưa làm Quiz gợi ý. Hãy chọn các danh mục bên cạnh để xem nhanh!</p>`;
+                }
+            } else {
+                if (clubs[targetTab] && clubs[targetTab].length > 0) {
+                    clubs[targetTab].forEach(club => {
+                        const card = document.createElement("div");
+                        card.className = "card fade-in-effect"; 
+                        card.innerHTML = `
+                            <img src="${club.image}">
+                            <div class="card-content">
+                                <h3>${club.name}</h3>
+                                <p>${club.desc || 'Bấm để xem chi tiết.'}</p>
+                            </div>
+                        `;
+                        card.addEventListener("click", () => openDetailedPage(club));
+                        slider.appendChild(card);
+                    });
+                } else {
+                    slider.innerHTML = `<p style="padding: 20px; color: #999; font-weight: 600; width:100%; text-align:center;">Danh mục này đang được cập nhật câu lạc bộ...</p>`;
+                }
+            }
+        });
+    });
+}
+
+function renderAllEventsToHomepage() {
+    const eventsSlider = document.getElementById("homepageEventsSlider");
+    if (!eventsSlider) return;
+    eventsSlider.innerHTML = "";
+    
+    const allEvents = [];
+    const seenEventTitles = new Set(); 
+
+    Object.keys(clubs).forEach(key => {
+        clubs[key].forEach(club => {
+            if (club.eventTitle && club.eventImg) {
+                if (!seenEventTitles.has(club.eventTitle.toLowerCase().trim())) {
+                    allEvents.push(club);
+                    seenEventTitles.add(club.eventTitle.toLowerCase().trim());
+                }
+            }
+        });
+    });
+
+    featuredClubsData.forEach(club => {
+        if (club.eventTitle && club.eventImg) {
+            if (!seenEventTitles.has(club.eventTitle.toLowerCase().trim())) {
+                allEvents.push(club);
+                seenEventTitles.add(club.eventTitle.toLowerCase().trim());
+            }
+        }
+    });
+
+    if (allEvents.length === 0) {
+        document.getElementById("homepage-events").style.display = "none";
+        return;
+    } else {
+        document.getElementById("homepage-events").style.display = "block";
+    }
+
+    allEvents.forEach(clubEvent => {
+        const cardElement = document.createElement("div");
+        cardElement.className = "card";
+        cardElement.innerHTML = `
+            <img src="${clubEvent.eventImg}" alt="Event Banner">
+            <div class="card-content">
+                <span style="font-size:0.75rem; color:#F37021; font-weight:700; text-transform:uppercase; margin-bottom:4px; display:block;">
+                     ${clubEvent.name}
+                </span>
+                <h3>${clubEvent.eventTitle}</h3>
+                <p>${clubEvent.eventDesc || 'Bấm để xem chi tiết sự kiện.'}</p>
+            </div>
+        `;
+        cardElement.addEventListener("click", () => openDetailedPage(clubEvent));
+        eventsSlider.appendChild(cardElement);
+    });
+}
+
+function renderFeaturedClubs() {
+    const featuredSlider = document.getElementById("featuredSlider");
+    if (!featuredSlider) return;
+    featuredSlider.innerHTML = "";
+
+    featuredClubsData.forEach(club => {
+        const cardElement = document.createElement("div");
+        cardElement.className = "card";
+        cardElement.innerHTML = `
+            <img src="${club.image}">
+            <div class="card-content">
+                <h3>${club.name}</h3>
+                <p>${club.desc || 'Bấm để xem chi tiết.'}</p>
+            </div>
+        `;
+        cardElement.addEventListener("click", () => openDetailedPage(club));
+        featuredSlider.appendChild(cardElement);
+    });
+}
+
+function scrollLeftCards(){ document.getElementById('clubSlider').scrollBy({ left:-400, behavior:'smooth' }); }
+function scrollRightCards(){ document.getElementById('clubSlider').scrollBy({ left:400, behavior:'smooth' }); }
+function scrollFeaturedLeft() { document.getElementById('featuredSlider').scrollBy({ left: -400, behavior: 'smooth' }); }
+function scrollFeaturedRight() { document.getElementById('featuredSlider').scrollBy({ left: 400, behavior: 'smooth' }); }
+function scrollEventsLeft() { document.getElementById('homepageEventsSlider').scrollBy({ left: -400, behavior: 'smooth' }); }
+function scrollEventsRight() { document.getElementById('homepageEventsSlider').scrollBy({ left: 400, behavior: 'smooth' }); }
+
+const selected = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderFeaturedClubs();
+    renderAllEventsToHomepage();
+    setupTabCategoryMenu();
+    setupSearchLogic(); 
+
+    document.querySelectorAll('.interest-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const interest = btn.dataset.interest;
+            if (btn.classList.contains('active')) {
+                btn.classList.remove('active');
+                const index = selected.indexOf(interest);
+                if (index > -1) selected.splice(index, 1);
+                return;
+            }
+            if (selected.length >= 3) {
+                alert('Chỉ được chọn tối đa 3 sở thích');
+                return;
+            }
+            btn.classList.add('active');
+            selected.push(interest);
+        });
+    });
+
+    const continueBtn = document.getElementById('continueBtn');
+    const quizModal = document.getElementById('quizModal');
+
+    if (continueBtn && quizModal) {
+        continueBtn.addEventListener('click', () => {
+            if (selected.length === 0) {
+                alert('Hãy chọn ít nhất 1 sở thích');
+                return;
+            }
+            localStorage.setItem('interests', JSON.stringify(selected));
+            renderRecommendedClubs(selected);
+            quizModal.style.display = 'none';
+            
+            const firstTab = document.querySelector("#tabCategoryMenu .cat-btn");
+            if (firstTab) {
+                document.querySelectorAll("#tabCategoryMenu .cat-btn").forEach(b => b.classList.remove("active"));
+                firstTab.classList.add("active");
+            }
+
+            const targetSection = document.getElementById('courses');
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
+
+    const saved = JSON.parse(localStorage.getItem('interests'));
+    if (saved && saved.length && quizModal) {
+        renderRecommendedClubs(saved);
+        quizModal.style.display = 'none';
+    } else {
+        renderRecommendedClubs([]); 
+    }
+});
+
+function setupSearchLogic() {
+    const input = document.getElementById("searchInput");
+    const results = document.getElementById("searchResults");
+
+    if (!input || !results) return;
+
+    input.addEventListener("input", () => {
+        const keyword = input.value.toLowerCase().trim();
+        if (!keyword) { 
+            results.style.display = "none"; 
+            return; 
+        }
+
+        const allSearchableClubs = [];
+
+        Object.keys(clubs).forEach(key => {
+            clubs[key].forEach(club => {
+                if (!allSearchableClubs.some(c => c.name.toLowerCase() === club.name.toLowerCase())) {
+                    allSearchableClubs.push(club);
+                }
+            });
+        });
+
+        featuredClubsData.forEach(club => {
+            if (!allSearchableClubs.some(c => c.name.toLowerCase() === club.name.toLowerCase())) {
+                allSearchableClubs.push(club);
+            }
+        });
+
+        const matched = allSearchableClubs.filter(club => 
+            club.name.toLowerCase().includes(keyword)
+        );
+
+        results.innerHTML = "";
+
+        if (matched.length > 0) {
+            matched.forEach(club => {
+                const item = document.createElement("div");
+                item.className = "search-item";
+                item.textContent = club.name;
+                
+                item.addEventListener("click", () => {
+                    results.style.display = "none";
+                    input.value = club.name; 
+                    openDetailedPage(club);
+                });
+                results.appendChild(item);
+            });
+            results.style.display = "block";
+        } else {
+            results.innerHTML = `<div class="search-item" style="color:#999; cursor:default;">❌ Không tìm thấy câu lạc bộ phù hợp</div>`;
+            results.style.display = "block";
+        }
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!input.contains(e.target) && !results.contains(e.target)) { 
+            results.style.display = "none"; 
+        }
+    });
+}
+
+function openDetailedPage(clubObj) {
+    document.getElementById("main-homepage-wrapper").style.display = "none";
+    document.getElementById("detail-title").textContent = clubObj.name;
+    document.getElementById("detail-image").src = clubObj.image;
+    
+    const defaultText = "Chào mừng bạn đến với không gian thông tin chính thức của câu lạc bộ! Khi tham gia vào cộng đồng này, bạn sẽ có cơ hội học hỏi kỹ năng thực tế, kết nối giao lưu cùng những người bạn có cùng đam mê và tham gia tổ chức các sự kiện lớn quy mô toàn trường.";
+    document.getElementById("detail-desc").innerHTML = clubObj.desc || defaultText;
+    
+    const fbButton = document.getElementById("detail-fb-link");
+    if (clubObj.fbLink) {
+        fbButton.href = clubObj.fbLink;
+    } else {
+        fbButton.href = "https://www.facebook.com"; 
+    }
+
+    const deptWrapper = document.getElementById("departments-section-wrapper");
+    const accordionContainer = document.getElementById("dynamic-accordion-container");
+    
+    if (clubObj.departments && clubObj.departments.length > 0) {
+        accordionContainer.innerHTML = ""; 
+        
+        clubObj.departments.forEach(dept => {
+            const item = document.createElement("div");
+            item.className = "accordion-item";
+            item.innerHTML = `
+                <button class="accordion-header">
+                    <span>${dept.title}</span>
+                    <span class="accordion-icon">❯</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">${dept.content}</div>
+                </div>
+            `;
+            
+            const header = item.querySelector(".accordion-header");
+            header.addEventListener("click", () => {
+                item.classList.toggle("active");
+            });
+            
+            accordionContainer.appendChild(item);
+        });
+        deptWrapper.style.display = "block";
+    } else {
+        accordionContainer.innerHTML = "";
+        deptWrapper.style.display = "none";
+    }
+
+    const eventWrapper = document.getElementById("event-section-wrapper");
+    const cardContainer = document.getElementById("dynamic-event-card-container");
+    
+    if (clubObj.eventTitle && clubObj.eventImg) {
+        cardContainer.innerHTML = `
+            <a href="${clubObj.eventLink || '#'}" target="_blank" class="card" style="min-width:100%; width:100%;">
+                <img src="${clubObj.eventImg}" alt="Event Image">
+                <div class="card-content">
+                    <h3>${clubObj.eventTitle}</h3>
+                    <p>${clubObj.eventDesc || 'Bấm để xem chi tiết sự kiện.'}</p>
+                </div>
+            </a>
+        `;
+        eventWrapper.style.display = "block";
+    } else {
+        cardContainer.innerHTML = "";
+        eventWrapper.style.display = "none";
+    }
+    
+    document.getElementById("new-club-page").style.display = "block";
+    window.scrollTo(0, 0);
+}
+
+function backToHome() {
+    document.getElementById("new-club-page").style.display = "none";
+    document.getElementById("main-homepage-wrapper").style.display = "block";
+    document.getElementById("searchInput").value = "";
+    window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
