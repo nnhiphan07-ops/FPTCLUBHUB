@@ -257,7 +257,68 @@ section{padding:90px 8%}
 .accordion-content::-webkit-scrollbar-thumb:hover {
     background: #F37021;
 }
+.event-badge{
+    display:inline-block;
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:.85rem;
+    font-weight:700;
+    margin-bottom:12px;
+}
+
+.event-badge.active{
+    background:#e8fff0;
+    color:#16a34a;
+}
+
+.event-badge.expired{
+    background:#ffeaea;
+    color:#dc2626;
+}
+/* --- CSS CHO NÚT BACK TO TOP PHONG CÁCH FPT --- */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 45px;
+    height: 45px;
+    background-color: #f37021; /* Màu cam đặc trưng FPT */
+    color: #ffffff;
+    border: none;
+    border-radius: 4px; /* Bo góc nhẹ */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+    /* Hiệu ứng mượt mà khi ẩn/hiện và hover */
+    transition: all 0.3s ease-in-out; 
+    
+    /* Ban đầu ẩn nút đi */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px); 
+    z-index: 9999;
+}
+
+/* Trạng thái hiển thị khi cuộn xuống */
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Hiệu ứng Hover chuyển màu và nhích nhẹ lên trên */
+.back-to-top:hover {
+    background-color: #d95a10; /* Màu cam đậm hơn khi hover */
+    box-shadow: 0 6px 12px rgba(243, 112, 33, 0.4); /* Đổ bóng phát quang cam */
+    transform: translateY(-5px); /* Nút bay nhẹ lên tạo cảm giác tương tác */
+}
 </style>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
 
@@ -398,7 +459,9 @@ section{padding:90px 8%}
         <div id="dynamic-event-card-container"></div>
     </div>
 </div>
-
+<button class="back-to-top" id="btnBackToTop" title="Lên đầu trang">
+    <i class="fa-solid fa-chevron-up"></i>
+</button>
 
 <script>
 // === NGUỒN DỮ LIỆU CÂU LẠC BỘ CHUẨN ===
@@ -413,17 +476,43 @@ const clubs = {
             eventImg: "https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-6/658217732_1255113203464200_1115212317577831841_n.jpg?stp=dst-jpg_tt6&cstp=mx1200x1200&ctp=s1200x1200&_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=t3W2sGlaFGIQ7kNvwHe6vxd&_nc_oc=AdpjOEMDdfQtXQB-hWnrlQ8fL2r1FR7ktvcbJ742Mcjupy87JVvEhHfDOfJQJFOWiSqwRyiDdYZzSmUlE3q0ZzCI&_nc_zt=23&_nc_ht=scontent.fdad3-6.fna&_nc_gid=RuC5Uml2r18tJyLnCQx5Gw&_nc_ss=7b2a8&oh=00_Af9yrRM1VDI29ncZ6GovFXFv85ZYrgD48LrfDtAZoUs27w&oe=6A3AAE4C",
             eventTitle: "ITSC x DEVER: AGENTIC SPARK — 2026",
             eventDesc: "Hiểu rằng con đường từ lý thuyết đến thực chiến không bao giờ dễ, Ban Tech ITSC tổ chức ITSC x DEVER: AGENTIC SPARK - một hackathon nội bộ được thiết kế như một bàn đạp thực sự: nơi để các thành viên lần đầu va chạm với bài toán thực tế, rèn giũa tư duy sản phẩm, và tích lũy kinh nghiệm trước khi bước ra các đấu trường lớn hơn. Đây là nơi bạn được phép thử, được phép sai, và được hỗ trợ để trưởng thành.",
+            eventStartDate: "2026-06-01",
+            eventEndDate: "2026-06-15",
             departments: [
-                { title: "Ban Tech", content: "<b>MÔ TẢ CÔNG VIỆC</b><br>Là thành viên của <b>Innovative Technology Student Club - FPTU</b> và <b>Team Tech</b>, bạn sẽ đảm nhận các mảng liên quan đến kỹ thuật, học thuật và công nghệ, góp phần xây dựng sản phẩm mang đậm dấu ấn của ITSC.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Tham gia và đồng hành trong các sự kiện của ITSC.<br>• Phụ trách mảng kỹ thuật cho các sản phẩm cộng đồng.<br>• Phát triển và bảo trì các phần mềm, website của CLB.<br>• Đóng góp, chia sẻ kiến thức và công cụ công nghệ.<br>• Hợp tác tốt với các ban khác.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Nhanh chóng hòa nhập với văn hóa CLB.<br>• Có kinh nghiệm <b>Frontend, Backend</b>; có kiến thức về <b>AI, Blockchain</b> là lợi thế.<br>• Nhạy bén xu hướng công nghệ mới, làm việc nhóm và quản lý thời gian tốt.<br><br><b>LỢI ÍCH KHI THAM GIA:</b><br>• Mở rộng network, rèn luyện kỹ năng Công nghệ, Kinh doanh, Sự kiện.<br>• Học hỏi phong cách làm việc chuyên nghiệp, tối ưu hiệu suất.<br>• Cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia dự án, cuộc thi lớn ngoài trường.<br>• Training, workshop từ cố vấn giàu kinh nghiệm và chuyên gia <b>Solana Superteam</b>" },
-                { title: "Ban MedEv", content: "<u><b>1. CONTENT CREATOR</b></u><br><br><b>MÔ TẢ CÔNG VIỆC</b><br>Content Creators sẽ quản lý, kiểm duyệt và điều chỉnh nội dung, tận dụng khả năng sáng tạo và nhạy bén với xu hướng để sản xuất nội dung phù hợp với đối tượng mà CLB đang hướng đến.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Sáng tạo và xây dựng nội dung trên các kênh truyền thông của CLB.<br>• Lên kế hoạch cho các bài đăng và nội dung phù hợp.<br>• Luôn nắm bắt xu hướng và tạo ra nội dung hấp dẫn.<br>• Quản lý, kiểm duyệt và chỉnh sửa bài viết khi cần.<br>• Phối hợp với các team khác để phân tích số liệu, triển khai giải pháp cần thiết.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Làm quen và hòa nhập văn hóa CLB.<br>• Có khả năng viết tốt và nhanh nhạy trong xu hướng xã hội.<br>• Mọi phong cách viết đều được tôn trọng. Tuy nhiên lối hành văn hiện đại, trẻ trung là một lợi thế lớn.<br>• Có khả năng quản lý thời gian tốt và luôn sẵn sàng sáng tạo nội dung.<br>• Là một thành viên có khả năng giao tiếp và teamwork tốt.<br>• Chủ động trong các vấn đề sáng tạo của CLB.<br><br><b>LỢI ÍCH KHI THAM GIA</b><br>• Mở rộng mạng lưới quan hệ, rèn luyện các kỹ năng, kiến thức về Công nghệ, Kinh doanh, Tổ chức sự kiện,....<br>• Làm quen và học tập từ phong cách làm việc chuyên nghiệp, những mẹo và công cụ giúp tăng hiệu suất làm việc, học tập một cách hiệu quả nhất.<br>• Đồng hành cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia những hoạt động có quy mô ngoài trường, hợp tác với các đơn vị khác. Tham gia vào những dự án, cuộc thi có liên quan.<br>• Được tham gia các khóa học, training từ các anh chị cố vấn có kinh nghiệm của câu lạc bộ.<br><br>--------------------------------------------------<br><br><u><b>2. DESIGNER</b></u><br><br><b>MÔ TẢ CÔNG VIỆC</b><br>Là một Designer, bạn sẽ thiết kế các ấn phẩm truyền thông và sản phẩm dựa trên concept của ITSC - FPTU và Solana Superteam. Bạn sẽ hiện thực hóa các giá trị của CLB thông qua hình ảnh, ấn phẩm truyền thông và sự kiện.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Đưa ý tưởng vào các ấn phẩm truyền thông của CLB.<br>• Đề xuất ý tưởng và thiết kế các ấn phẩm truyền thông; chỉnh sửa khi cần.<br>• Sử dụng màu sắc, concept và bố cục phù hợp để truyền tải thông điệp rõ ràng.<br>• Kiểm duyệt và góp ý cho sản phẩm của các Designer khác.<br>• Phối hợp với các team khác, đặc biệt là Media & Event, để tối ưu hóa hiệu quả của sản phẩm thiết kế.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Làm quen và hòa nhập văn hóa CLB.<br>• Có khả năng thiết kế ấn phẩm truyền thông (các chứng chỉ Ps, Ai,...) là một lợi thế.<br>• Thành thạo sử dụng các phần mềm thiết kế hoặc có đam mê với thiết kế đồ họa.<br>• Có khả năng quản lý thời gian tốt và có tư duy sáng tạo về concept hoặc màu sắc.<br>• Là một thành viên có khả năng giao tiếp và teamwork tốt.<br>• Chủ động trong các ý tưởng sáng tạo của CLB.<br><br><b>LỢI ÍCH KHI THAM GIA</b><br>• Được nhận giấy chứng nhận và sự hậu thuẫn từ <b>Solana Superteam</b>.<br>• Mở rộng mạng lưới quan hệ, rèn luyện các kỹ năng, kiến thức về Công nghệ, Kinh doanh, Tổ chức sự kiện,....<br>• Làm quen và học tập từ phong cách làm việc chuyên nghiệp, những mẹo và công cụ giúp tăng hiệu suất làm việc, học tập một cách hiệu quả nhất.<br>• Đồng hành cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia những hoạt động có quy mô ngoài trường, hợp tác với các đơn vị khác. Tham gia vào những dự án, cuộc thi có liên quan.<br>• Được tham gia các khóa học, những buổi training và workshop không chỉ từ các anh chị cố vấn có kinh nghiệm và tài năng của câu lạc bộ mà còn các chuyên gia trong nhiều lĩnh vực đến từ <b>Solana Superteam</b>.<br><br>--------------------------------------------------<br><br><u><b>3. SOCIAL MEDIA</b></u><br><br><b>MÔ TẢ CÔNG VIỆC</b><br>Social Media phụ trách chính cho những hoạt động của ITSC - FPTU và của Solana Super Team trên các phương tiện truyền thông. Là người tìm hiểu, cập nhật chức năng và quản lý các kênh truyền thông của ITSC - FPTU, phân tích các dữ liệu liên quan đến người dùng khác thông qua các kênh truyền thông.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Quản lý các trang thông tin truyền thông (Fanpage, Instagram, Slack, YouTube, ...)<br>• Kiểm soát và chỉnh sửa các lỗi trong các bài đăng trên kênh truyền thông của ITSC - FPTU nhằm đảm bảo tính chuyên nghiệp cho các nội dung truyền thông.<br>• Tương tác, phản hồi tin nhắn, bình luận trên các kênh xã hội.<br>• Phân tích thông tin liên quan đến truyền thông.<br>• Thông báo đến các thành viên và leader về những vấn đề liên quan đến kênh xã hội.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Có kinh nghiệm về các mạng xã hội Facebook, Instagram, Slack, Youtube...<br>• Có khả năng tìm kiếm, kiểm định thông tin, trình bày, tương tác với cộng đồng online.<br>• Ưu thích sự hoàn hảo, đặc biệt trong việc kiểm soát nội dung văn bản.<br>• Có khả năng quản lý thời gian và chịu được áp lực về tiến độ công việc.<br>• Có khả năng nắm bắt các công cụ đo lường hiệu quả của phương tiện truyền thông.<br>• Nhanh nhẹn, nhạy bén nắm bắt xu hướng truyền thông mới.<br><br><b>LỢI ÍCH KHI THAM GIA</b><br>• Mở rộng mạng lưới quan hệ, rèn luyện các kỹ năng, kiến thức về Công nghệ, Kinh doanh, Tổ chức sự kiện,....<br>• Làm quen và học tập từ phong cách làm việc chuyên nghiệp, những mẹo và công cụ giúp tăng hiệu suất làm việc, học tập một cách hiệu quả nhất.<br>• Đồng hành cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia những hoạt động có quy mô ngoài trường, hợp tác với các đơn vị khác. Tham gia vào những dự án, cuộc thi có liên quan.<br>• Được tham gia các khóa học, training từ các anh chị cố vấn có kinh nghiệm của câu lạc bộ." },
+                { title: "Ban Tech", content: "<b>MÔ TẢ CÔNG VIỆC</b><br>Là thành viên của <b>Innovative Technology Student Club - FPTU</b> và <b>Team Tech</b>, bạn sẽ đảm nhận các mảng liên quan đến kỹ thuật, học thuật và công nghệ, góp phần xây dựng sản phẩm mang đậm dấu ấn của ITSC.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Tham gia và đồng hành trong các sự kiện của ITSC.<br>• Phụ trách mảng kỹ thuật cho các sản phẩm cộng đồng.<br>• Phát triển và bảo trì các phần mềm, website của CLB.<br>• Đóng góp, chia sẻ kiến thức và công cụ công nghệ.<br>• Hợp tác tốt với các ban khác.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Nhanh chóng hòa nhập with văn hóa CLB.<br>• Có kinh nghiệm <b>Frontend, Backend</b>; có kiến thức về <b>AI, Blockchain</b> là lợi thế.<br>• Nhạy bén xu hướng công nghệ mới, làm việc nhóm và quản lý thời gian tốt.<br><br><b>LỢI ÍCH KHI THAM GIA:</b><br>• Mở rộng network, rèn luyện kỹ năng Công nghệ, Kinh doanh, Sự kiện.<br>• Học hỏi phong cách làm việc chuyên nghiệp, tối ưu hiệu suất.<br>• Cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia dự án, cuộc thi lớn ngoài trường.<br>• Training, workshop từ cố vấn giàu kinh nghiệm và chuyên gia <b>Solana Superteam</b>" },
+                { title: "Ban MedEv", content: "<u><b>1. CONTENT CREATOR</b></u><br><br><b>MÔ TẢ CÔNG VIỆC</b><br>Content Creators sẽ quản lý, kiểm duyệt và điều chỉnh nội dung, tận dụng khả năng sáng tạo và nhạy bén với xu hướng để sản xuất nội dung phù hợp với đối tượng mà CLB đang hướng đến.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Sáng tạo và xây dựng nội dung trên các kênh truyền thông của CLB.<br>• Lên kế hoạch cho các bài đăng và nội dung phù hợp.<br>• Luôn nắm bắt xu hướng và tạo ra nội dung hấp dẫn.<br>• Quản lý, kiểm duyệt và chỉnh sửa bài viết khi cần.<br>• Phối hợp với các team khác để phân tích số liệu, triển khai giải pháp cần thiết.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Làm quen và hòa nhập văn hóa CLB.<br>• Có khả năng viết tốt và nhanh nhạy trong xu hướng xã hội.<br>• Mọi phong cách viết đều được tôn trọng. Tuy nhiên lối hành văn hiện đại, trẻ trung là một lợi thế lớn.<br>• Có khả năng quản lý thời gian tốt và luôn sẵn sàng sáng tạo nội dung.<br>• Là một thành viên có khả năng giao tiếp và teamwork tốt.<br>• Chủ động trong các vấn đề sáng tạo của CLB.<br><br><b>LỢI ÍCH KHI THAM GIA</b><br>• Mở rộng mạng lưới quan hệ, rèn luyện các kỹ năng, kiến thức về Công nghệ, Kinh doanh, Tổ chức sự kiện,....<br>• Làm quen và học tập từ phong cách làm việc chuyên nghiệp, những mẹo và công cụ giúp tăng hiệu suất làm việc, học tập một cách hiệu quả nhất.<br>• Đồng hành cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia những hoạt động có quy mô ngoài trường, hợp tác với các đơn vị khác. Tham gia vào những dự án, cuộc thi có liên quan.<br>• Được tham gia các khóa học, training từ các anh chị cố vấn có kinh nghiệm của câu lạc bộ.<br><br>--------------------------------------------------<br><br><u><b>2. DESIGNER</b></u><br><br><b>MÔ TẢ CÔNG VIỆC</b><br>Là một Designer, bạn sẽ thiết kế các ấn phẩm truyền thông và sản phẩm dựa trên concept của ITSC - FPTU và Solana Superteam. Bạn sẽ hiện thực hóa các giá trị của CLB thông qua hình ảnh, ấn phẩm truyền thông và sự kiện.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Đưa ý tưởng vào các ấn phẩm truyền thông của CLB.<br>• Đề xuất ý tưởng và thiết kế các ấn phẩm truyền thông; chỉnh sửa khi cần.<br>• Sử dụng màu sắc, concept và bố cục phù hợp để truyền tải thông điệp rõ ràng.<br>• Kiểm duyệt và góp ý cho sản phẩm của các Designer khác.<br>• Phối hợp with các team khác, đặc biệt là Media & Event, để tối ưu hóa hiệu quả của sản phẩm thiết kế.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Làm quen và hòa nhập văn hóa CLB.<br>• Có khả năng thiết kế ấn phẩm truyền thông (các chứng chỉ Ps, Ai,...) là một lợi thế.<br>• Thành thạo sử dụng các phần mềm thiết kế hoặc có đam mê với thiết kế đồ họa.<br>• Có khả năng quản lý thời gian tốt và có tư duy sáng tạo về concept hoặc màu sắc.<br>• Là một thành viên có khả năng giao tiếp và teamwork tốt.<br>• Chủ động trong các ý tưởng sáng tạo của CLB.<br><br><b>LỢI ÍCH KHI THAM GIA</b><br>• Được nhận giấy chứng nhận và sự hậu thuẫn từ <b>Solana Superteam</b>.<br>• Mở rộng mạng lưới quan hệ, rèn luyện các kỹ năng, kiến thức về Công nghệ, Kinh doanh, Tổ chức sự kiện,....<br>• Làm quen và học tập từ phong cách làm việc chuyên nghiệp, những mẹo và công cụ giúp tăng hiệu suất làm việc, học tập một cách hiệu quả nhất.<br>• Đồng hành cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia những hoạt động có quy mô ngoài trường, hợp tác với các đơn vị khác. Tham gia vào những dự án, cuộc thi có liên quan.<br>• Được tham gia các khóa học, những buổi training và workshop không chỉ từ các anh chị cố vấn có kinh nghiệm và tài năng của câu lạc bộ mà còn các chuyên gia trong nhiều lĩnh vực đến từ <b>Solana Superteam</b>.<br><br>--------------------------------------------------<br><br><u><b>3. SOCIAL MEDIA</b></u><br><br><b>MÔ TẢ CÔNG VIỆC</b><br>Social Media phụ trách chính cho những hoạt động của ITSC - FPTU và của Solana Super Team trên các phương tiện truyền thông. Là người tìm hiểu, cập nhật chức năng và quản lý các kênh truyền thông của ITSC - FPTU, phân tích các dữ liệu liên quan đến người dùng khác thông qua các kênh truyền thông.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Quản lý các trang thông tin truyền thông (Fanpage, Instagram, Slack, YouTube, ...)<br>• Kiểm soát và chỉnh sửa các lỗi trong các bài đăng trên kênh truyền thông của ITSC - FPTU nhằm đảm bảo tính chuyên nghiệp cho các nội dung truyền thông.<br>• Tương tác, phản hồi tin nhắn, bình luận trên các kênh xã hội.<br>• Phân tích thông tin liên quan đến truyền thông.<br>• Thông báo đến các thành viên và leader về những vấn đề liên quan đến kênh xã hội.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Có kinh nghiệm về các mạng xã hội Facebook, Instagram, Slack, Youtube...<br>• Có khả năng tìm kiếm, kiểm định thông tin, trình bày, tương tác với cộng đồng online.<br>• Ưu thích sự hoàn hảo, đặc biệt trong việc kiểm soát nội dung văn bản.<br>• Có khả năng quản lý thời gian và chịu được áp lực về tiến độ công việc.<br>• Có khả năng nắm bắt các công cụ đo lường hiệu quả của phương tiện truyền thông.<br>• Nhanh nhẹn, nhạy bén nắm bắt xu hướng truyền thông mới.<br><br><b>LỢI ÍCH KHI THAM GIA</b><br>• Mở rộng mạng lưới quan hệ, rèn luyện các kỹ năng, kiến thức về Công nghệ, Kinh doanh, Tổ chức sự kiện,....<br>• Làm quen và học tập từ phong cách làm việc chuyên nghiệp, những mẹo và công cụ giúp tăng hiệu suất làm việc, học tập một cách hiệu quả nhất.<br>• Đồng hành cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia những hoạt động có quy mô ngoài trường, hợp tác with các đơn vị khác. Tham gia vào những dự án, cuộc thi có liên quan.<br>• Được tham gia các khóa học, training từ các anh chị cố vấn có kinh nghiệm của câu lạc bộ." },
                 { title: "Ban HR", content: "<b>MÔ TẢ CÔNG VIỆC</b><br>Nhân sự là bộ phận cốt lõi của CLB, đóng vai trò quan trọng trong việc điều phối, quản lý và tuyển chọn thành viên mới. Đội ngũ nhân sự còn hỗ trợ giải quyết các vấn đề cá nhân trong CLB, tạo dựng một môi trường làm việc thân thiện, hòa đồng và nâng cao tinh thần của các thành viên.<br><br><b>NỘI DUNG CÔNG VIỆC</b><br>• Điều phối nhân sự phù hợp với từng dự án, hoạt động của CLB.<br>• Quan sát, đánh giá và hỗ trợ phát triển từng thành viên trong CLB.<br>• Tìm hiểu và lập kế hoạch tuyển thành viên mới.<br>• Phối hợp chặt chẽ với các ban khác trong CLB.<br>• Lên kế hoạch tổ chức các buổi sinh hoạt và chia sẻ kiến thức cho CLB.<br>• Xây dựng môi trường CLB lành mạnh, vui vẻ và đoàn kết.<br><br><b>YÊU CẦU CÔNG VIỆC</b><br>• Tư duy mở, hòa đồng và khả năng tạo không khí vui vẻ trong CLB.<br>• Kinh nghiệm trong lĩnh vực HR (ngành học liên quan, dự án hoặc chứng chỉ) là một lợi thế.<br>• Kỹ năng làm việc nhóm và giao tiếp tốt.<br>• Khả năng giải quyết vấn đề hiệu quả và giữ khách quan trong mọi tình huống.<br><br><b>LỢI ÍCH KHI THAM GIA</b><br>• Mở rộng mạng lưới quan hệ, rèn luyện các kỹ năng, kiến thức về Công nghệ, Kinh doanh, Tổ chức sự kiện,....<br>• Làm quen và học tập từ phong cách làm việc chuyên nghiệp, những mẹo và công cụ giúp tăng hiệu suất làm việc, học tập một cách hiệu quả nhất.<br>• Đồng hành cùng <b>ITSC - FPTU Đà Nẵng</b> tham gia những hoạt động có quy mô ngoài trường, hợp tác với các đơn vị khác. Tham gia vào những dự án, cuộc thi có liên quan.<br>• Được tham gia các khóa học, workshop miễn phí hoặc được tài trợ bởi <b>Solana Superteam</b>." }
             ]
         },
         { 
-            name: "AI Club", 
-            image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e",
-            desc: "AI Club mang đến không gian nghiên cứu chuyên sâu về Trí tuệ nhân tạo, Machine Learning và Data Science dành cho những ai muốn làm chủ công nghệ tương lai.",
-            fbLink: "https://www.facebook.com"
+            name: "FU-DEVER CLB LẬP TRÌNH ", 
+            image: "https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/441332651_960942929374516_5039825646575688007_n.jpg?stp=dst-jpg_tt6&cstp=mx2000x2000&ctp=s2000x2000&_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF8XB7dOrF6G_thNsvbffT8r5DP7nEzHGuvkM_ucTMcawMVsKrp_ngKrAn-etbALIe06IUO6qr6cEjxOOJZinkq&_nc_ohc=IDOW12NrPawQ7kNvwHkG9Nb&_nc_oc=AdqIY8UgkcBV0KB3MmTupZ3GkQqX3vrYzdT6X5ONuJBzfWcpMVbIXR3kyezFxJGJ9FYN0MrYLx7I9pp0Md52ltRL&_nc_zt=23&_nc_ht=scontent.fhan14-1.fna&_nc_gid=b8W8HnGB4omvM1QLkr50Tg&_nc_ss=7b2a8&oh=00_Af-p8OY3MJogh0v8hpQIU6hFvVWDhaAX4m_IP5QwzlBJng&oe=6A414EF5",
+            desc: "FU-DEVER là câu lạc bộ lập trình trực thuộc trường Đại học FPT Đà Nẵng - WORK HARD - PLAY HARD <br> <b> Hoạt động chính:</b> Tổ chức training, workshop, rèn luyện kĩ năng về lập trình. <br> <b> Địa chỉ email:</b>club.dever@gmail.com     <br> <b>Chủ nhiệm:</b> Đặng Quang Nhật   ", 
+            fbLink: "https://www.facebook.com/FPTUDever",
+            eventLink: "https://www.facebook.com/FPTUDever/posts/pfbid02xRWrGSjEA8XLqZvJkiyxfssfxDvMZSwjFuxwXcrqXvFkhKR86bxofGUHLjdw33xXl/",
+            eventImg: "https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/719099137_1618962000239269_8804521460932488831_n.jpg?stp=dst-jpg_tt6&cstp=mx1200x1200&ctp=s1200x1200&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGe9C1sXzP08AUPFprNRF7kdvz8EufmhCN2_PwS5-aEIzylS17YB3hbq7v48mqYjpk6is-5sJIcSLgwpTpR_AAV&_nc_ohc=fza_bgxxVp4Q7kNvwHXcoFq&_nc_oc=Adr_gPMHSD8mVwkHkGZhDqI2Ce_tc4wguaoPd_JsGaFXMsCTqawsw8Z9Itefi1YJvacDpIVLOa_hc2zLjCY0-8ln&_nc_zt=23&_nc_ht=scontent.fhan14-1.fna&_nc_gid=Q5-wilUPUbUvnbgBS-RONg&_nc_ss=7b2a8&oh=00_Af8ayY6ZWQT93_RBMb7GLY7YwQB9njbT9MzmjhzDLG6j7w&oe=6A416C25",
+            eventTitle: "Plan First Code Later ",
+            eventDesc: "Đây là buổi workshop dành cho những bạn không muốn dùng AI theo kiểu “hên xui”: prompt đại, nhận code, chạy lỗi, rồi ngồi sửa trong hoang mang. ",
+            eventStartDate: "2026-06-10",
+            eventEndDate: "2026-06-10",
+            departments: [
+                { title: "BAN HỌC THUẬT", content: "<br><br>Nơi hội tụ những anh em cùng đam mê <br>- Front-end <br>- Back-end <br>- Game <br>- Mobile <br>- Thuật toán <br>- AI" },
+                { title: "BAN SỰ KIỆN", content: "<br><br>- Tổ chức các hoạt động nội bộ và sự kiện quy mô toàn trường" },
+                { title: "BAN TRUYỀN THÔNG", content: "<br><br>- Quản lý fanpage, viết content, thiết kế ấn phẩm, chụp ảnh và lan tỏa hình ảnh CLB.   " },
+                { title: "CONTENT WRITER ", content: "<br><br>- Là đội ngũ văn vở bậc nhất CLB, Content Writer sử dụng khả năng viết văn mượt mà cùng giọng văn uyển chuyển để viết nên những bài viết với nội dung đầy tính nghệ thuật, khiến người đọc say đắm với nội dung của bài viết.  " },
+                { title: "DESIGNER", content: "<br><br>-Là đội ngũ sáng tạo nhất nhì trong CLB, sử dụng thành thạo các công cụ thiết kế như Adoble Illustrator, Adobe Photoshop, Adobe Premiere hay Canva pro để tạo nên những ấn phẩm truyền thông tuyệt vời cho CLB. Tuy công việc này bỏ ra khá là nhiều chất xám, nhưng bạn sẽ nhận được một vài đặc quyền từ ban chủ nhiệm CLB. " },
+                { title: "PHOTOGRAPHER", content: "<br><br>- Nếu bạn đam mê với bộ môn chụp hình, hãy đến với mảng photographer, nơi biến bạn trở thành một thợ săn ảnh chuyên nghiệp, bắt trọn những khoảnh khắc trong sự kiện cũng như các thành viên CLB.  " }
+            ]
+        },
+        { 
+            name: "SRC - Security Research Club - CLB An toàn thông tin", 
+            image: "https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-6/611635106_868390882606826_4634212324381807816_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1080&ctp=s1080x1080&_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFwyWSUcwkBMaUIruImSJvKSHEjqOugV3tIcSOo66BXe6DpQk_25YfjoowEo2i9sujAcNPkDhGSIQVtbClL0Lzp&_nc_ohc=hxkIpqA2tfYQ7kNvwFhYnWK&_nc_oc=AdqF7ndTmpnVNWHR4k6DvniaxcwFXBENiSlVjoKhRcDF2pyeZ-McbVLGamDV9R2_8aeSF9vOPp-MDO1jp1jMxt5X&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=XVviuhvBsl_axvCaKs9V8Q&_nc_ss=7b2a8&oh=00_Af8OAmrnQTdTNxfN3Ws-KivoQTLgsVNWq2panv7SKeQs8Q&oe=6A418532",
+            desc: "CLB học thuật chuyên ngành An Toàn Thông Tin (IA) tại FPTU Đà Nẵng.   <br> <b> Hoạt động chính:</b> Hiểu hơn về an toàn thông tin, được tham gia các cuộc thi về an toàn thông tin có cơ hội được va chạm và cọ sát, kết nối với các thành viên qua hoạt động ngoại khóa. <br> <b> Địa chỉ email:</b> clubscrtrsrch@gmail.com    <br> <b>Chủ nhiệm:</b> Hoàng Văn Khánh  ",
+            fbLink: "https://www.facebook.com/SybP3n0r",
+            departments: [
+                { title: "BAN HỌC THUẬT", content: "<br><br>- Thi đấu CTF, research & analyze các kỹ thuật tấn công và phòng thủ. <br>- Tổ chức workshop, cuộc thi, training nội bộ và các buổi chia sẻ học thuật, kinh nghiệm.  " },
+                { title: "BAN TRUYỀN THÔNG", content: "<br><br>- Sáng tạo nội dung, thiết kế media, truyền thông sự kiện. <br>- Ghi nhận, lưu ký và truyền đạt các hoạt động của SRC ra phạm vi bên ngoài.  " }
+            ]
         }
     ],
     media: [
@@ -433,77 +522,182 @@ const clubs = {
             desc: "Câu Lạc Bộ Truyền Thông FU Media ( FUM) trực thuộc Trường Đại Học FPT Đà Nẵng. Câu Lạc bộ ra đời với mục đích quy tụ những thành viên là sinh viên FUDN có hứng thú về nhiếp ảnh, diễn xuất, thiết kế đồ họa, và truyền thông quảng bá tổ chức sự kiện. Cùng nhau trao đổi học hỏi những kinh nghiệm quý báu liên quan đến các lĩnh vực trên. <br> <b> Hoạt động chinh:</b> Hiện tại, các hoạt động của CLB chủ yếu xoay quanh công tác truyền thông cho các sự kiện của câu lạc bộ cũng như của trường, bao gồm chụp ảnh, quay phim, thiết kế, xây dựng nội dung truyền thông,... <br> <b> Địa chỉ email:</b> fumfptdn@gmail.com <br> <b>Chủ nhiệm:</b> Huỳnh Vĩnh Uyên",
             fbLink: "https://www.facebook.com/share/1HFSoekjiR/?mibextid=wwXIfr",
             eventLink: "https://www.facebook.com/share/p/1ChUWdYkNQ/",
-            eventImg: "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/724287486_1750276879761211_5547288671371370206_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s1080x1350&_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEvZdy3yKS6evvrIMUtItl5DNucOB-9pFwM25w4H72kXFR_IMHXnzqWfXzWlcOi88K50og_Uz0AJrZXDKp_FR-9&_nc_ohc=RAYM5aG6VTMQ7kNvwHPk8oI&_nc_oc=AdofTUBkUM1FGSj2uo88o5NKv6WyIAL9wq_8Y1Mio6-9UvPDCFAe7hlzePT6Pz90lgw&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=hN8LeTj9kDe7_L98XUaoHQ&_nc_ss=7b2a8&oh=00_Af9Z7kCSObTYC33A5ZYgjNNgi7WVMZHQRLTv1lOWgSIPHw&oe=6A37DEF5",
+            eventImg: "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/726373268_1755694505886115_1597906844594664972_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s1080x1350&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGm9_FicZAwjPwUasmimbHOlZSWS5B254CVlJZLkHbngFQ0Zz7ng4kIWBiNjSxlhYBHu6lVoGst83EwJ76d-WYl&_nc_ohc=F8d_UgSOTwsQ7kNvwHzkFrs&_nc_oc=AdqFJhrMZNrpHz0GcCwzXlCDVZgLdP7lortP5j81fNjM4X3GgdQwkaHI1Fg7vRZUZPw&_nc_zt=23&_nc_ht=scontent.fsgn2-3.fna&_nc_gid=lyvcEpYV5jHuc1X_MjXIxg&_nc_ss=7b2a8&oh=00_Af9V9Gyn22oRz_OYy3c2kGMDDJvkhFm--gKqtQ5Tvtt4JQ&oe=6A3E6EA8",
             eventTitle: "FATHER’S DAY WORKSHOP - CHIẾC HUY CHƯƠNG DÀNH RIÊNG CHO 'NGƯỜI HÙNG' CỦA CHÚNG MÌNH ",
             eventDesc: "Workshop Father’s Day là nơi bạn sẽ tự tay tạo nên những chiếc huy chương handmade xinh xắn, được thắt tỉ mỉ từ dải ruy băng để thay bạn trao gửi lòng biết ơn và sự ngưỡng mộ sâu sắc nhất đến người hùng thầm lặng ấy. Một chiếc huy chương tự tay thực hiện không chỉ là món quà, mà còn là lời cảm ơn cho người đàn ông tuyệt vời nhất trong lòng mỗi chúng ta. ",
+            eventStartDate: "2026-06-16",
+            eventEndDate: "2026-06-16",
             departments: [
-                { title: "Ban Content (Nội Dung)", content: "Phụ trách lên ý tưởng kịch bản truyền thông, viết caption fanpage và lên kế hoạch thông điệp truyền tải bài viết." },
-                { title: "Ban Design (Thiết Kế Đồ Họa)", content: "Sáng tạo visual nghệ thuật cho CLB, thiết kế poster, avatar, các ấn phẩm in ấn sự kiện lớn của trường." },
-                { title: "Ban Photo & Camera (Nhiếp Ảnh/Quay Phim)", content: "Lực lượng trực tiếp 'bắt trọn' mọi khoảnh khắc tại sự kiện, quản lý phòng studio và thực hiện dựng video/clip recap." }
+                { title: "Ban Content", content: "Lên ý tưởng nội dung cho Fanpage và các nền tảng truyền thông của CLB. Viết bài truyền thông, quảng bá sự kiện và hoạt động CLB. Xây dựng kịch bản cho các video truyền thông, video tuyển thành viên và video sự kiện. Cập nhật các xu hướng nội dung mới để tăng hiệu quả truyền thông. Phối hợp với Design và Photographer để đảm bảo sự đồng bộ giữa nội dung và hình ảnh." },
+                { title: "Ban Designer", content: "Thiết kế poster, banner, standee và các ấn phẩm truyền thông. Xây dựng và phát triển hình ảnh nhận diện của CLB. Phối hợp với Content để triển khai các chiến dịch truyền thông. Hỗ trợ chỉnh sửa, thiết kế thumbnail và các ấn phẩm phục vụ video truyền thông. Cập nhật các xu hướng thiết kế mới nhằm nâng cao chất lượng sản phẩm." },
+                { title: "Ban Photographer", content: "Chụp ảnh tại các sự kiện và hoạt động của CLB. Lên ý tưởng hình ảnh phù hợp with từng chiến dịch truyền thông. Thực hiện hậu kỳ ảnh và bàn giao đúng tiến độ. Phối hợp ghi hình, quay các tư liệu cần thiết phục vụ truyền thông. Xây dựng và quản lý kho dữ liệu hình ảnh, video của CLB." }
             ]
+        },
+		{ 
+            name: "MIC's Home - CLB MC ", 
+            image: "https://lh3.googleusercontent.com/a-/ALV-UjXJ1EAvhoOqjQ2OwBtYuxT_22FxoogdPJP8-oFAWHWY4g6bmNs=s300-p-k-rw-no", 
+            desc: "MIC's Home - FUDA MC Club_WHERE THE BEST BECOME BETTER !<br> <b> Hoạt động chính:</b> MIC’s Home - FUDA MC Club là câu lạc bộ MC của Đại học FPT Đà Nẵng, tập trung đào tạo kỹ năng dẫn chương trình, giao tiếp và thuyết trình; đồng thời tổ chức, hỗ trợ dẫn các sự kiện của trường, sản xuất nội dung truyền thông và tạo môi trường giao lưu, phát triển kỹ năng mềm cho sinh viên.<br> <b> Địa chỉ email:</b> michome.fptu.dn@gmail.com <br> <b>Chủ nhiệm:</b> Nguyễn Khánh Nguyên",
+            fbLink: "https://www.facebook.com/share/1D6sy6RT3z/?mibextid=wwXIfr",
+            eventLink: "https://www.facebook.com/share/p/1L3J3Wd92y/",            
+            eventImg: "https://scontent.fhan2-5.fna.fbcdn.net/v/t39.30808-6/717080742_979275571750121_4609581307719446157_n.jpg?stp=dst-jpg_tt6&cstp=mx1500x2000&ctp=s1500x2000&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEzewPYYQwXAbXD39OW-IUBe-WRX2-Rv3h75ZFfb5G_eNmi1IM24lWujm_2o4SJJsMgZ9bGGfsd2XcJYtlr0tWM&_nc_ohc=z61lqsECwrgQ7kNvwFMWJsF&_nc_oc=AdqC60WmxVpcJsl9n6clNgOYM0_eba1K6MTCihoPaasjKC59FSVrV1IKmws_Dfrt8_A&_nc_zt=23&_nc_ht=scontent.fhan2-5.fna&_nc_gid=Q7RZP43LF4Pgkn2Xns_QMA&_nc_ss=7b2a8&oh=00_Af_NGcZTikYaUtlygtGxwlpZz8UmaOaEuoLlL_ttIfxLUA&oe=6A4021AB",
+            eventTitle: "CASTING CALL - MIC'S HOME CHÍNH THỨC MỞ ĐƠN TUYỂN THÀNH VIÊN ",
+            eventDesc: "Bạn không phải là một MC chuyên nghiệp? Chưa từng đứng trên sân khấu? Hay vẫn còn ngại ngùng khi nói trước đám đông? Điều đó hoàn toàn không sao cả. MIC's Home không tìm kiếm những ngôi sao hoàn hảo, chúng mình tìm kiếm những người sẵn sàng học hỏi, dám thử sức và mong muốn phát triển bản thân. ",
+            eventStartDate: "2026-06-07",
+            eventEndDate: "2026-06-12",
+            departments: [
+                { 
+                    title: "Ban Chuyên môn", 
+                    content: "Lợi ích:\n- Được training kỹ năng MC, giọng nói cùng các diễn giả, khách mời giàu kinh nghiệm.\n- Rèn luyện tư duy sáng tạo, khả năng xây dựng và dẫn dắt nội dung chương trình.\n- Có cơ hội thực chiến tại các sự kiện nội bộ, cấp trường và các chương trình đối tác.\n- Phát triển khả năng làm chủ sân khấu, giao tiếp và xử lý tình huống.\n- Được tham gia trực tiếp vào quá trình xây dựng và vận hành các chương trình, sự kiện của CLB.\n\nNhiệm vụ:\n- Phụ trách lên ý tưởng (idea), concept cho các sự kiện, chương trình và các buổi training nội bộ.\n- Biên soạn kịch bản chương trình, kịch bản MC và nội dung dẫn phù hợp với từng hoạt động.\n- Tham gia dẫn dắt các chương trình, sự kiện của CLB khi được phân công.\n- Nghiên cứu, phát triển các nội dung đào tạo và hoạt động chuyên môn của CLB.\n- Phối hợp với Ban Nhân sự và Ban Truyền thông trong quá trình tổ chức và triển khai sự kiện.\n- Đại diện CLB tham gia các hoạt động chuyên môn, sự kiện cấp trường và các chương trình đối ngoại.\n- Hỗ trợ đào tạo, phát triển và đồng hành cùng Talent nhà MIC trong các hoạt động chuyên môn." 
+                }, 
+                { 
+                    title: "Ban Nhân sự", 
+                    content: "Lợi ích:\n- Được rèn luyện kỹ năng quản lý và điều phối nhân sự.\n- Nâng cao khả năng tổ chức, làm việc nhóm và xử lý tình huống.\n- Hiểu rõ quy trình vận hành một sự kiện thực tế.\n- Phát triển kỹ năng giao tiếp, kết nối và chăm sóc thành viên.\n\nNhiệm vụ:\n- Thực hiện và quản lý các sự kiện nội bộ của CLB.\n- Quản lý, điều phối nhân sự cho các sự kiện cấp Trường mà CLB tổ chức hoặc hỗ trợ.\n- Take care và hỗ trợ Talent nhà MIC trong quá trình tham gia các chương trình, sự kiện.\n- Theo dõi tình hình hoạt động và mức độ tham gia của thành viên.\n- Hỗ trợ Ban Chủ nhiệm trong công tác quản lý nhân sự và xây dựng văn hóa CLB.\n- Phối hợp với các ban khác nhằm đảm bảo tiến độ và chất lượng công việc." 
+                }, 
+                { 
+                    title: "Ban Truyền thông", 
+                    content: "Lợi ích:\n- Được training kỹ năng MC, giọng nói cùng các diễn giả, khách mời giàu kinh nghiệm.\n- Được đào tạo về truyền thông, xây dựng thương hiệu và sáng tạo nội dung.\n- Được phát triển các kỹ năng chuyên môn về chụp ảnh, thiết kế và sản xuất nội dung truyền thông.\n- Có cơ hội tham gia trực tiếp vào các chiến dịch truyền thông và sự kiện của CLB.\n- Xây dựng portfolio cá nhân thông qua các sản phẩm và dự án thực tế.\n\nNhiệm vụ:\n- Tiểu ban Photographer:\nChụp ảnh tại các sự kiện và hoạt động của CLB.\nLên ý tưởng hình ảnh phù hợp với từng chiến dịch truyền thông.\nThực hiện hậu kỳ ảnh và bàn giao đúng tiến độ.\nPhối hợp ghi hình, quay các tư liệu cần thiết phục vụ truyền thông.\nXây dựng và quản lý kho dữ liệu hình ảnh, video của CLB.\n- Tiểu ban Content:\nLên ý tưởng nội dung cho Fanpage và các nền tảng truyền thông của CLB.\nViết bài truyền thông, quảng bá sự kiện và hoạt động CLB.\nXây dựng kịch bản cho các video truyền thông, video tuyển thành viên và video sự kiện.\nCập nhật các xu hướng nội dung mới để tăng hiệu quả truyền thông.\nPhối hợp với Design và Photographer để đảm bảo sự đồng bộ giữa nội dung và hình ảnh.\n- Tiểu ban Designer:\nThiết kế poster, banner, standee và các ấn phẩm truyền thông.\nXây dựng và phát triển hình ảnh nhận diện của CLB.\nPhối hợp với Content để triển khai các chiến dịch truyền thông.\nHỗ trợ chỉnh sửa, thiết kế thumbnail và các ấn phẩm phục vụ video truyền thông.\nCập nhật các xu hướng thiết kế mới nhằm nâng cao chất lượng sản phẩm." 
+                }, 
+                { 
+                    title: "Yêu cầu đối với thành viên", 
+                    content: "- Có tinh thần học hỏi, sẵn sàng tiếp thu và phát triển kỹ năng mới\n- Chủ động, có trách nhiệm trong công việc và cam kết đồng hành cùng câu lạc bộ\n- Sắp xếp được thời gian để tham gia các buổi training, họp và sự kiện\n- Không yêu cầu kinh nghiệm, nhưng ưu tiên những bạn có sự yêu thích với lĩnh vực MC, tổ chức sự kiện hoặc truyền thông" 
+                } 
+            ] 
         },
         { 
             name: "EVO-CLB SỰ KIỆN ",
-            image:"https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-6/701509735_1032056015814667_2826165757861870020_n.jpg?stp=dst-jpg_tt6&cstp=mx1920x1920&ctp=s1920x1920&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=dnWIlro2eowQ7kNvwGfvhUz&_nc_oc=AdrbTyThc0IRCalmKG4xO-dCcrJNwm5eajKiI5bppJiTdg63PncIP0HapYoPHnwcPTfzbZoluh_3g91o7XEFtd2W&_nc_zt=23&_nc_ht=scontent.fdad3-6.fna&_nc_gid=R-nshs16Ze7KbIE6qWxDNA&_nc_ss=7b2a8&oh=00_Af_9nXqFERowkGt-jw8HzxFtxCbqz893UX8-RzIPlOAemg&oe=6A3DCD23",
+            image: "https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-6/701509735_1032056015814667_2826165757861870020_n.jpg?stp=dst-jpg_tt6&cstp=mx1920x1920&ctp=s1920x1920&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=dnWIlro2eowQ7kNvwGfvhUz&_nc_oc=AdrbTyThc0IRCalmKG4xO-dCcrJNwm5eajKiI5bppJiTdg63PncIP0HapYoPHnwcPTfzbZoluh_3g91o7XEFtd2W&_nc_zt=23&_nc_ht=scontent.fdad3-6.fna&_nc_gid=R-nshs16Ze7KbIE6qWxDNA&_nc_ss=7b2a8&oh=00_Af9nXqFERowkGt-jw8HzxFtxCbqz893UX8-RzIPlOAemg&oe=6A3DCD23",
             desc: " Câu Lạc Bộ sự kiện đại học FPT đà nẵng .<br> <b> Hoạt động chính:</b>Hoạt động chính là phối hợp tổ chức, lên kế hoạch và vận hành các chương trình, sự kiện lớn nhỏ tại FPTU Đà Nẵng<br>Phía sau ánh đèn sân khấu lung linh, những đêm nhạc bùng nổ và những chương trình để lại dấu ấn sâu sắc tại FPTU chính là thế giới của EVo — nơi những ý tưởng điên rồ nhất biến thành hiện thực! CLB được thành lập với mục tiêu tạo ra một 'bệ phóng' thực tế cho tất cả những bạn trẻ đam mê sáng tạo, muốn thử sức mình ở các vai trò từ lên ý tưởng (Concept), viết kịch bản, điều phối âm thanh ánh sáng cho đến truyền thông sự kiện.<br>Tại EVo, chúng tôi không tìm kiếm những chuyên gia có sẵn kinh nghiệm, chúng tôi tìm kiếm những trái tim đầy nhiệt huyết và không ngại lăn xả. Vượt qua những đêm thức trắng chạy deadline, những khoảnh khắc hồi hộp sau cánh gà, chúng tôi cùng nhau lớn lên, học cách chịu áp lực và xử lý khủng hoảng. EVo không chỉ là nơi tổ chức sự kiện, mà còn là một gia đình gắn kết — ngôi nhà thứ hai đầy ắp tiếng cười, nơi bạn tìm thấy những người đồng đội 'vào sinh ra tử' và cùng tạo nên một thời sinh viên rực rỡ nhất tại FPTU.<br> <b> Địa chỉ email:</b>evo.fptudn@gmail.com<br> <b>Chủ nhiệm:</b>Chưa cập nhật",
             fbLink: "https://www.facebook.com/EVoEventClub",
             eventLink: "https://www.facebook.com/share/p/1FoaFtEwxi/",
             eventImg: "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/711601685_1048614297492172_5957303789588529011_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=U8Md5eFVKk0Q7kNvwFThWIl&_nc_oc=AdqeeJSBQJpkGv8yK4aOnj7Yh-hQ1JBCadNc6ixav4HwMEQtg8syNGuXaOCb9OJ4M7nN9SfZiJD0nqlUBPnmkiGS&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=5q1tB2gCDn2yOan0cmbbUg&_nc_ss=7b2a8&oh=00_Af9yvOV_Wpy-3Zk9zYG09lS4WfouqGaPFFw2aAArrN9VRw&oe=6A3DD3C9",
             eventTitle: "NHÌN LẠI HÀNH TRÌNH 'NHỮNG NGÀY BÉ LẠI' CÙNG EVo! ",
             eventDesc: "Một ngày Quốc tế Thiếu nhi thật đáng nhớ đã khép lại cùng với tiếng cười, niềm vui và những khoảnh khắc ngập tràn sắc màu. <br>Từ những trò chơi quen thuộc, những phần quà nhỏ xinh cho đến những phút giây vui đùa bên nhau, tất cả đã góp phần làm nên một ngày thật trọn vẹn. Và có lẽ, giá trị đẹp nhất không nằm ở món quà nhận được, mà ở cảm giác được trở về với những ký ức hồn nhiên và vô tư của tuổi thơ .<br>EVo cảm ơn bạn đã đồng hành và góp mặt trong hành trình thú vị này. Giờ thì hãy cùng chúng mình nhìn lại những khoảnh khắc đặc biệt nhất nhé! . ",
+            eventStartDate: "2026-06-04",
+            eventEndDate: "2026-06-04",
             departments: [
-                { title: "Ban Truyền Thông", content: " Phụ trách truyền thông và quảng bá sự kiện." },
-                { title: "Nội dung", content: "Lên kịch bản và ý tưởng chương trình." },
-                { title: "Kỹ thuật", content: "Hỗ trợ âm thanh, ánh sáng và kỹ thuật sân khấu." },
-                { title: "Hậu cần", content: "Chuẩn bị đạo cụ, quản lý cơ sở vật chất sự kiện." }
+                { title: "Ban Truyền Thông:", content: " Phụ trách truyền thông và quảng bá sự kiện." },
+                { title: "Nội dung:", content: "Lên kịch bản và ý tưởng chương trình." },
+                { title: "Kỹ thuật:", content: "Hỗ trợ âm thanh, ánh sáng và kỹ thuật sân khấu." },
+                { title: "Hậu cần:", content: "Chuẩn bị đạo cụ, quản lý cơ sở vật chất sự kiện." }
             ]
         }
     ],
     art: [
         { 
-            name: "Noise Makers ",
-            image:"https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/464785331_122102239022585157_8803925681376272810_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_c0pPP3vvGAQ7kNvwEEsjRg&_nc_oc=Adq4kyLTThyZXMEiK2wCX9xi8SpV_HFzHsI07CpXjyWnJG-Pf6f4y7u5cQTenTOcB01IWFQC5V-BnDqTfpGxPa_2&_nc_zt=23&_nc_ht=scontent.fsgn2-4.fna&_nc_gid=VrIIuJGCSYR9aZ-1wxvX0A&_nc_ss=7b2a8&oh=00_Af-HQJ4t21h4v7vzJg8tn7Eq7P5y0K5PG3ToSxVF6wL9Eg&oe=6A3DBCEF",
-            desc: " Câu Lạc Bộ Nhảy đại học FPT đà nẵng .<br> <b> Hoạt động chính:</b>Hoạt động chính là tập luyện các vũ đạo (nhảy hiện đại, hiphop...) và biểu diễn tại các sự kiện<br>Nếu bạn sở hữu một trái tim luôn đập theo từng bản phối nhạc sôi động, một đôi chân luôn muốn nhún nhảy theo từng giai điệu, hay đơn giản là muốn bước ra khỏi vùng an toàn để tự tin tỏa sáng dưới ánh đèn sân khấu, thì Noise Makers chính là 'vũ trụ' dành riêng cho bạn tại FPTU! CLB được thành lập với mục tiêu tạo ra một không gian nghệ thuật bứt phá, nơi các bạn sinh viên có thể thỏa sức giải phóng năng lượng, sống trọn với đam mê vũ đạo từ Hip-hop, Choreo, K-Pop Dance Cover cho đến những bước nhảy hiện đại đầy cuốn hút.<br>Tại Noise Makers, chúng tôi không tìm kiếm những vũ công chuyên nghiệp, chúng tôi tìm kiếm những tâm hồn sẵn sàng 'cháy' hết mình trên sàn tập. Dù bạn là người chưa từng biết đếm nhịp hay đã là một 'cỗ máy nhảy' thực thụ, bạn luôn có vị trí riêng để tỏa sáng trong gia đình này. Vượt qua những giờ mồ hôi rơi trên sàn tập, những đêm tổng duyệt căng thẳng trước giờ lên sân khấu, chúng tôi cùng nhau lớn lên, cùng vượt qua giới hạn của bản thân. Noise Makers không chỉ là nơi luyện tập vũ đạo, mà còn là một gia đình gắn kết — ngôi nhà thứ hai đầy ắp tiếng cười, nơi bạn tìm thấy những người đồng đội chung tần số để cùng bùng nổ và tạo nên một thời sinh viên rực rỡ nhất tại FPTU.<br> <b> Địa chỉ email:</b>noisemakers1110@gmail.com<br> <b>Chủ nhiệm:</b>Chưa cập nhật",
-            fbLink: "https://www.facebook.com/profile.php?id=61567554722572",
-            eventLink: "https://www.facebook.com/share/p/1BQsLz7xNn/",
-            eventImg: "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/723844330_122192407088585157_1201074615108923760_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1366&ctp=s2048x1366&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=N1SHKVfGMKkQ7kNvwEtx6bJ&_nc_oc=AdqhPlvLGnMsAm6zF_9R2H-c_l8SBdRfa3jwaV1rXHCxmPPlkbSqecetEOf2NgJHsVh3dr4Jh9KprKN3pbPmAE6B&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=QwKMztdkxSK_zyZdBU3cgA&_nc_ss=7b2a8&oh=00_Af9HgLDmi-Hke1IELoZWGWrfnp9_VB1GuKUDlPphhXVtqQ&oe=6A3DEE7E",
-            eventTitle: "DẤU ẤN TOẢ SÁNG - TỰ HÀO TOP 5 CLB HOẠT ĐỘNG XUẤT SẮC KÌ SPRING 2026 ",
-            eventDesc: "Tại Lễ Tôn vinh Top 100, Noise Makers vô cùng vinh nhận khi được vinh danh trong hạng mục Top 5 Câu lạc bộ hoạt động xuất sắc. Đây không chỉ là một thành tích đáng tự hào mà còn là minh chứng cho sự nỗ lực, tinh thần cống hiến và hành trình không ngừng phát triển của tập thể CLB trong suốt thời gian qua <br>Thành quả này là kết tinh của những dự án được ấp ủ, những ý tưởng được thực hiện bằng nhiệt huyết và hơn hết là sự đồng hành của từng mảnh ghép, từng thành viên CLB góp phần xây dựng nên một ngôi nhà chung vững mạnh ."
+            name: "DfP-Dance for Passion Club ", 
+            image: "https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-6/619267800_1466996282101245_8941674222268987884_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEoWBwNblZxQdZAqRb6oRZ1z59dYMEu8IPPn11gwS7wg0z6FWy7whRFWohmDZ_b6KjNWFQfWGkoK0kj2BDmPAbe&_nc_ohc=UY2PRzZkV7wQ7kNvwEQl-a9&_nc_oc=Adqg7migyxQ8or5fFxdq4w5Uv2aBTowjxFjn7LSJtWSbnAKYTRrwrLA3OXxZc5kXcn2qz6sFDVQht--YOajCeVjG&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=bORuvOE8VBdcs9BfPtr8Kg&_nc_ss=7b2a8&oh=00_Af90WFRe61s5mX04FYfOQ2XVwUYGxaBHm_8IMqk4Klf0lg&oe=6A416DE1",
+            desc: "Câu Lạc Bộ Nhảy đại học FPT Đà Nẵng.  <br> <b> Hoạt động chính:</b> Tham gia các sự kiện về nghệ thuật của trường. <br> <b> Địa chỉ email:</b> dfp.fpt@gmail.com    <br> <b>Chủ nhiệm:</b>Thiên Ân ", 
+            fbLink: "https://www.facebook.com/FUDADancingClub",
+            eventLink: "https://www.facebook.com/xuonglamnhac.fptdn/posts/pfbid0ZUFBM9QgmS6D82z1ZC8Nw7fXK8U8rQK5X53MU7W6TkPwysEx3Sdr1miCe8d8J3t4l",
+            eventImg: "https://scontent.fhan14-3.fna.fbcdn.net/v/t39.30808-6/616836017_1469762538491286_4128048754234909206_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1366&ctp=s2048x1366&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeH0jA2EzA3BErkg1K36ZfZ_Gy9mZMwxR2UbL2ZkzDFHZfVsvsXaHGwS6i10pRsrcef1xMVM7rEussVyH7NhILbN&_nc_ohc=oOX8uAZqKQwQ7kNvwG2t6NC&_nc_oc=Adoim2nPeU4y8H178dt4QXKaw-4BT8eXLMcuOF-s8Wkh7l91nHb_H66BWnqpSSc9PNcfD2qmrMYyRls-niZ1g_Qh&_nc_zt=23&_nc_ht=scontent.fhan14-3.fna&_nc_gid=-Tchwl1Koqe7sFyQSaakOQ&_nc_ss=7b2a8&oh=00_Af8vyC1T-zzzSzRWw-as3NVSQWxIsDYgn7AIHoKXo-BkeA&oe=6A415469",
+            eventTitle: "Dance In Breaktime - Spring 2026 ",
+            eventDesc: "Học tập căng thẳng thì mình 'va' vào nhau một chút tại sảnh Penrose để nạp lại vibe thôi nào! Hôm nay DfP đã mang đến những list nhạc cực cháy cùng dàn line-up 'đỉnh chóp'. Nhìn những cánh tay giơ cao và những nụ cười của các 'Cóc', DfP biết rằng chúng mình đã có một buổi breaktime thành công rực rỡ.",
+            eventStartDate: "2026-01-22",
+            eventEndDate: "2026-01-22"
         },
         { 
-            name: "MIC's Home - CLB MC ", 
-            image: "https://lh3.googleusercontent.com/a-/ALV-UjXJ1EAvhoOqjQ2OwBtYuxT_22FxoogdPJP8-oFAWHWY4g6bmNs=s300-p-k-rw-no", 
-            desc: "MIC's Home - FUDA MC Club_WHERE THE BEST BECOME BETTER !<br> <b> Hoạt động chính:</b> MIC’s Home - FUDA MC Club là câu lạc bộ MC của Đại học FPT Đà Nẵng, tập trung đào tạo kỹ năng dẫn chương trình, giao tiếp và thuyết trình; đồng thời tổ chức, hỗ trợ dẫn các sự kiện của trường, sản xuất nội dung truyền thông và tạo môi trường giao lưu, phát triển kỹ năng mềm cho sinh viên.<br> <b> Địa chỉ email:</b> michome.fptu.dn@gmail.com <br> <b>Chủ nhiệm:</b> Nguyễn Khánh Nguyên",
-            fbLink: "https://www.facebook.com/share/1D6sy6RT3z/?mibextid=wwXIfr",
-            eventLink: "https://www.facebook.com/share/p/1L3J3Wd92y/",
-            eventImg: "https://scontent.fsgn2-10.fna.fbcdn.net/v/t39.30808-6/717080742_979275571750121_4609581307719446157_n.jpg?stp=dst-jpg_tt6&cstp=mx1500x2000&ctp=s1500x2000&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEzewPYYQwXAbXD39OW-IUBe-WRX2-Rv3h75ZFfb5G_eNmi1IM24lWujm_2o4SJJsMgZ9bGGfsd2XcJYtlr0tWM&_nc_ohc=V1kplJYyRgAQ7kNvwGo0Ula&_nc_oc=Adr2f5v0y44hk3ukQap3PensyOu9AUdTQi_xO0afDGkwJb1kfaAgFUWIVCvRv-tGiGA&_nc_zt=23&_nc_ht=scontent.fsgn2-10.fna&_nc_gid=lMs6lHuxtD9UDgaFEAA3hQ&_nc_ss=7b2a8&oh=00_Af8L3V6nlDY5KQNMXB0g02c9jBd37Y26my3DRT93TmGgWw&oe=6A37C82B",
-            eventTitle: "CASTING CALL - MIC'S HOME CHÍNH THỨC MỞ ĐƠN TUYỂN THÀNH VIÊN ",
-            eventDesc: "Bạn không phải là một MC chuyên nghiệp? Chưa từng đứng trên sân khấu? Hay vẫn còn ngại ngùng khi nói trước đám đông? Điều đó hoàn toàn không sao cả. MIC's Home không tìm kiếm những ngôi sao hoàn hảo, chúng mình tìm kiếm những người sẵn sàng học hỏi, dám thử sức và mong muốn phát triển bản thân. ",
+            name: "RHYTHM - Xưởng Làm Nhạc - CLB Sản Xuất Âm Nhạc", 
+            image: "https://scontent.fhan14-3.fna.fbcdn.net/v/t39.30808-6/417121647_122112553088159682_2891120152625101649_n.jpg?stp=dst-jpg_tt6&cstp=mx2000x2000&ctp=s2000x2000&_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFyMsJyueWzu5ie87-IRdsDuyc1qP_3Ome7JzWo__c6ZwHwQ5kA5GSBg7z4yF73gIp_61sMGsdCnzYQnWESzUG0&_nc_ohc=cUBsJ-8Ar80Q7kNvwHzjIGs&_nc_oc=AdoSF3iANhN6c4gf_JGLQ3KWRlnB2q6U9dpDO_xuwX87Qe0Zz9pNt4wngLM8QGQ7FUnVAIzsD5ZAEZIEHzJ-UMt1&_nc_zt=23&_nc_ht=scontent.fhan14-3.fna&_nc_gid=Zbb6PCjhaooC0syUYnCs_w&_nc_ss=7b2a8&oh=00_Af-K3vcGsMc0nAjN6kacE1OTqFEPgkbGBxQa0PwfZfhscA&oe=6A416E87",
+            desc: "Câu Lạc Bộ sản xuất âm nhạc thuộc Đại Học FPT Đà Nẵng.  <br> <b> Hoạt động chính:</b> Sản xuất âm nhạc, thu âm, mixing, liveshow, quay chụp. <br> <b> Địa chỉ email:</b> rhythm.xuonglamnhac@gmail.com     <br> <b>Chủ nhiệm:</b>Lê Minh Phúc ", 
+            fbLink: "https://www.facebook.com/xuonglamnhac.fptdn",
+            eventLink: "https://www.facebook.com/FUDADancingClub/posts/pfbid0XHEViD1hEMc6pnEZxCJosEkhhUr3ckS4sPuNWwf5Rb9HCBmAse1Z4qbbNpo2199Cl",
+            eventImg: "https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-6/731131700_122280123848159682_5153980693674189607_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s1080x1350&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEiatlx-o-fOVQFriHW-Mv1RcoGFaLA21pFygYVosDbWpSz7IXql68NdGIFgLVrBN0JnkxiPfzShnXdqywD6HUF&_nc_ohc=p-QxvBZI-s4Q7kNvwG4WDAF&_nc_oc=Adp2r5IPZcs5gFI7sK56f3kGk0v3nHDr-kymG3ohz9pdsNrEXfQqg_mGG6vqIY7AfIjeZ0OQudlmq2ZymkXGWe_O&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=WN3IrT9Ugg8hb3TVal00JQ&_nc_ss=7b2a8&oh=00_Af9hhkjEyC1zhD4JHbu5JNSaSY21OnRHGM1V8xh4HORbwg&oe=6A415198",
+            eventTitle: "MỞ ĐƠN ĐĂNG KÝ CASTING GEN 3 ĐỢT 2 RHYTHM - XƯỞNG LÀM NHẠC",
+            eventDesc: "GEN 3 vẫn chưa dừng lại. RHYTHM chính thức mở đơn casting đợt 2 dành cho những bạn sinh viên yêu âm nhạc, thích sáng tạo và muốn trở thành một phần của Xưởng Làm Nhạc.",
+            eventStartDate: "2026-06-29",
+            eventEndDate: "2026-06-30",
             departments: [
-                { title: "Phân Ban MC Sự Kiện", content: " Dẫn dắt trực tiếp các đại nhạc hội, talkshow, hội thảo trang trọng của nhà trường. Đòi hỏi kỹ năng xử lý tình huống sân khấu nhạy bén.",},
-                { title: "Phân Ban MC Voice Talent (Lồng Tiếng / Podcast)", content: " Phát triển giọng đọc radio, sản xuất chuỗi nội dung Podcast định kỳ, lồng tiếng cho các video quảng bá ngắn. "}
+                { title: "BAN ĐIỀU HÀNH - CÁC PHÂN XƯỞNG CHỦ LỰC", content: "<u><b>Talent</b></u><br>- Phụ trách làm việc với khách mời, diễn giả hoặc người biểu diễn trước, trong và sau sự kiện. <br>- Sắp xếp lịch trình, hỗ trợ các yêu cầu của talent và xử lý các tình huống phát sinh. <br><u><b> Producer </b></u><br>- Lập kế hoạch, điều phối và giám sát toàn bộ quá trình tổ chức chương trình. <br>- Phân công công việc, theo dõi tiến độ và đảm bảo sự kiện diễn ra đúng kịch bản.<br><u><b>Media</u></b><br>- Chịu trách nhiệm chụp ảnh, quay video và ghi lại toàn bộ diễn biến của sự kiện. <br>- Thiết kế, chỉnh sửa và đăng tải các nội dung truyền thông trước, trong và sau chương trình. <br><u><b> Event</b></u><br>- Chuẩn bị địa điểm, trang thiết bị, vật dụng và các công tác hậu cần cho sự kiện. <br> Đón tiếp khách mời, hướng dẫn người tham gia và phối hợp vận hành chương trình diễn ra suôn sẻ. " }
             ]
         },
         { 
+            name: "NYS - Name Your Soul - CLB Nghệ Thuật", 
+            image: "https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-6/612159508_871263302335250_2716635651973303527_n.jpg?stp=dst-jpg_tt6&cstp=mx960x958&ctp=s960x958&_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEh5n0FE8GonTMoHyYTgr2vl8696sZ0OeuXzr3qxnQ569_462ZvGAwwFbNP1FZOAFLm2sIc5I-HNx09bpKy6Y8k&_nc_ohc=wN5clej1Nw4Q7kNvwEk9fjH&_nc_oc=Adoc3mV5bayprLhWbkclthtoUyS3oAfcKDx0ZjmUIWD5qZmpJSVJ78ARymZzpRACZtDEHec-seRpzQlcGIuf8gmH&_nc_zt=23&_nc_ht=scontent.fdad3-6.fna&_nc_gid=6sMYM6a_iPmDFEYxlXgS7g&_nc_ss=7b2a8&oh=00_Af9mJr8ffbXXAu_GNL3hsd_muYyaQSXdC010sgVuFJu48g&oe=6A45C1FC",
+            desc: "NYS Club - Name Your Soul - là nơi những tâm hồn yêu nghệ thuật tìm thấy tiếng nói của riêng mình qua âm nhạc và sân khấu.  <br> <b> Hoạt động chính:</b> Tổ chức các hoạt động liên quan đến nghệ thuật tổng hợp, tạo không gian sáng tạo cho thành viên. <br> <b> Địa chỉ email:</b> nysclubfptu@gmail.com   <br> <b>Chủ nhiệm:</b> Ngô Thục Anh ", 
+            fbLink: "https://www.facebook.com/nysclubdn",
+            eventLink: "https://www.facebook.com/nysclubdn/posts/pfbid033rayf992WGT8ZAXwqvWWRFpVQvsBMFNfGJtT1cWKA3wQUVeHeNdDon4ibjro8xT3l",
+            eventImg: "https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-6/707750330_985603997567846_7806027484738079208_n.jpg?stp=cp6_dst-jpg_tt6&cstp=mx2048x1152&ctp=s2048x1152&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGnhryE49iNJlG0VFlasfWuPZkQnhaAkNM9mRCeFoCQ01Z0MihoMnEx86uwZT7WVXI3wUSuTxzbNIr25rMXG0Lb&_nc_ohc=sevDyTurcaEQ7kNvwHXsaL6&_nc_oc=AdqrKZoZJBNKrxOSzCqXU9jhtGk1_Ldl3-CVBNT_NFGW4tsYrNwTZSg9BE2FOTlSJu1NtxXZTgdK8L6E9d1v2RaV&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=XpCveFTZTM7sy0oMY3wQ9Q&_nc_ss=7b2a8&oh=00_Af_4qvLNhXDNsTXZpXhEQULr6Ey0xNPxI03_EsZJd6Xkpw&oe=6A416067",
+            eventTitle: "SINGING BREAKTIME",
+            eventDesc: "Trong lúc người ta giải lao bằng ngủ gật thì tụi mình giải lao bằng… cầm mic. Một chiếc Singing Breaktime đúng nghĩa: tan slot học ➝ chạy xuống nghe nhạc ➝ tiện thể chữa lành tâm hồn luôn. Từ những bài ballad nhẹ nhàng tới mấy màn quẩy bất chấp mai deadline, ai cũng góp một chút năng lượng để biến giờ break thành mini concert.",
+            eventStartDate: "2025-05-26",
+            eventEndDate: "2025-05-26",
+            departments: [
+                { title: "Vocal (Hát)", content: " Luyện thanh và biểu diễn các tiết mục ca hát." },
+                { title: "Instrumental (Nhạc cụ):", content: "Chơi nhạc cụ, phối hợp đệm và biểu diễn cùng các tiết mục." },
+                { title: "Rap", content: "Sáng tác, luyện tập và trình diễn các phần rap." },
+                { title: "Dance (Nhảy)", content: "Tập luyện và biểu diễn các bài nhảy, xây dựng đội hình và vũ đạo." },  
+                { title: "Media (Content)", content: "Lên ý tưởng, viết nội dung và quản lý bài đăng trên các nền tảng truyền thông." },
+                { title: "Media (Design)", content: "Thiết kế poster, banner, ấn phẩm truyền thông và nhận diện hình ảnh." },
+                { title: "Media (Photography)", content: "Chụp ảnh, quay video và ghi lại các hoạt động, sự kiện của câu lạc bộ." }
+            ]
+        },
+        { 
+            name: "Noise Makers ",
+            image: "https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/464785331_122102239022585157_8803925681376272810_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_c0pPP3vvGAQ7kNvwEEsjRg&_nc_oc=Adq4kyLTThyZXMEiK2wCX9xi8SpV_HFzHsI07CpXjyWnJG-Pf6f4y7u5cQTenTOcB01IWFQC5V-BnDqTfpGxPa_2&_nc_zt=23&_nc_ht=scontent.fsgn2-4.fna&_nc_gid=VrIIuJGCSYR9aZ-1wxvX0A&_nc_ss=7b2a8&oh=00_Af-HQJ4t21h4v7vzJg8tn7Eq7P5y0K5PG3ToSxVF6wL9Eg&oe=6A3DBCEF",
+            desc: " Câu Lạc Bộ Nhảy đại học FPT đà nẵng .<br> <b> Hoạt động chính:</b>Hoạt động chính là tập luyện các vũ đạo (nhảy hiện đại, hiphop...) và biểu diễn tại các sự kiện<br>Nếu bạn sở hữu một trái tim luôn đập theo từng bản phối nhạc sôi động, một đôi chân luôn muốn nhún nhảy theo từng giai điệu, hay đơn giản là muốn bước ra khỏi vùng an toàn để tự tin tỏa sáng dưới ánh đèn sân khấu, thì Noise Makers chính là 'vũ trụ' dành riêng cho bạn tại FPTU! CLB được thành lập with mục tiêu tạo ra một không gian nghệ thuật bứt phá, nơi các bạn sinh viên có thể thỏa sức giải phóng năng lượng, sống trọn with đam mê vũ đạo từ Hip-hop, Choreo, K-Pop Dance Cover cho đến những bước nhảy hiện đại đầy cuốn hút.<br>Tại Noise Makers, chúng tôi không tìm kiếm những vũ công chuyên nghiệp, chúng tôi tìm kiếm những tâm hồn sẵn sàng 'cháy' hết mình trên sàn tập. Dù bạn là người chưa từng biết đếm nhịp hay đã là một 'cỗ máy nhảy' thực thụ, bạn luôn có vị trí riêng để tỏa sáng trong gia đình này. Vượt qua những giờ mồ hôi rơi trên sàn tập, những đêm tổng duyệt căng thẳng trước giờ lên sân khấu, chúng tôi cùng nhau lớn lên, cùng vượt qua giới hạn của bản thân. Noise Makers không chỉ là nơi luyện tập vũ đạo, mà còn là một gia đình gắn kết — ngôi nhà thứ hai đầy ắp tiếng cười, nơi bạn tìm thấy những người đồng đội chung tần số để cùng bùng nổ và tạo nên một thời sinh viên rực rỡ nhất tại FPTU.<br> <b> Địa chỉ email:</b>noisemakers1110@gmail.com<br> <b>Chủ nhiệm:</b>Chưa cập nhật",
+            fbLink: "https://www.facebook.com/profile.php?id=61567554722572",
+            eventLink: "https://www.facebook.com/share/p/197mrnsgq2/",
+            eventImg: "https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-6/689458842_122189006690585157_7734116050494083968_n.jpg?stp=dst-jpg_tt6&cstp=mx960x1200&ctp=s960x1200&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=uz_NotgJBDIQ7kNvwHcTx4e&_nc_oc=AdrEJgpq1RhZCDKqfiU6v3h4LeOpMtopt6bicVlVvNgkj9XyCHXTkex-JsJQIGdhqKSLsoG9bmX6JVOHzxBpGX3y&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=EX_dGyKvJMLWxrvUO7bK2w&_nc_ss=7b2a8&oh=00_Af-9ofpcAvu_svLHnPq6utLuNlda1yY3IyMPyDHDPMuXHQ&oe=6A4478FA",
+            eventTitle: "BACK TO SCHOOL SUMMER 2026 - CÙNG KHUẤY ĐỘNG SÂN KHẤU MÙA HÈ ",
+            eventDesc: "Mùa hè không chỉ là những ngày ngập tràn nắng vàng, mà còn là một thời điểm thích hợp để bắt đầu một hành trình mới. Một kỳ học mới đầy mới mẻ đang bắt đầu — mang theo những mục tiêu mới, những thử thách mới và thật nhiều cơ hội để bứt phá.",
+            eventStartDate: "2026-05-12",
+            eventEndDate: "2026-05-12",
+			    departments: [
+	{
+    title: "Ban Truyền Thông",
+    content: "Bao gồm Content, Photo, Design: Lên ý tưởng, xây dựng và triển khai các sản phẩm truyền thông. Quản lý Fanpage, TikTok, YouTube và các nền tảng mạng xã hội của CLB; thiết kế, chụp ảnh, quay video và sáng tạo nội dung nhằm quảng bá hình ảnh CLB."
+},
+{
+    title: "Ban Chuyên Môn",
+    content: "Luyện tập nhảy theo lịch định kỳ của CLB, tham gia biểu diễn tại các sự kiện trong và ngoài trường. Cùng xây dựng đội hình, biên đạo các tiết mục mới, không ngừng học hỏi và phát triển kỹ năng biểu diễn."
+},
+{
+    title: "Ban Sự Kiện",
+    content: "Lên kế hoạch và tổ chức các sự kiện của CLB. Chuẩn bị hậu cần, hỗ trợ các buổi biểu diễn, phối hợp cùng các ban để đảm bảo chương trình diễn ra chuyên nghiệp, chỉn chu và thành công."
+}
+]
+			
+        },
+        { 
             name: "TIA-CLB NHẠC CỤ DÂN TỘC ",
-            image:"https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/533762866_1182953063878029_2513570952912146795_n.jpg?stp=dst-jpg_tt6&cstp=mx960x960&ctp=s960x960&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=E9QQVV-0bI8Q7kNvwH8NH1R&_nc_oc=Adr6MEFUxujfZPAXj8fM7q-VCBQZwXwlzysowU_P1nMmmh32GN2krk-sxr3nTU9j-rg3LDxtS2hxWewYUJmPWhqm&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=PhYZRfbtIlEy2iVHbGJ6Jw&_nc_ss=7b2a8&oh=00_Af_zePuLdUaCYGVyJn9nwXXpORm0qvWuSN4Ui_yFrSCAkA&oe=6A3DDF3C",
-            desc: " Câu Lạc Bộ nhạc cụ dân tộc đại học FPT đà nẵng .<br> <b> Hoạt động chính:</b>Tập luyện và biểu diễn các loại nhạc cụ truyền thống của Việt Nam, tham gia vào các sự kiện văn hóa của trường<br><br><br> <b> Địa chỉ email:</b>tia.fptdn@gmail.com<br> <b>Chủ nhiệm:</b>Chưa cập nhật",
+            image: "https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/533762866_1182953063878029_2513570952912146795_n.jpg?stp=dst-jpg_tt6&cstp=mx960x960&ctp=s960x960&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=E9QQVV-0bI8Q7kNvwH8NH1R&_nc_oc=Adr6MEFUxujfZPAXj8fM7q-VCBQZwXwlzysowU_P1nMmmh32GN2krk-sxr3nTU9j-rg3LDxtS2hxWewYUJmPWhqm&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=PhYZRfbtIlEy2iVHbGJ6Jw&_nc_ss=7b2a8&oh=00_Af_zePuLdUaCYGVyJn9nwXXpORm0qvWuSN4Ui_yFrSCAkA&oe=6A3DDF3C",
+            desc: " Câu Lạc Bộ nhạc cụ dân tộc đại học FPT đà nẵng .<br> <b> Hoạt động chính:</b>Tập luyện và biểu diễn các loại nhạc cụ truyền thống của Việt Nam, tham gia vào các sự kiện văn hóa của trường<br><br><br> <b> Địa chỉ email:</b>tia.fptdn@gmail.com<br> <b>Chủ nhiệm:</b>Cao Mỹ Hân",
             fbLink: "https://www.facebook.com/TIACLUBNHACCUDANTOC",
             eventLink: "https://www.facebook.com/share/p/1HD9b7CPS6/",
             eventImg: "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/721297013_1434919418681391_5600764789045009065_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=DRv0GlEWhioQ7kNvwHA97Rb&_nc_oc=Adr8DXTxdpSPsqx-jA_oHayfpPA_YXukkykUGyHiY84aYaVdkv7MeDCc2TDikfthhUgbwIXshYtETtGJdtZ7jXk_&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=En4G__OeaKNXp6wT_sWrbA&_nc_ss=7b2a8&oh=00_Af8V-xxemI2S7kWDKo-8aExKpjDRchfbMeyWIbjAwdz9HA&oe=6A3DC970",
             eventTitle: "𝐖𝐎𝐑𝐊𝐒𝐇𝐎𝐏 THANH ÂM VIỆT - Giữ hồn dân tộc trong từng giai điệu ngân vang ",
             eventDesc: "Workshop Thanh Âm Việt kỳ học SUM26 đã chính thức khép lại, nhưng dư âm của tiếng đàn tranh, tiếng sáo và những thanh âm truyền thống dường như vẫn còn vang vọng, để lại trong 𝐓𝐈𝐀 thật nhiều cảm xúc đẹp",
+            eventStartDate: "2026-06-13",
+            eventEndDate: "2026-06-13",
             departments: [
-                { title: "Ban Truyền Thông  ", content: "(bao gồm: content, photo, design) lên ý tưởng, cho ra đời các ấn phẩm truyền thông, xây dựng trang fanpage, tik tok, youtube và các trang truyền thông đại chúng khác của CLB ngày một vững mạnh. " },
-                { title: "Ban chuyên môn: ", content: "tập luyện nhạc cụ theo lịch định kì của CLB, tham gia biểu diễn các sự kiện. Liên tục cập nhật bài mới. Giao lưu, học hỏi, thỏa sức thể hiện đam mê." },
-                { title: "Ban sự kiện : ", content: "lên kế hoạch tổ chức các sự kiện của CLB. Hậu cần, hỗ trợ các buổi biểu diễn. Giúp TIA luôn xuất hiện trên sân khấu một cách chỉnh chu, chuyên nghiệp nhất. " }
+                { title: "Ban Truyền Thông", content: "Bao gồm: content, photo, design. Lên ý tưởng, cho ra đời các ấn phẩm truyền thông, xây dựng trang fanpage, tik tok, youtube và các trang truyền thông đại chúng khác của CLB ngày một vững mạnh. " },
+                { title: "Ban Chuyên Môn ", content: "Tập luyện nhạc cụ theo lịch định kì của CLB, tham gia biểu diễn các sự kiện. Liên tục cập nhật bài mới. Giao lưu, học hỏi, thỏa sức thể hiện đam mê." },
+                { title: "Ban Sự Kiện ", content: "Lên kế hoạch tổ chức các sự kiện của CLB. Hậu cần, hỗ trợ các buổi biểu diễn. Giúp TIA luôn xuất hiện trên sân khấu một cách chỉnh chu, chuyên nghiệp nhất. " }
             ]
         },
         {
-            name: "FGD - FUDA GRAPHIC DESIGN ",
-            image: "https://lh3.googleusercontent.com/a-/ALV-UjXUQDvDUxFShoWWbHougyHjr0tFz3E38fX8e0bnTUpya-P0mXW=s48-p",
-            desc: "Câu lạc bộ Thiết kế đồ hoạ - Đại Học FPT Đà Nẵng.<br> <b> Hoạt động chính:</b>Chúng mình là FGD - Fuda Graphic Design, câu lạc bộ về Thiết Kế Mỹ Thuật Số trường Đại học FPT Đà Nẵng. Với sự mệnh mang tới một làn gió mới cho các bạn học tại trường yêu thích và đam mê về nghành.<br> <b> Địa chỉ email:</b>fudagraphicdesign@gmail.com <br> <b>Chủ nhiệm:</b> Thanh Huy",
-            fbLink: "https://www.facebook.com/FudaGraphicDesign.FGD"
+            name: "FGD - FUDA GRAPHIC DESIGN",
+            image: "https://lh3.googleusercontent.com/a-/ALV-UjU-PPHvG5vu3DNE55actA56hkPYfDynEIAjLfnwroZoXPB15A8=s300-p-k-rw-no",
+            desc: "Câu lạc bộ Thiết kế Đồ họa trực thuộc Đại học FPT Đà Nẵng.Hoạt động chính: FGD - Fuda Graphic Design là môi trường dành cho các bạn yêu thích Thiết kế Mỹ thuật số, nơi thành viên được học hỏi, sáng tạo và phát triển các kỹ năng thiết kế, truyền thông đa phương tiện thông qua các dự án và sự kiện thực tế.Địa chỉ email: fudagraphicdesign@gmail.comChủ nhiệm: Thanh Huy",
+            fbLink: "https://www.facebook.com/FudaGraphicDesign.FGD",
+            departments: [
+                { 
+                    title: "Ban Design (Thiết Kế Đồ Họa)", 
+                    content: "Lợi ích:\n- Được đào tạo về tư duy mỹ thuật, xây dựng thương hiệu và sáng tạo nội dung hình ảnh.\n- Phát triển các kỹ năng chuyên môn về thiết kế, xây dựng bộ nhận diện và sản xuất ấn phẩm.\n- Xây dựng portfolio cá nhân thông qua các sản phẩm và dự án thực tế.\n\nNhiệm vụ:\n- Thiết kế poster, banner, standee và các ấn phẩm truyền thông cho CLB.\n- Xây dựng và phát triển hình ảnh nhận diện của CLB.\n- Phối hợp với Ban Content để triển khai các chiến dịch truyền thông.\n- Hỗ trợ chỉnh sửa, thiết kế thumbnail và các ấn phẩm phục vụ video truyền thông.\n- Cập nhật các xu hướng thiết kế mới nhằm nâng cao chất lượng sản phẩm." 
+                },
+                { 
+                    title: "Ban Content (Nội Dung)", 
+                    content: "Lợi ích:\n- Rèn luyện tư duy sáng tạo, khả năng xây dựng và dẫn dắt nội dung bài viết.\n- Có cơ hội tham gia trực tiếp vào các chiến dịch truyền thông và sự kiện của CLB.\n- Phát triển khả năng làm việc nhóm, lên kế hoạch và xử lý tình huống.\n\nNhiệm vụ:\n- Lên ý tưởng nội dung cho Fanpage và các nền t tím truyền thông của CLB.\n- Viết bài truyền thông, quảng bá sự kiện và hoạt động CLB.\n- Xây dựng kịch bản cho các video truyền thông, video tuyển thành viên và video sự kiện.\n- Cập nhật các xu hướng nội dung mới để tăng hiệu quả truyền thông.\n- Phối hợp với Design và Media để đảm bảo sự đồng bộ giữa nội dung và hình ảnh." 
+                },
+                { 
+                    title: "Ban Media (Nhiếp Ảnh & Quay Dựng)", 
+                    content: "Lợi ích:\n- Được phát triển các kỹ năng chuyên môn về chụp ảnh, quay phim và hậu kỳ sản phẩm.\n- Có cơ hội thực chiến, bắt trọn khoảnh khắc tại các sự kiện thực tế.\n- Quản lý và xây dựng kho tư liệu hình ảnh độc quyền cho CLB.\n\nNhiệm vụ:\n- Chụp ảnh tại các sự kiện và hoạt động của CLB.\n- Lên ý tưởng hình ảnh phù hợp với từng chiến dịch truyền thông.\n- Thực hiện hậu kỳ ảnh, dựng video/clip recap và bàn giao đúng tiến độ.\n- Phối hợp ghi hình, quay các tư liệu cần thiết phục vụ truyền thông.\n- Xây dựng và quản lý kho dữ liệu hình ảnh, video của CLB." 
+                },
+                {
+                    title: "Yêu cầu đối với thành viên",
+                    content: "- Có tinh thần học hỏi, sẵn sàng tiếp thu và phát triển kỹ năng mới\n- Chủ động, có trách nhiệm trong công việc và cam kết đồng hành cùng câu lạc bộ\n- Sắp xếp được thời gian để tham gia các buổi training, họp và sự kiện\n- Không yêu cầu kinh nghiệm, nhưng ưu tiên những bạn có sự yêu thích với lĩnh vực thiết kế đồ họa, nhiếp ảnh hoặc truyền thông"
+                }
+            ]
         }
     ],
     sport: [
@@ -515,62 +709,114 @@ const clubs = {
         },
         { 
             name: "FDN-CLB ĐỨC NAM NHỊ KHÚC CÔN",
-            image:"https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/540498508_1373033834825509_1414799230924747615_n.jpg?stp=dst-jpg_tt6&cstp=mx1500x1500&ctp=s1500x1500&_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=91dF7MtqAwYQ7kNvwHxtFjg&_nc_oc=AdEME9M9cSy9FvfHvcx2gMPkp1H5Dj4YaKufPRsAyon8Tf_nM5NdsYxUPi5ZMDd11UfbLxvIl-EhsSyeAiwuDHxr&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=3mkfBE9mRkT6Iv8n5Ei5TA&_nc_ss=7b2a8&oh=00_Af_ubY6HBJ8vZfAZ2X_E3nO9oEqptIy0qvdgOfJn2qEsqw&oe=6A3DB4EF",
+            image: "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/540498508_1373033834825509_1414799230924747615_n.jpg?stp=dst-jpg_tt6&cstp=mx1500x1500&ctp=s1500x1500&_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=91dF7MtqAwYQ7kNvwHxtFjg&_nc_oc=AdEME9M9cSy9FvfHvcx2gMPkp1H5Dj4YaKufPRsAyon8Tf_nM5NdsYxUPi5ZMDd11UfbLxvIl-EhsSyeAiwuDHxr&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=3mkfBE9mRkT6Iv8n5Ei5TA&_nc_ss=7b2a8&oh=00_Af_ubY6HBJ8vZfAZ2X_E3nO9oEqptIy0qvdgOfJn2qEsqw&oe=6A3DB4EF",
             desc: "Câu Lạc Bộ thể thao nhị khúc côn FPT Đà Nẵng.<br> <b> Hoạt động chính:</b>Hoạt động chính xoay quanh việc tập luyện kỹ thuật sử dụng nhị khúc côn và tham gia các buổi biểu diễn thể thao<br>Câu lạc bộ được thành lập với mục tiêu tạo ra một sân chơi lành mạnh, một không gian kết nối dành cho tất cả những ai yêu thích bộ môn côn nhị khúc. Hoặc đơn giản, đây là nơi nuôi dưỡng đam mê võ thuật, rèn luyện phản xạ và khơi dậy sở thích thể thao độc đáo của các bạn sinh viên trường FPT.<br>Không chỉ dừng lại ở việc tập luyện loan côn hay thực chiến, Đức Nam Nhị Khúc Côn còn hướng đến việc gắn kết sâu sắc giữa các thành viên, cùng nhau chia sẻ những kỷ niệm thời thanh xuân và biến câu lạc bộ trở thành ngôi nhà thứ hai thực sự của mỗi bạn sinh viên dưới mái trường FPTU.<br> <b> Địa chỉ email:</b>lamgiang.lobal@gmail.com<br> <b>Chủ nhiệm:</b> Đặng Thị Hồng Giang",
             fbLink: "https://www.facebook.com/FDNNunchakuCLUB",
             eventLink: "https://www.facebook.com/share/p/1Fq9XTCHE6/",
             eventImg: "https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/707447080_1624115939717296_3135370034723621655_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=498i9WSgmK4Q7kNvwFzRGCv&_nc_oc=AdouWEcTqBZow4XGHXUfXpgonawBViCfAqeO2y3FvsMhApfQBY6b89yUomEaE10kNkozOZOcMVX2oCZDBKCaRyHA&_nc_zt=23&_nc_ht=scontent.fsgn2-4.fna&_nc_gid=cyuwNVPDkTXhYGkAUrFFOg&_nc_ss=7b2a8&oh=00_Af-9Hok9lIZLUy9SjwmTtYgTD-Nc-mKpj1CGJWOxvJbUjQ&oe=6A3DB9A8",
             eventTitle: "KỲ THI THĂNG ĐAI KHOÁ II/2026 ",
-            eventDesc: "Kỳ thi thăng đai Khóa II/2026 đã diễn ra thành công với tinh thần nghiêm túc và đầy nhiệt huyết của các môn sinh CLB FDN.<br>Xin chúc mừng tất cả môn sinh đã hoàn thành kỳ thi thật tốt. Chúc các thành viên FDN sẽ luôn giữ vững đam mê và tiếp tục phát triển mạnh mẽ hơn nữa trong thời gian tới!"
+            eventDesc: "Kỳ thi thăng đai Khóa II/2026 đã diễn ra thành công với tinh thần nghiêm túc và đầy nhiệt huyết của các môn sinh CLB FDN.<br>Xin chúc mừng tất cả môn sinh đã hoàn thành kỳ thi thật tốt. Chúc các thành viên FDN sẽ luôn giữ vững đam mê và tiếp tục phát triển mạnh mẽ hơn nữa trong thời gian tới!",
+            eventStartDate: "2026-05-26",
+            eventEndDate: "2026-05-26"
         },
         { 
             name: "VCT-CLB VÕ CỔ TRUYỀN",
-            image:"https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/358444514_164997409921078_2481544402539417897_n.jpg?stp=dst-jpg_tt6&cstp=mx2000x2000&ctp=s2000x2000&_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=4Z33thAjLu0Q7kNvwFqSvft&_nc_oc=Adp-PnRNiX9PyfVP7aXGT0qB1qwJNbqj9hUQDvDUxFShoWWbHougyHjr0tFz3E38fX8e0bnTUpya-P0mXW_DRDyJ&_nc_zt=23&_nc_ht=scontent.fsgn2-8.fna&_nc_gid=ySjFyz0JSc6kObzKTpcgFg&_nc_ss=7b2a8&oh=00_Af9Dax9nq88bw_LV1PDx4Vtw4YF6XfduRwwS6nKZ6sPAC9nCeR&oe=6A3DF47E",
+            image: "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/540498508_1373033834825509_1414799230924747615_n.jpg?stp=dst-jpg_tt6&cstp=mx1500x1500&ctp=s1500x1500&_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=91dF7MtqAwYQ7kNvwECUgcJ&_nc_oc=AdqUa-tyZ543ZyBysDRJF6aSla3CJOZbk_CycVSIlJmY8XNBIGVj0sNDCXxVpKq_vCM&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=2bEGdy0vBL8UaqD2u8xvwg&_nc_ss=7b2a8&oh=00_Af8owLreZYv3T8-suoulAf1GKRZ35AYLQhqkEHSHVA9uzQ&oe=6A3E95EF",
             desc: "Câu Lạc Bộ thể thao võ cổ truyền FPT Đà Nẵng.<br> <b> Hoạt động chính:</b>Tập trung vào việc huấn luyện, rèn luyện các bài võ cổ truyền Việt Nam và nâng cao sức khỏe cho sinh viên<br>Nơi ngọn lửa võ thuật Việt Nam hòa chung nhịp đập với năng lượng năng động của sinh viên FPT! CLB mở ra một không gian trải nghiệm đặc biệt dành riêng cho những bạn trẻ muốn khám phá tinh hoa quyền thuật, nâng cấp khả năng tự vệ và theo đuổi lối sống khỏe mạnh.<br>Đến với gia đình Võ cổ truyền, bạn không cần phải là một người mạnh mẽ sẵn có, chỉ cần bạn mang trong mình sự tò mò và khao khát vượt qua giới hạn của bản thân. Vượt ra khỏi những giờ mồ hôi rơi trên sàn tập, chúng tôi chú trọng xây dựng một tập thể đồng điệu, nơi những người bạn xa lạ trở thành tri kỷ, cùng tạo nên những cột mốc thanh xuân rực rỡ và biến CLB thành điểm tựa tinh thần vững chắc nhất của bạn tại FPTU.<br> <b> Địa chỉ email:</b>vctfptudanang@gmail.com <br> <b>Chủ nhiệm:</b>Diễm Phúc",
             fbLink: "https://www.facebook.com/profile.php?id=100092324607122",
             eventLink: "https://www.facebook.com/share/p/1DfNuNZ426/",
             eventImg: "https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/707964892_934323609655117_231631778472900106_n.jpg?stp=dst-jpg_tt6&cstp=mx1440x1080&ctp=s1440x1080&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=ia1V7COOpyYQ7kNvwHteQW4&_nc_oc=AdoFc2or_UetOg9YxkWguW3tsh2JHhwp6qbfz9uQge0na2ibht6k_TY-aPVe-x-ddz8Y2d_OEuaX9qHwZKYLE8-v&_nc_zt=23&_nc_ht=scontent.fsgn2-5.fna&_nc_gid=HP6wo2P1qq4R8rulr4gZOg&_nc_ss=7b2a8&oh=00_Af-mG-2Dnhrc1iGRqwI9WK0u87aWlJFANoX6wBTSgG7RMg&oe=6A3DFA42",
             eventTitle: "VCT CHUẨN BỊ CHO GIẢI ĐẤU SẮP TỚI  ",
-            eventDesc: "Những buổi tập vẫn đang diễn ra mỗi ngày với sự nghiêm túc, quyết tâm và tinh thần đồng đội cao nhất <br>Không ngừng hoàn thiện kỹ thuật, thể lực và bản lĩnh, VCT đang sẵn sàng cho một hành trình mới phía trước.Hy vọng rằng tất cả thành viên sẽ giữ vững phong độ, cháy hết mình và mang về thật nhiều trải nghiệm đáng nhớ."
+            eventDesc: "Những buổi tập vẫn đang diễn ra mỗi ngày với sự nghiêm túc, quyết tâm và tinh thần đồng đội cao nhất <br>Không ngừng hoàn thiện kỹ thuật, thể lực và bản lĩnh, VCT đang sẵn sàng cho một hành trình mới phía trước.Hy vọng rằng tất cả thành viên sẽ giữ vững phong độ, cháy hết mình và mang về thật nhiều trải nghiệm đáng nhớ.",
+            eventStartDate: "2026-05-28",
+            eventEndDate: "2026-05-28"
         },
         { 
             name: "FVC-CLB VOVINAM ",
-            image:"https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/605723714_1265134402302741_4996183724279570568_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=FHpmZr0aJ-cQ7kNvwHBbj1U&_nc_oc=AdqZMeeOWAzHQK7NQDodXJPqO_9gpgVbD5Z76M8WbJTk2S2cDeiv4IkCuB9cYYFdFkk7nJx9N77eYGj0mttP8L_z&_nc_zt=23&_nc_ht=scontent.fsgn2-3.fna&_nc_gid=sc6jqi5RFAqj9FqwZD79xA&_nc_ss=7b2a8&oh=00_Af8s9QgLfkuf4P2GX1Jd6VgXcYC1dqmV-sLmHav5Dpta-Q&oe=6A3DE8D9",
-            desc: "CÂU LẠC BỘ VOVINAM FPT ĐÀ NẴNG .<br> <b> Hoạt động chính:</b>Tổ chức các buổi tập võ Vovinam (Việt Võ Đạo), chuẩn bị cho các kỳ thi thăng đai và các giải đấu nội bộ hoặc mở rộng.<br>Khoác lên mình sắc áo xanh hy vọng, chúng tôi là nơi hội tụ của những sinh viên FPTU mang trái tim quả cảm và niềm đam mê bất tận với môn võ thuần Việt. CLB ra đời nhằm mang đến một trạm sạc năng lượng sau những giờ học căng thẳng, nơi bạn được bứt phá giới hạn bản thân, làm chủ các kỹ thuật tự vệ thực chiến và những pha bay người kẹp cổ đỉnh cao.<br>Tại đây, xuất phát điểm của bạn là số 0 hay đã có nền tảng không quan trọng, điều duy nhất bạn cần là một tinh thần sẵn sàng đón nhận thử thách. Không chỉ là một lớp học võ, Vovinam FPTU Đà Nẵng là bến đỗ của sự sẻ chia — nơi những người đồng đội cùng đổ mồ hôi trên sàn tập, cùng kề vai sát cánh trong mọi hoạt động và chung tay biến CLB thành ngôi nhà thứ hai đầy ắp tiếng cười của thời sinh viên.<br> <b> Địa chỉ email:</b>vovinam.fvcdn@gmail.com<br> <b>Chủ nhiệm:</b>Hồ Quang Triều",
+            image: "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/605723714_1265134402302741_4996183724279570568_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=FHpmZr0aJ-cQ7kNvwHBbj1U&_nc_oc=AdqZMeeOWAzHQK7NQDodXJPqO_9gpgVbD5Z76M8WbJTk2S2cDeiv4IkCuB9cYYFdFkk7nJx9N77eYGj0mttP8L_z&_nc_zt=23&_nc_ht=scontent.fsgn2-3.fna&_nc_gid=sc6jqi5RFAqj9FqwZD79xA&_nc_ss=7b2a8&oh=00_Af8s9QgLfkuf4P2GX1Jd6VgXcYC1dqmV-sLmHav5Dpta-Q&oe=6A3DE8D9",
+            desc: "CÂU LẠC BO VOVINAM FPT ĐÀ NẴNG .<br> <b> Hoạt động chính:</b>Tổ chức các buổi tập võ Vovinam (Việt Võ Đạo), chuẩn bị cho các kỳ thi thăng đai và các giải đấu nội bộ hoặc mở rộng.<br>Khoác lên mình sắc áo xanh hy vọng, chúng tôi là nơi hội tụ của những sinh viên FPTU mang trái tim quả cảm và niềm đam mê bất tận với môn võ thuần Việt. CLB ra đời nhằm mang đến một trạm sạc năng lượng sau những giờ học căng thẳng, nơi bạn được bứt phá giới hạn bản thân, làm chủ các kỹ thuật tự vệ thực chiến và những pha bay người kẹp cổ đỉnh cao.<br>Tại đây, xuất phát điểm của bạn là số 0 hay đã có nền tảng không quan trọng, điều duy nhất bạn cần là một tinh thần sẵn sàng đón nhận thử thách. Không chỉ là một lớp học võ, Vovinam FPTU Đà Nẵng là bến đỗ của sự sẻ chia — nơi những người đồng đội cùng đổ mồ hôi trên sàn tập, cùng kề vai sát cánh trong mọi hoạt động và chung tay biến CLB thành ngôi nhà thứ hai đầy ắp tiếng cười của thời sinh viên.<br> <b> Địa chỉ email:</b>vovinam.fvcdn@gmail.com<br> <b>Chủ nhiệm:</b>Hồ Quang Triều",
             fbLink: "https://www.facebook.com/Fvcudn",
             eventLink: "https://www.facebook.com/share/p/1Dj7CwHJo3/",
-            eventImg: "https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/712883727_1387338723415641_3612647118823396887_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1366&ctp=s2048x1366&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=aNXJqT8_g7sQ7kNvwFzyeE-&_nc_oc=AdpoR5dMF64dYLIyV4ht57RTDCOlP-NxFdYdY5frgLLuy4YDnB7vN_SXz_tvUc1qaWoafKHRw7QjwEYUsq-ZqMDF&_nc_zt=23&_nc_ht=scontent.fsgn2-5.fna&_nc_gid=9tG8Kdq6TgluQSLIy4XFdg&_nc_ss=7b2a8&oh=00_Af_aN_aSNT0fSpDMnL9I-mw7cTsR1-1ufX8m_N-Sn-GaTg&oe=6A3DCF8E",
-            eventDesc: "Chuyến đi đọng lại rất nhiều kỷ niệm với tập thể FVC-DN, với những món quà ý nghĩa và cái ôm đầy ấm áp gửi đến các em dưới mái trường Hy Vọng <br>Tập thể FVC-DN xin chúc các chiến binh nhỏ kiên cường tại HOPE School luôn luôn khoẻ mạnh học thật là giỏi, hãy giữ mãi những năng lượng tích cực và luôn vững bước trên con đường phía trước nhé "
+            eventImg: "https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/712883727_1387338723415641_3612647118823396887_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=aNXJqT8_g7sQ7kNvwFzyeE-&_nc_oc=AdpoR5dMF64dYLIyV4ht57RTDCOlP-NxFdYdY5frgLLuy4YDnB7vN_SXz_tvUc1qaWoafKHRw7QjwEYUsq-ZqMDF&_nc_zt=23&_nc_ht=scontent.fsgn2-5.fna&_nc_gid=9tG8Kdq6TgluQSLIy4XFdg&_nc_ss=7b2a8&oh=00_Af_aN_aSNT0fSpDMnL9I-mw7cTsR1-1ufX8m_N-Sn-GaTg&oe=6A3DCF8E",
+            eventDesc: "Chuyến đi đọng lại rất nhiều kỷ niệm với tập thể FVC-DN, với những món quà ý nghĩa và cái ôm đầy ấm áp gửi đến các em dưới mái trường Hy Vọng <br>Tập thể FVC-DN xin chúc các chiến binh nhỏ kiên cường tại HOPE School luôn luôn khoẻ mạnh học thật là giỏi, hãy giữ mãi những năng lượng tích cực và luôn vững bước trên con đường phía trước nhé ",
+            eventStartDate: "2026-06-02",
+            eventEndDate: "2026-06-02"
         },
         { 
             name: "FUB-CLB CẦU LÔNG",
-            image: "https://lh3.googleusercontent.com/a-/ALV-UjWfdUo0fMRuc1b9QiSXqK3ZmMHNHJMttFlB-klAYgvIi6aJ48=s240-p-k-rw-no",
+            image: "https://lh3.googleusercontent.com/a-/ALV-UjXWfdUo0fMRuc1b9QiSXqK3ZmMHNHJMttFlB-klAYgvIi6aJ48=s300-p-k-rw-no",
             desc: "Câu lạc bộ cầu lông FPT University Đà Nẵng.<br> <b> Hoạt động chính:</b> CLB Cầu Lông FUB – nơi không chỉ rèn luyện thể thao mà còn là một cộng đồng thân thiện và đầy năng động!<br> <b> Địa chỉ email:</b> fubadclub0706@gmail.com ",
             fbLink: "https://www.facebook.com/FUBadmintonClubDN" 
         },
         { 
             name: "FHG-CLB BÓNG RỔ ",
-            image: "https://lh3.googleusercontent.com/a-/ALV-UjfYhG55RYuQglfi11XVtRqKxnqhrpOSB7bzsF_NDkp2crBY5Q=s240-p-k-rw-no",
+            image: "https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-6/464810441_1089832166480998_2605180241692369891_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEctcjFs27Mrxuw0eZt1UCSqmZzwqdlkVaqZnPCp2WRVlxJvH9RVWt_Iz-ktiVK5TnTR9PVPeyawGoXqGODVm3t&_nc_ohc=RIiosp3xPfwQ7kNvwG_iFa7&_nc_oc=AdpMqabVHmvmHdEemHBCZlYZPLVmQkukxLSIgXy3RKuPNL7KD6X37WBGjsFA5fi6h0Tya_qjZNoIyfMtyD8mb-RZ&_nc_zt=23&_nc_ht=scontent.fdad3-6.fna&_nc_gid=dIJP51ntInVPHj4jyF63JA&_nc_ss=7b2a8&oh=00_Af84-cG292dKB03OFIFyJrIYP5RUnujn7gwtqD_1RTZ80g&oe=6A45CD00",
             desc: "FUDA Hoops Gene-Câu lạc bộ bóng rổ FUDN.<br> <b> Hoạt động chính:</b> Nơi các sinh viên trường Đại học FPT Đà Nẵng được thỏa sức đam mê với bóng rổ. <br> <b> Địa chỉ email:</b> fudabasketballclub@gmail.com ",
             fbLink: "https://www.facebook.com/fudnbasketball"
         }
     ],
     community: [
         { 
-            name: "F2K-CLB THIỆN NGUYỆN ",
-            image: "https://lh3.googleusercontent.com/a-/ALV-UjXUQDvDUxFShoWWbHougyHjr0tFz3E38fX8e0bnTUpya-P0mXW=s48-p",
-            desc: "Câu lạc bộ được xây dựng như là một ngôi nhà chung của những con người trẻ tuổi có trong mình sự cảm thông và khát khao giúp đỡ những mảnh đời khó khăn trong cuộc sống. Với trái tim đầy nhựa sống, lòng nhân ái và khát khao giúp đỡ đồng loại, chúng tớ muốn truyền ngọn lửa ấm áp ấy đến những con người xứng đáng nhận được chúng, để thắp lên lại niềm hi vọng và ý chí vươn lên trong lòng những con người ấy và, tất nhiên, trong cả mỗi chúng ta nữa.<br> <b> Hoạt động chính:</b> Gây quỹ, làm tình nguyện đến thăm cái nơi nuôi dưỡng hoặc hoàn cảnh khó khăn trong địa bàn thành phố Đà Nẵng.<br> <b> Địa chỉ email:</b> fpt.kindness.krew@gmail.com <br> <b>Chủ nhiệm:</b> Lê Trần Viết Thịnh",
-            fbLink: "https://www.facebook.com/share/1cKhVuUMTH/?mibextid=wwXIfr" 
+            name: "FCS - CLB Không Gian Sáng tạo", 
+            image: "https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-1/459703436_376718592156552_3643906718685240195_n.jpg?stp=dst-jpg_tt6&cstp=mx1620x1620&ctp=s200x200&_nc_cat=109&ccb=1-7&_nc_sid=2d3e12&_nc_eui2=AeFhMm8a4h7Z3jZ9xUd4v_JFFW02hca-mo8VbTaFxr6ajyiLuiJIwej7xoHcAUihbKnxz5hM5f7_2NLR06XNlhL9&_nc_ohc=kVYyGqDQM60Q7kNvwEbcWu9&_nc_oc=Adr7swlFQUHULj2zgaOBjG2kF0WU7vRIcxIQmkDBOzKCjW-02cFYgj27ydIsTd0KINloZhmv04MGexevGsAjv0Dw&_nc_zt=24&_nc_ht=scontent.fhan14-5.fna&_nc_gid=2DeP1JrNpcH9gPfjGu6QGA&_nc_ss=7b2a8&oh=00_Af9x6XGW56BOfTaSllfj448BOWCxAv3993TgdwnZUsQCWg&oe=6A417F98",
+            desc: "FUDA’s Creative Space - kết nối cộng đồng sáng tạo, hiện thực hóa idea. <br> <b> Địa chỉ email:</b> fcs.fptudn@gmail.com    <br> <b>Chủ nhiệm:</b> Trần Viết Duy Huy ",
+            fbLink: "https://www.facebook.com/fudacreativespace?comment_id=Y29tbWV7DoxMjc4MzMyNjgwNzU3NjYwXzEwNjcyMjQ1OTU0ODM0MDA%3D",
+            eventLink: "https://www.facebook.com/nysclubdn/posts/pfbid033rayf992WGT8ZAXwqvWWRFpVQvsBMFNfGJtT1cWKA3wQUVeHeNdDon4ibjro8xT3l",
+            eventImg: "https://scontent.fhan5-3.fna.fbcdn.net/v/t39.30808-6/729991890_873966389098434_4521626902661879008_n.jpg?stp=dst-jpg_tt6&cstp=mx960x1200&ctp=s960x1200&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFR7P73yx--ONVXSw6NsuY7tDg5p1NK-FK0ODmnUQDvDUxFShoWWbHougyHjr0tFz3E38fX8e0bnTUpya-P0mXW&_nc_ohc=miiiC5kbtA4Q7kNvwFe5uLT&_nc_oc=Adr8HYBmbJKZvhfZBPW_sxxBvfLcVdHueJ5DYIwxDcw12AFRu9vnJ28aqtHBRkT67xlcK1ERm3jP0tdftFPunpxS&_nc_zt=23&_nc_ht=scontent.fhan5-3.fna&_nc_gid=KAmo-SflwQfQpcK98aav8w&_nc_ss=7b2a8&oh=00_Af9Vt7YgfMW0489VjvbqKDNg10D0caZq5EwZvtnyBpqmxw&oe=6A4645C5",
+            eventTitle: "ART WORKSHOP CRAFTING CULTURE – WORKSHOP VẼ NÓN LÁ ",
+            eventDesc: "Bạn đã bao giờ thử lưu lại dấu ấn sáng tạo của mình trên một chiếc nón lá truyền thống? Trong khuôn khổ Trại hè Jamboree 2026, FUDA's Creative Space mang đến Art Workshop 'Crafting Culture' – hoạt động trải nghiệm vẽ nón lá, nơi các trại sinh có cơ hội khám phá nét đẹp văn hóa Việt Nam thông qua một trong những biểu tượng quen thuộc nhất của dân tộc. Từ những họa tiết mang đậm bản sắc Việt đến những nét vẽ đầy màu sắc sáng tạo, mỗi chiếc nón sẽ trở thành một câu chuyện riêng, góp phần lan tỏa vẻ đẹp văn hóa Việt Nam đến bạn bè trong và ngoài nước. ",
+            eventStartDate: "2025-06-27",
+            eventEndDate: "2025-06-27",
+            departments: [
+                { title: "BAN TRUYỀN THÔNG", content: "<u><b>Tiểu ban Photographer</b></u><br>- Lên ý tưởng chụp ảnh hoặc tìm ảnh theo nội dung do ban Dự Án đề ra.<br>- Tác nghiệp tại các sự kiện do FCS tổ chức hoặc phối hợp thực hiện.<br>- Phối hợp với các team Design để hỗ trợ thiết kế.<br><u><b> Tiểu ban Designer</b></u><br>- Cập nhật xu hướng mới để thiết kế hình ảnh hấp dẫn, thu hút hơn cho các bài đăng.<br>- Định hướng phong cách và gam màu độc đáo, phù hợp cho từng chuỗi bài viết, xây dựng hình ảnh truyền thông cho page.<br> Thiết kế các ấn phẩm quan trọng như poster, standee,... <br><u><b>Tiểu ban Video Editor</u></b><br>- Dựng và chỉnh sửa video cho các sự kiện, dự án.<br>- Phối hợp với tiểu ban Nhiếp Ảnh và Thiết Kế để hoàn thiện video.<br>- Lên ý tưởng và kịch bản cho video truyền thông." },
+                { title: "BAN NỘI DUNG", content: "<u><b>Tiểu ban Event Planner</b></u><br>- Lên kế hoạch và tổ chức các sự kiện của câu lạc bộ.<br>- Phối hợp với các tiểu ban khác để chuẩn bị và thực hiện sự kiện.<br>Đảm bảo sự kiện diễn ra suôn sẻ và đạt được các mục tiêu đề ra.<br><u><b> Tiểu ban Content Creator</b></u><br>- Đề xuất ý tưởng đăng bài trên fanpage để thu hút người xem.<br>- Cập nhật các xu hướng sáng tạo mới để làm nội dung nổi bật.<br> Phối hợp với tiểu ban Nội Dung để đảm bảo sự đồng bộ của nội dung và hình ảnh. <br><u><b>Tiểu ban Content Writer</u></b><br>-Viết bài cho theo kế hoạch truyền thông cho CLB.<br>- Cập nhật thông tin và xu hướng mới để bài viết hấp dẫn.<br>- Đảm bảo chất lượng và chính xác của nội dung." }
+            ]
         },
         { 
-            name: "FENIOUS-CLB VĂN HÓA Ẩm THỰC ", 
+            name: "F2K-CLB THIỆN NGUYỆN ", 
+            image: "https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/723217967_986368830775835_924449521232691348_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeExPnyfenkSOLfKWQCU8lWtj6SHVMyJDqaPpIdUzIkOphhV28eq6kWVUHk8wdW6hb85HpVz7cKrtlIFQ7Un6Mt0&_nc_ohc=c7bVfRj-cpMQ7kNvwHQohN8&_nc_oc=AdqCPldtQrMY8cFC7PtkRI8-lJWZIe6fqGfqiyBaX2y7TLIcFO2txMe0WwPKXvQXkvw&_nc_zt=23&_nc_ht=scontent.fsgn2-8.fna&_nc_gid=c6gRsGEy3V8aKtpRAj32eA&_nc_ss=7b2a8&oh=00_Af_c19Xl-3ow75F1elAZNFMyKlgiSd90Uihve_SabDVGEA&oe=6A400A02",
+            desc: "Gây quỹ, làm tình nguyện đến thăm cái nơi nuôi dưỡng hoặc hoàn cảnh khó khăn trong địa bàn thành phố Đà Nẵng. ",
+            fbLink: "https://www.facebook.com/share/1cKhVuUMTH/?mibextid=wwXIfr",
+            eventLink: "https://www.facebook.com/share/p/1BQ9xuP2cF/",
+            eventImg: "https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-6/710755967_977550498324335_7993739425014591750_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1717&ctp=s600x600&_nc_cat=110&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeF6YvlNRXZKrDc4EvrYoSgtQ0DOTUYe0cVDQM5NRh7RxQChIXFmtd5wLa8xAdLog9sJSM44XpUOR5pIvoezD4pN&_nc_ohc=zdeMKiyWY90Q7kNvwF28hOF&_nc_oc=AdoN32egw4L3IpxFsWcnc35NA6-MFKt3WpCgNZy6I5m3QiPmDBpg7Rc3sJ9rr-w9UDCH5ePu1MYfjazy4pP8f2Cz&_nc_zt=23&_nc_ht=scontent.fdad3-6.fna&_nc_gid=0Z_B0B7tluYifkwHlDWPCQ&_nc_ss=7b2a8&oh=00_Af8Lc85veOJVhKvWqryRhbDEgM-AtFnDcCOav0Rsc8WZJA&oe=6A41B521",
+            eventTitle: "Giọt Máu Hồng 2026 ",
+            eventDesc: "Mỗi đơn vị máu được trao đi không chỉ là sự sẻ chia, mà còn là niềm hy vọng được tiếp nối cho những người đang cần giúp đỡ. Những giọt máu hôm nay có thể trở thành món quà vô giá, mang đến cơ hội sống cho ai đó vào ngày mai. ",
+            eventStartDate: "2026-06-14",
+            eventEndDate: "2026-06-14",
+            departments: [
+                { 
+                    title: "Ban Tình Nguyện Viên", 
+                    content: "Lợi ích:\n- Nâng cao kỹ năng giao tiếp, xử lý tình huống và thích ứng với môi trường cộng đồng.\n- Trải nghiệm thực tế, kết nối và thấu hiểu các mảnh đời, hoàn cảnh khó khăn.\n- Nuôi dưỡng tinh thần trách nhiệm, lòng trắc ẩn và lan tỏa giá trị nhân văn của tuổi trẻ.\n\nNhiệm vụ:\n- Lực lượng nòng cốt tham gia hỗ trợ điều phối trực tiếp, chăm sóc các hoàn cảnh khó khăn tại địa điểm thiện nguyện.\n- Khảo sát thực tế các cơ sở, trung tâm nuôi dưỡng và các gia đình có hoàn cảnh ngặt nghèo cần giúp đỡ.\n- Phối hợp phân phối vật phẩm, quà tặng và tổ chức các hoạt động giao lưu tinh thần tại các điểm tình nguyện." 
+                },
+                { 
+                    title: "Ban Hậu Cần & Gây Quỹ", 
+                    content: "Lợi ích:\n- Rèn luyện tư duy tài chính, kỹ năng lập kế hoạch và quản lý dòng tiền sự kiện.\n- Phát triển năng lực đàm phán, kết nối với nhà tài trợ và tư duy kinh doanh xã hội.\n- Nâng cao khả năng quản lý tài sản, điều phối nguồn lực vật chất hiệu quả.\n\nNhiệm vụ:\n- Quản lý ngân quỹ, lên kế hoạch sản xuất đồ handmade hoặc tổ chức bán hàng gây quỹ cho các chiến dịch xã hội.\n- Phụ trách chuẩn bị nguyên vật liệu, quà tặng, nhu yếu phẩm và quản lý phương tiện di chuyển cho các chuyến đi.\n- Theo dõi, thống kê thu chi công khai, minh bạch sau mỗi chương trình, sự kiện thiện nguyện." 
+                },
+                {
+                    title: "Yêu cầu đối với thành viên",
+                    content: "- Có tinh thần học hỏi, sẵn sàng tiếp thu và phát triển kỹ năng mới\n- Chủ động, có trách nhiệm trong công việc và cam kết đồng hành cùng câu lạc bộ\n- Sắp xếp được thời gian để tham gia các buổi training, họp và sự kiện\n- Không yêu cầu kinh nghiệm, nhưng đặc biệt ưu tiên những bạn giàu nhiệt huyết, có tấm lòng nhân ái và yêu thích các hoạt động cộng đồng, thiện nguyện"
+                }
+            ]
+        },
+        { 
+            name: "FENIOUS-CLB VĂN HÓA ẨM THỰC ", 
             image: "https://lh3.googleusercontent.com/a-/ALV-UjVP5ey-HWIVF0ktRoe8AFvP24yFlsOkYdw3Rps7BT6tur8Fui9K=s300-p-k-rw-no", 
             desc: "Câu lạc bộ Văn hóa Ẩm thực trực thuộc Đại học FPT Đà Nẵng. <br> <b> Hoạt động chính:</b> Văn hoá Ẩm thực trên từng hành trình! Fenious là Câu lạc bộ Văn hoá Ẩm thực trực thuộc Đại học FPT, thành phố Đà Nẵng, nơi ẩm thực trở thành cầu nối gắn kết con người và lan toả những giá trị văn hoá trên mọi nẻo đường.<br> <b> Địa chỉ email:</b> fenious.fuda@gmail.com <br> <b>Phó Chủ nhiệm:</b> Hồ Châu Thái Lam",
             fbLink: "https://www.facebook.com/share/18fBGgw3tZ/?mibextid=wwXIfr",
-            eventLink: "https://event.fptudn.com/",
-            eventImg: "https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/701003736_122169551234684119_5287170141170650822_n.jpg?stp=dst-jpg_tt6&cstp=mx1122x1402&ctp=s1122x1402&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFtU1ext3bdeqkQXQhW7rYV6YRFjs85YenphEWOzzlh6XG-mrSmHx1Dz-I9214AoUEy9Qw20mHKe-mUlirUvGPl&_nc_ohc=wzabyJvE_loQ7kNvwHTpjQN&_nc_oc=AdqCc9O0HtInMkKHZyN84HK6uToHGWZfEkXr2BLr6UZoVNSIQy8-OhTVL6-PhRZ6gVPZ29idkRuP_7VvSwDc6GZk&_nc_zt=23&_nc_ht=scontent.fsgn2-4.fna&_nc_gid=1uwKGk41Qo7kpEErDSxLAA&_nc_ss=7b2a8&oh=00_Af-WkHF3sc97Qlh8kAQ6xKtU8SdnDxGNVXw-RCL6oZw3iw&oe=6A3ACAC9",
-            eventTitle: "FPTU CAREER FAIR 2026 ",
-            eventDesc: "FPTU Career Fair 2026 không chỉ là nơi kết nối doanh nghiệp và sinh viên, mà còn là không gian để tiếp thêm năng lượng cho hành trình khám phá cơ hội nghề nghiệp. Đồng hành cùng chương trình năm nay, Câu lạc bộ Fenious mang đến gian hàng thức uống với những hương vị tươi mát dành riêng cho các bạn tham gia sự kiện. "
+            departments: [
+                {
+                    title: "Ban Nội Dung - Chuyên Môn",
+                    content: "Lợi ích:\n- Được mở rộng kiến thức sâu sắc về văn hóa ẩm thực vùng miền và quốc tế.\n- Rèn luyện tư duy sáng tạo, kỹ năng xây dựng ý tưởng và thiết kế chương trình/workshop trải nghiệm.\n- Nâng cao năng lực nghiên cứu, tổng hợp tài liệu và thuyết trình trước đám đông.\n\nNhiệm vụ:\n- Nghiên cứu văn hóa ẩm thực, xây dựng nội dung và lên ý tưởng cho các chương trình, workshop của CLB.\n- Biên soạn các tài liệu hướng dẫn, kịch bản chương trình và nội dung chia sẻ chuyên môn về ẩm thực.\n- Phối hợp với các ban liên quan để kiểm duyệt và đảm bảo tính chính xác, hấp dẫn của nội dung hoạt động."
+                },
+                {
+                    title: "Ban Sự Kiện - Nhân Sự",
+                    content: "Lợi ích:\n- Được rèn luyện kỹ năng quản lý, điều phối nhân sự và tổ chức các sự kiện ẩm thực thực tế.\n- Nâng cao khả năng làm việc nhóm, kỹ năng giao tiếp và xử lý tình huống phát sinh tại hiện trường.\n- Mở rộng mạng lưới mối quan hệ, kết nối và chăm sóc tốt tinh thần của các thành viên.\n\nNhiệm vụ:\n- Điều phối nhân sự, tổ chức sự kiện và đảm bảo các hoạt động của CLB diễn ra hiệu quả.\n- Chịu trách nhiệm chính trong khâu hậu cần, sắp xếp không gian, nguyên vật liệu cho các buổi workshop/sự kiện.\n- Theo dõi, đánh giá mức độ tích cực và gắn kết của thành viên, hỗ trợ xây dựng văn hóa câu lạc bộ."
+                },
+                {
+                    title: "Yêu cầu đối với thành viên",
+                    content: "- Có tinh thần học hỏi, sẵn sàng tiếp thu và phát triển kỹ năng mới\n- Chủ động, có trách nhiệm trong công việc và cam kết đồng hành cùng câu lạc bộ\n- Sắp xếp được thời gian để tham gia các buổi training, họp và sự kiện\n- Không yêu cầu kinh nghiệm, nhưng đặc biệt ưu tiên những bạn có niềm đam mê lớn với ẩm thực, mong muốn khám phá và lan tỏa các giá trị văn hóa truyền thống"
+                }
+            ]
         }
     ],
     business: [
@@ -578,76 +824,199 @@ const clubs = {
             name: "FIC - CLB TÀI CHÍNH ", 
             image: "https://lh3.googleusercontent.com/a-/ALV-UjUQvbnJUdhm4r0pYs9hl6WZT8PvYdfGmQKoMvL_D74XMX1MSE4=s300-p-k-rw-no", 
             desc: "FIC-Financial Investing Club. <br> <b> Hoạt động chính:</b> Tổ chức các hoạt động và chia sẻ kiến thức liên quan đến tài chính và đầu tư.<br> <b> Địa chỉ email:</b> ficfinance.club@gmail.com <br> <b>Chủ nhiệm:</b> Trần Đỗ Quốc Huy ",          
-fbLink: "https://www.facebook.com/share/1EAtz36i1c/?mibextid=wwXIfr",
+            fbLink: "https://www.facebook.com/share/1EAtz36i1c/?mibextid=wwXIfr",
             eventLink: "https://www.facebook.com/share/p/197VKE8Yyq/",
-            eventImg: "https://www.facebook.com/photo/?fbid=122234300852340220&set=a.122101348088340220&__cft__[0]=AZZdINDi1Cj3K8bKFvh78NlEWMb_4AksjZnTuPHs8DWE23ZsZ-chl7UBHA2pWX7b1nh1igANXnSz100GmHHydE9MKZySzevEYvpH4T6RMtErvEXFexOQloewBhiQxH5ppuER9x_VmXkP2bazTHka-w8JMgoeYUbDLGD-xNoZbFyf-g&__tn__=EH-R",
-            eventTitle: "NÂNG TẦM TINH HOA VIỆT: CÂU CHUYỆN KHỞI NGHIỆP TỪ BẢN SẮC ",
+            eventImg: "https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-6/719506485_122234300858340220_2656171133899967080_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=p526x296&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeE5F3FlDPyH6MIJaMz5UAX5om6I-e3S4OKiboj57dLg4mW0W2CkG_k4mIFmS1LB2bknhKnLhU9nk-T6llYl3tEJ&_nc_ohc=4Ve2Z_iUFdMQ7kNvwHqZFeZ&_nc_oc=Adrs7RJD7-gnxqhtL0B0skglQH9yxR9WWsjb5X78FzzsBDSxZQMBEslYye5QaCPo1tMa_vYJrzUL9DXzvjRf_5XH&_nc_zt=23&_nc_ht=scontent.fdad3-6.fna&_nc_gid=JyoHB5yQfeBuAI--KDeOhw&_nc_ss=7b2a8&oh=00_Af90zrw_uus-0mQESLlIfIWcKMdSt3eJzSlcoJfaTdUY5Q&oe=6A45BBF9",
+            eventTitle: "NÂNG TẦM TINH HOA VIỆT: CÂU CHUYỆNG KHỞI NGHIỆP TỪ BẢN SẮC ",
             eventDesc: "Workshop 'Nâng Tầm Tinh Hoa Việt' sẽ mang đến những góc nhìn thực chiến về hành trình đưa giá trị Việt trở thành lợi thế cạnh tranh trong thời đại toàn cầu hóa. ",
+            eventStartDate: "2026-06-14",
+            eventEndDate: "2026-06-14",
             departments: [
-                { title: "Ban Nghiên Cứu Thị Trường (Research Team)", content: "Phân tích số liệu tài chính, theo dõi biến động thị trường chứng khoán ảo và chuẩn bị tài liệu chuyên môn cho các buổi sinh hoạt." },
-                { title: "Ban Đối Ngoại (External Relations)", content: "Kết nối CLB với các diễn giả chuyên gia, các doanh nghiệp chứng khoán/ngân hàng tài trợ và hỗ trợ dự án thực chiến." }
+                { 
+                    title: "Ban Nghiên Cứu Thị Trường (Research Team)", 
+                    content: "Lợi ích:\n- Nâng cao tư duy phân tích số liệu, đọc hiểu báo cáo tài chính và nhận diện biến động thị trường.\n- Được tiếp cận, thực hành và quản lý các công cụ/nền tảng mô phỏng đầu tư, chứng khoán ảo.\n- Xây dựng nền tảng kiến thức vững chắc về tài chính, kinh tế phục vụ công việc tương lai.\n\nNhiệm vụ:\n- Phân tích số liệu tài chính, theo dõi biến động thị trường chứng khoán ảo và chuẩn bị tài liệu chuyên môn cho các buổi sinh hoạt.\n- Nghiên cứu, tổng hợp và đề xuất các chủ đề kiến thức đầu tư, quản lý tài chính cá nhân hữu ích để chia sẻ cộng đồng.\n- Phối hợp xây dựng nội dung chuyên môn, bộ câu hỏi học thuật cho các buổi workshop, cuộc thi của CLB." 
+                },
+                { 
+                    title: "Ban Đối Ngoại (External Relations)", 
+                    content: "Lợi ích:\n- Phát triển kỹ năng đàm phán, giao tiếp chuyên nghiệp và xử lý tình huống linh hoạt.\n- Cơ hội mở rộng kết nối trực tiếp với các chuyên gia, diễn giả, doanh nghiệp lớn ngành tài chính - ngân hàng.\n- Rèn luyện kỹ năng viết proposal, lập kế hoạch gọi vốn và quản lý mối quan hệ đối tác.\n\nNhiệm vụ:\n- Kết nối CLB với các diễn giả chuyên gia, các doanh nghiệp chứng khoán/ngân hàng tài trợ và hỗ trợ dự án thực chiến.\n- Phụ trách soạn thảo thư mời, hợp đồng tài trợ và đại diện câu lạc bộ làm việc với các đơn vị liên kết ngoại giao.\n- Chăm sóc và hỗ trợ các diễn giả, khách mời, nhà tài trợ trong suốt quá trình diễn ra chương trình." 
+                },
+                {
+                    title: "Yêu cầu đối với thành viên",
+                    content: "- Có tinh thần học hỏi, sẵn sàng tiếp thu và phát triển kỹ năng mới\n- Chủ động, có trách nhiệm trong công việc và cam kết đồng hành cùng câu lạc bộ\n- Sắp xếp được thời gian để tham gia các buổi training, họp và sự kiện\n- Không yêu cầu kinh nghiệm, nhưng ưu tiên những bạn có sự quan tâm, yêu thích với lĩnh vực kinh tế, tài chính, đầu tư hoặc có khả năng giao tiếp, đối ngoại tốt"
+                }
             ]
-        }
-    ],
+        },
+        { 
+            name: "ResUp - Business & Marketing Club", 
+            image: "https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/704307152_965780036060667_186782603915425416_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1639&ctp=s2048x1639&_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGwTzQ3kAH9_AMrtMfP_nvviuvprLQBDdSK6-mstAEN1NczLtJ0fQmyh3nYayySqGSSM-g2NlVcFH-ysWtHLsvt&_nc_ohc=BWEA6T_761cQ7kNvwEf3d-N&_nc_oc=AdpG7-PzFs3OMrL_B0nkXmaqQL5CsF2Hd2SuxSpNjn9E5ZcVfqTvDKn19DBugYPlqp_-i2xryUXc1UmkveAnmUc4&_nc_zt=23&_nc_ht=scontent.fhan14-1.fna&_nc_gid=qeB3b-hOpG3u3l8mKzrNGA&_nc_ss=7b2a8&oh=00_Af_jfcyIoBtQYuQtKBTdhC_CSm9EptXVKJ3bq10IzpQaqw&oe=6A443A3F", 
+            desc: "ResUp là CLB Research - StartUp thuộc Trường Đại học FPT - cơ sở Đà Nẵng.  <br> <b> Hoạt động chính:</b> Tổ chức workshop, meetup gặp gỡ trao đổi về khởi nghiệp của các ngành nghề.<br> <b> Địa chỉ email:</b> resup.fpt@gmail.com  <br> <b>Chủ nhiệm:</b> Nguyễn Đỗ Thanh Uyên  ",          
+            fbLink: "https://www.facebook.com/resup.fudn",
+            eventLink: "https://www.facebook.com/resup.fudn/posts/pfbid0ikS6gN2FT2K1Q6PQd7aYBsS155sgDEcAvxe9DT9EHeeqETA6VFRPLif4YZsSiAnnl",
+            eventImg: "https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-6/725616005_990404340264903_8799041665933592733_n.jpg?stp=dst-jpg_tt6&cstp=mx1887x984&ctp=s1887x984&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFqIEdkBtyHv2La2edVOScQslrdLRa3VzqyWt0tFrdXOgC-LImJj5NMZHz23hIGWGhG9zCfOxeFfK5AxBeZ2Fml&_nc_ohc=aP2-37e2ZasQ7kNvwE-vMRc&_nc_oc=Adqabtskp8ADrH5PaUUf_GTI4OgsCvuek4ZEG9uPaSTy8PMAniD0h-ydp-ZRV0pm22dwd3koBlyRNk2AYJTFz9yg&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=28bpKozP93xgZHxvQ9n3PQ&_nc_ss=7b2a8&oh=00_Af_LuhnrxyIlPJg_er6kTOmAZw7mc_EQRmsjRxwLdelgyg&oe=6A44378F",
+            eventTitle: "CƠ HỘI BỨT PHÁ Ý TƯỞNG AI CÙNG LỘ TRÌNH PHÁT TRIỂN TOÀN CẦU  ",
+            eventDesc: "48 giờ. Đấu trường 100% AI-native giải quyết bài toán thực tế cho doanh nghiệp. Phát triển ý tưởng thành starup và được học hỏi từ các chuyên gia hàng đầu thế giới và Sillicon Valley. Tạo ra sản phẩm có khả năng trong thực tế, dược rón vốn và triển khai. ",
+            eventStartDate: "2026-07-17",
+            eventEndDate: "2026-07-19",
+            departments: [
+                { title: "BAN MARKETING ", content: "<br><br>- Lên kế hoạch và triển khai các chiến dịch truyền thông nhằm quảng bá sự kiện, thu hút người tham gia và xây dựng hình ảnh của chương trình.  <br>- Thiết kế, quản lý nội dung trên các nền tảng truyền thông, theo dõi hiệu quả chiến dịch và đề xuất các phương án cải thiện. " },
+                { title: "BAN VẬN HÀNH ", content: "<br><br>-Lập kế hoạch vận hành, chuẩn bị cơ sở vật chất, trang thiết bị và hậu cần để chương trình diễn ra đúng tiến độ. <br>-Điều phối nhân sự, giám sát quá trình tổ chức và xử lý các tình huống phát sinh trong suốt sự kiện." },
+                { title: "BAN ĐỐI NGOẠI ", content: "<br><br>- Tìm kiếm, làm việc và duy trì mối quan hệ với các đối tác, nhà tài trợ và đơn vị đồng hành. <br>- Thương lượng quyền lợi hợp tác, theo dõi việc thực hiện cam kết và đảm bảo lợi ích cho các bên." },
+                { title: "BAN PHÁT TRIỂN CỘNG ĐỒNG", content: "<br><br>- Xây dựng và phát triển cộng đồng người tham gia, tình nguyện viên và các thành viên của dự án. <br>- Tổ chức các hoạt động gắn kết, chăm sóc cộng đồng và thu thập phản hồi để nâng cao chất lượng chương trình." },
+                { title: "BAN CHUYỂN ĐỔI SỐ", content: "<br><br>- Xây dựng, quản lý và tối ưu các nền tảng số phục vụ cho hoạt động của dự án và sự kiện. <br>-Ứng dụng các công cụ công nghệ để quản lý dữ liệu, tự động hóa quy trình và nâng cao hiệu quả làm việc giữa các ban." }
+            ]
+        },
+	
+        { 
+            name: "HTS - Hospitality & Tourism Skills Club - CLB về Kỹ năng ngành QTDL&KS", 
+            image: "https://scontent.fhan14-2.fna.fbcdn.net/v/t39.30808-6/272479790_127064359810295_3470699317398348316_n.jpg?stp=dst-jpg_tt6&cstp=mx500x500&ctp=s500x500&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHPx3d4L8nuQ5fJ0CqagCF2fpwgMGL3KaR-nCAwYvcppP7DiXfVnSxYQUUh8izyGoat-N65-2pwOIEdQAg3lMy7&_nc_ohc=tkUxe1IWWKwQ7kNvwGH2GX9&_nc_oc=AdppL-AsLF_5Mcppmr-u3OnsYLe1h_G4B4_tTtDzRW083ii_Glc5KLS4OsWI2oLJ7EUOKRurm38Y6SAqA-gSQjxP&_nc_zt=23&_nc_ht=scontent.fhan14-2.fna&_nc_gid=zMpFBgcjILwseluza6LoVQ&_nc_ss=7b2a8&oh=00_Af9TOBEV5BW8LAvWOS0jC_1oI5gewJGfxvx7qO_aT9b-hg&oe=6A4161A8",
+            desc: "Câu Lạc Bộ về ngành Du lịch lữ hành và Khách sạn thuộc Đại học FPT Đà Nẵng <br> <b> Hoạt động chính:</b> Trải học hỏi về ngành Du lịch lữ hành và Khách sạn thông qua các ngày hội Clubday. <br> <b> Địa chỉ email:</b> htsclub.fpt@gmail.com      <br> <b>Chủ nhiệm:</b> Vũ Ngọc Minh", 
+            fbLink: "https://www.facebook.com/profile.php?id=100077055935304&locale=vi_VN",
+            eventLink: "https://www.facebook.com/permalink.php?story_fbid=pfbid02Eyh3vHcoyftW2yGfHrE8cCHLgFiekmbrRJLHHe54BA9icWY7Uv2svmYUsSFEVxTkl&id=100077055935304&locale=vi_VN",
+            eventImg: "https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-6/571137524_829976022914255_7588680760201479760_n.jpg?stp=dst-jpg_tt6&cstp=mx1200x1500&ctp=s1200x1500&_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEgKGl9_j5cBaLa8lqC6vg5-EMeHVcZWrz4Qx4dVxlavJrhD6Zq__0JnlDa_5RZmlCa7tucb5KGLt7wEiE8frUi&_nc_ohc=30N4Yl1xLRMQ7kNvwGYh3Xo&_nc_oc=AdqyWNQB2SzUaxZaNPIOFJDJ5BnJtmAKMYth0NV9DsixGrwAFFh5pzgIZsAxV6qMhpNThcSUbKYhiuavuOnROSV4&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=4L8EnByZmLlDBBdd4wtApw&_nc_ss=7b2a8&oh=00_Af-mc2bpM45pO_K7GnjYLSew3taM4rMNFSNa0yJuzZLp2g&oe=6A41885B",
+            eventTitle: "CUỘC THI THIẾT KẾ LOGO KỶ NIỆM 20 NĂM THÀNH LẬP TRƯỜNG ĐẠI HỌC FPT CHÍNH THỨC KHỞI ĐỘNG!",
+            eventDesc: "Suốt gần hai thập kỷ, Trường Đại học FPT bền bỉ theo đuổi triết lý “tổ chức và quản lý việc tự học của người học”, đào tạo toàn diện để sinh viên làm được việc ngay trong môi trường toàn cầu. Trên hành trình ấy, nhà trường kiên định sứ mệnh “cung cấp năng lực cạnh tranh toàn cầu cho đông đảo người học, góp phần mở mang bờ cõi trí tuệ đất nước.",
+            eventStartDate: "2025-10-25",
+            eventEndDate: "2025-11-30",
+departments: [
+                { title: "BAN NHÂN SỰ ", content: "<br><br>- Quản lý hồ sơ thành viên CLB.    <br>- Điều phối và cung cấp nguồn nhân lực hỗ trợ tổ chức sự kiện trong các hoạt động chung của CLB. " },
+                { title: "BAN SỰ KIỆN ", content: "<br><br>- Lên ý tưởng, kế hoạch và tổ chức các sự kiện của CLB." },
+                { title: "BAN TRUYỀN THÔNG ", content: "<br><br>- Quản lý fanpage của CLB.  <br>- Lên ý tưởng cho các hoạt động quảng bá hình ảnh của CLB. " },
+        
+    ]
+	}
+	],
     language: [
         { 
             name: "FUCC - FPTU Chinese Club - CLB Ngôn ngữ Trung Quốc ",
-            image:"https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/616812928_122155899938899208_1727917953708972937_n.jpg?stp=dst-jpg_tt6&cstp=mx960x958&ctp=s960x958&_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=pI4Fniew-ZAQ7kNvwHCoCt7&_nc_oc=Adp4nGxOygXeZpyCIIn0Timw6gZKPrnh67_xvE2c7JF_ihSBAGwy3lfYzE-_ydvPSbTnQCjXmQqLaNX_Eb8WVafL&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=4J47NHkXY_IMhJ0qUInpWQ&_nc_ss=7b2a8&oh=00_Af8HcwMNn4u2-ft1sxNh3LM9qYJqtDIeRzC6_oqBCCsIdg&oe=6A3DE2A4",
+            image: "https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/616812928_122155899938899208_1727917953708972937_n.jpg?stp=dst-jpg_tt6&cstp=mx960x958&ctp=s960x958&_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=pI4Fniew-ZAQ7kNvwHCoCt7&_nc_oc=Adp4nGxOygXeZpyCIIn0Timw6gZKPrnh67_xvE2c7JF_ihSBAGwy3lfYzE-_ydvPSbTnQCjXmQqLaNX_Eb8WVafL&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=4J47NHkXY_IMhJ0qUInpWQ&_nc_ss=7b2a8&oh=00_Af8HcwMNn4u2-ft1sxNh3LM9qYJqtDIeRzC6_oqBCCsIdg&oe=6A3DE2A4",
             desc: " Câu Lạc Bộ Ngôn ngữ Trung Quốc FPT đà nẵng .<br> <b> Hoạt động chính:</b>Tập trung vào việc đào tạo tiếng Trung cơ bản, tìm hiểu văn hóa Trung Quốc thông qua các buổi sinh hoạt<br>Nếu bạn lỡ say đắm những giai điệu nhạc Hoa sâu lắng, những bộ phim cổ trang hoành tráng, nét ẩm thực phong phú của đất nước tỷ dân, hay đơn giản là muốn làm chủ một ngôn ngữ toàn cầu để mở rộng cánh cửa sự nghiệp tương lai, thì đây chính là tọa độ hoàn hảo dành cho bạn tại FPTU! CLB được thành lập với mục tiêu xây dựng một không gian giao lưu văn hóa và ngôn ngữ Trung Quốc năng động, nơi các bạn sinh viên có thể thỏa sức học hỏi, thực hành giao tiếp thực tế và phá bỏ mọi rào cản ngôn ngữ. <br>Tại đây, dù bạn mới chập chững bắt đầu học những thanh điệu đầu tiên hay đã là một 'master' sở hữu HSK xịn sò, chỉ cần bạn mang theo ngọn lửa đam mê. Vượt ra khỏi những buổi chia sẻ bí kíp học tập hiệu quả, chúng tôi cùng nhau trải nghiệm những hoạt động văn hóa thú vị như viết thư pháp, làm trà sữa, tổ chức các buổi talkshow giao lưu cùng người bản xứ và các trò chơi đồng đội kịch tính. CLB không chỉ là một môi trường học thuật, mà còn là một gia đình gắn kết — ngôi nhà thứ hai đầy ắp tình cảm, nơi bạn tìm thấy những người bạn tri kỷ để cùng đồng hành và tạo nên một thời sinh viên rực rỡ nhất dưới mái trường FPTU.<br> <b> Địa chỉ email:</b>fudachineseclub.fpt@gmail.com<br> <b>Chủ nhiệm:</b>Chưa cập nhật",
             fbLink: "https://www.facebook.com/FUDA.CHINESE.CLUB",
             eventLink: "https://www.facebook.com/share/p/17s6wfDvcU/",
             eventImg: "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/724553874_122174638442899208_3848622588300494949_n.jpg?stp=dst-jpg_tt6&cstp=mx1024x1536&ctp=s1024x1536&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=ALb6GZPd5BAQ7kNvwEL9uxe&_nc_oc=Adqcb3JcOYQgfyDklbCu8ElNCso-mFHhlpWB1MiqTAnCRis-6a5r28c_PDgqoNvFVvXOo3kMEsT04UJpLaPTSAmW&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=7qOkzQNS6o02s3WeNwKTTg&_nc_ss=7b2a8&oh=00_Af_3d7EBjZPEt651YQYEBqJmTe_soULpOJE0uvS4Cbd7tA&oe=6A3DD36C",
             eventTitle: "𝐖𝐎𝐑𝐊𝐒𝐇𝐎𝐏 - AI không thay thế được người đặt câu hỏi",
-            eventDesc: "Các bạn sinh viên Đại học FPT Đà Nẵng ơi! ✨<br>Bạn có bao giờ tự hỏi: Giữa thời đại mà AI cái gì cũng biết, cái gì cũng trả lời được, thì giá trị của con người chúng ta nằm ở đâu không? 🤔 Câu trả lời nằm chính ở NĂNG LỰC ĐẶT CÂU HỎI! AI có thể trả lời rất giỏi, nhưng AI có biết đặt câu hỏi để tìm ra bản chất của vấn đề?<br>Để giúp các bạn làm chủ công nghệ thay vì bị phụ thuộc, đồng thời trang bị 'vũ khí tối tân' cho việc học tập theo dự án (RBL) và nghiên cứu khoa học, Bộ môn Ngôn ngữ tổ chức buổi workshop đặc biệt mang tên: “AI KHÔNG THAY THẾ ĐƯỢC NGƯỜI ĐẶT CÂU HỎI”.<br>🔥 BẠN SẼ NHẬN ĐƯỢC GÌ KHI THAM GIA?<br>• Thấu hiểu tư duy: Nhận thức rõ vai trò của AI như một trợ lý hỗ trợ, không thể thay thế tư duy độc lập của bạn. <br>• Bí kíp 'bắt bệnh' vấn đề: Học cách phân biệt Chủ đề, Vấn đề và Câu hỏi nghiên cứu. • Làm chủ Kỹ thuật 5 Whys: Phương pháp 'thần thánh' giúp bạn đào sâu vào mọi hiện tượng thực tiễn để tìm ra nguyên nhân gốc rễ. <br>• Thực hành thực tế: Tham gia các hoạt động nhóm cực cuốn, biến nguyên nhân gốc rễ thành câu hỏi nghiên cứu 'chất lừ' dưới sự dẫn dẫn của các diễn giả, giảng viên giàu kinh nghiệm. <br>• Giao lưu & Nhận quà: Gỡ rối mọi thắc mắc về AI, NCKH và rinh về những phần quà hấp dẫn cho cá nhân tích cực! "
+            eventDesc: "Các bạn sinh viên Đại học FPT Đà Nẵng ơi! ✨<br>Bạn có bao giờ tự hỏi: Giữa thời đại mà AI cái gì cũng biết, cái gì cũng trả lời được, thì giá trị của con người chúng ta nằm ở đâu không? 🤔 Câu trả lời nằm chính ở NĂNG LỰC ĐẶT CÂU HỎI! AI có thể trả lời rất giỏi, nhưng AI có biết đặt câu hỏi để tìm ra bản chất của vấn đề?<br>Để giúp các bạn làm chủ công nghệ thay vì bị phụ thuộc, đồng thời trang bị 'vũ khí tối tân' cho việc học tập theo dự án (RBL) và nghiên cứu khoa học, Bộ môn Ngôn ngữ tổ chức buổi workshop đặc biệt mang tên: “AI KHÔNG THAY THẾ ĐƯỢNG NGƯỜI ĐẶT CÂU HỎI”.<br>🔥 BẠN SẼ NHẬN ĐƯỢC GÌ KHI THAM GIA?<br>• Thấu hiểu tư duy: Nhận thức rõ vai trò của AI như một trợ lý hỗ trợ, không thể thay thế tư duy độc lập của bạn. <br>• Bí kíp 'bắt bệnh' vấn đề: Học cách phân biệt Chủ đề, Vấn đề và Câu hỏi nghiên cứu. • Làm chủ Kỹ thuật 5 Whys: Phương pháp 'thần thánh' giúp bạn đào sâu vào mọi hiện tượng thực tiễn để tìm ra nguyên nhân gốc rễ. <br>• Thực hành thực tế: Tham gia các hoạt động nhóm cực cuốn, biến nguyên nhân gốc rễ thành câu hỏi nghiên cứu 'chất lừ' dưới sự dẫn dẫn của các diễn giả, giảng viên giàu kinh nghiệm. <br>• Giao lưu & Nhận quà: Gỡ rối mọi thắc mắc về AI, NCKH và rinh về những phần quà hấp dẫn cho cá nhân tích cực! ",
+            eventStartDate: "2026-06-22",
+            eventEndDate: "2026-06-22"
         },
         { 
             name: "Mirai JC - Japanese Club ",
-            image:"https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/393641596_612505567736693_5730822656804739910_n.jpg?stp=dst-jpg_tt6&cstp=mx1772x1772&ctp=s1772x1772&_nc_cat=111&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Pz6QpU61yGcQ7kNvwHwOmmT&_nc_oc=Adrg9Oai4lcXfffwYrlhX5Gk831qkacg_KgtPU14dkB3Bj5sQT0pvqIk8UV_nfyql02v_L4-3RWRlWcHE6EZkDTd&_nc_zt=23&_nc_ht=scontent.fsgn2-6.fna&_nc_gid=al0ceULpAUqg3FKFO6xBhA&_nc_ss=7b2a8&oh=00_Af9_vzGKuvglShCRPrVkrs4Sh0YDHWHG9VsDJoAecAn4Ug&oe=6A3DEA23",
+            image: "https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/393641596_612505567736693_5730822656804739910_n.jpg?stp=dst-jpg_tt6&cstp=mx1772x1772&ctp=s1772x1772&_nc_cat=111&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Pz6QpU61yGcQ7kNvwHwOmmT&_nc_oc=Adrg9Oai4lcXfffwYrlhX5Gk831qkacg_KgtPU14dkB3Bj5sQT0pvqIk8UV_nfyql02v_L4-3RWRlWcHE6EZkDTd&_nc_zt=23&_nc_ht=scontent.fsgn2-6.fna&_nc_gid=al0ceULpAUqg3FKFO6xBhA&_nc_ss=7b2a8&oh=00_Af9_vzGKuvglShCRPrVkrs4Sh0YDHWHG9VsDJoAecAn4Ug&oe=6A3DEA23",
             desc: " Câu Lạc Bộ về Văn hóa & Học thuật của Nhật Bản đại học FPT đà nẵng .<br> <b> Hoạt động chính:</b>Hoạt động học thuật về tiếng Nhật và tổ chức các sự kiện trải nghiệm văn hóa Nhật Bản<br>Nếu bạn lỡ đem lòng yêu mến những thước phim Anime sống động, thế giới Manga muôn màu, giai điệu J-Pop cuốn hút, hay đơn giản là muốn chinh phục tiếng Nhật để mở ra những cơ hội sự nghiệp không giới hạn tại các tập đoàn toàn cầu, thì đây chính là 'tọa độ' hoàn hảo dành cho bạn tại FPTU! CLB được thành lập với sứ mệnh xây dựng một không gian giao lưu văn hóa và học thuật Nhật Bản độc đáo, nơi các bạn sinh viên thỏa sức khám phá xứ sở hoa anh đào theo cách trẻ trung và thực tế nhất.<br>Tại đây, xuất phát điểm của bạn là một trang giấy trắng hay đã là một 'wibu chính hiệu', một 'master' sở hữu JLPT xịn sò không quan trọng — điều duy nhất bạn cần mang theo là ngọn lửa đam mê. Vượt ra khỏi những buổi chia sẻ bí kíp học tiếng Nhật siêu tốc, chúng tôi cùng nhau bước vào những lễ hội văn hóa thu nhỏ, trải nghiệm nghệ thuật trà đạo, gấp giấy Origami, giao lưu văn hóa đại chúng (Cosplay/Anime) hay những buổi Talkshow trò chuyện trực tiếp cùng người bản xứ. CLB không chỉ là một môi trường học thuật chất lượng, mà còn là một gia đình gắn kết — ngôi nhà thứ hai đầy ắp tình cảm, nơi bạn tìm thấy những người đồng đội chung chí hướng để cùng đồng hành và vẽ nên một thời sinh viên rực rỡ nhất dưới mái trường FPTU. <br> <b> Địa chỉ email:</b>miraiclub.fpt@gmail.com<br> <b>Chủ nhiệm:</b>Chưa cập nhật",
             fbLink: "https://www.facebook.com/MiraiJClub",
-            eventLink: "https://www.facebook.com/share/p/1EBJwTsWSB/",
-            eventImg: "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/710746373_1269994321987811_2375506342412331731_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=Ogd-1E-VUxcQ7kNvwGQ9JsC&_nc_oc=AdpQ_NsxI1a5LBQSqvvMGYpSyA4lVoj2HTt6DEJK9Ye-1B4WFBV5U8MWXow8lMuIy0ER2H2aby3uVhaRlKkWCQ7u&_nc_zt=23&_nc_ht=scontent.fsgn2-3.fna&_nc_gid=sE3D-l5l5RxsRDlAp5Iilg&_nc_ss=7b2a8&oh=00_Af_YmLliFDxOmaCA0YoZDQ8doAiHETg5hDMe59ySDzMmfA&oe=6A3DD5F6",
-            eventTitle: "HANABI MATSURI 2026 RECAP  ",
-            eventDesc: `Vậy là sự kiện HANABI MATSURI đã khép lại rồi. Chúng mình rất vui khi lễ hội năm nay đã kết thúc một cách rất thành công! Và tất nhiên rồi, đó là nhờ sự tham gia và hưởng ứng của tất cả mọi người đó! <br>Còn các bạn thì sao nè? Qua sự kiện, các bạn có thu được nhiều kỷ niệm đẹp không? Có những khoảnh khắc đặc biệt và vui vẻ nào mà bạn sẽ nhớ mãi không? Hãy chia sẻ với Mirai nha! <br>Mirai vô cùng cảm kích trước sự quan tâm và ủng hộ của tất cả mọi người ở sự kiện lần này, sự tham gia nhiệt tình và niềm vui của tất cả mọi người ở lễ hội chính là động lực vô cùng to lớn đối với Mirai chúng mình. Dù có nhiều điều chưa thực sự tốt, nhưng chính tình cảm của mọi người dành cho chúng mình sẽ tiếp tục là động lực lớn nhất để Mirai tiếp tục cải thiện hơn nữa! Cuối cùng, chúng ta hãy cùng nhìn lại những khoảnh khắc đáng nhớ được ghi lại bởi chính chúng mình nhé! Hẹn gặp lại các bạn ở những sự kiện tiếp theo!!!! `,
+            eventLink: "https://www.facebook.com/share/p/1EdfwM6x3K/",
+            eventImg: "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/672698437_1233731492280761_2947034483914415604_n.jpg?stp=dst-jpg_tt6&cstp=mx1414x2000&ctp=s720x720&_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=OAPEOJ3uamQQ7kNvwGjngNA&_nc_oc=Adr2Gsz9SD_WRLyUZjP53Z6nQ0FZT99Jk9ouii1R9XyO5D8I57amFCuXLUaDPatf8XfcRGULTqJgAnY6mtuDk832&_nc_zt=23&_nc_ht=scontent.fhan14-4.fna&_nc_gid=M6py3KdnAZcm7XuMu1LWxA&_nc_ss=7b2a8&oh=00_Af8EGjbJBSrDkjGOQ2ILJ7Qz46Yasbv0Qsmov5tVsd6qrw&oe=6A44A80F",
+            eventTitle: "HANABI MATSURI 2026, BẠN ĐÃ SẴN SÀNG TRỞ THÀNH ÁNH HÀO QUANG RỰC RỠ?  ",
+            eventDesc: `Thơ thẩn bên trong căn phòng giữa đêm hè yên ắng, Mirai đã cảm nhận được một luồng sáng đến từ những vì sao trên bầu trời rộng lớn. Thật tuyệt đẹp, thật huyền diệu và cũng thật ấm áp làm sao!🌸Nhưng, cảm giác ấy lại không hề xa lạ chút nào. Đúng vậy, chẳng phải đã rõ ràng lắm rồi sao? Chính là ánh hào quang của mọi người, các bạn Cosplayer sắp tới tại HANABI MATSURI 2026.  `,
+            eventStartDate: "2026-04-13",
+            eventEndDate: "2026-04-13",
             departments: [
-                { title: "Nhân sự ", content: "Quản lý thành viên và điều phối nhân lực." },
-                { title: "Content ", content: "Sáng tạo nội dung truyền thông cho fanpage." },
-                { title: "Media ", content: "Quay phim, chụp ảnh tư liệu cho câu lạc bộ." },
-                { title: "Design ", content: "Thiết kế ấn phẩm hình ảnh sự kiện." },
-                { title: "Tài chính", content: "Quản lý thu chi các hoạt động của câu lạc bộ." }
+                { title: "Nhân sự: ", content: "Quản lý thành viên và điều phối nhân lực." },
+                { title: "Content: ", content: "Sáng tạo nội dung truyền thông cho fanpage." },
+                { title: "Media: ", content: "Quay phim, chụp ảnh tư liệu cho câu lạc bộ." },
+                { title: "Design: ", content: "Thiết kế ấn phẩm hình ảnh sự kiện." },
+                { title: "Tài chính:", content: "Quản lý thu chi các hoạt động của câu lạc bộ." }
             ]
         },
         { 
             name: "FKC - FPTU Korean Club - CLB Ngôn ngữ Hàn Quốc ",
-            image:"https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/481778004_122100033386783606_4515653091167824845_n.jpg?stp=dst-jpg_tt6&cstp=mx2000x2000&ctp=s2000x2000&_nc_cat=111&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_nv8MOlfid4Q7kNvwGXgcIt&_nc_oc=AdrySalzdxMuOprNZaV7A2mOYSIDyWnfbj0siT8o4DdnktDLMuW0KJvIlXTpYlzHCkWVokXYfu8VXcWUe-09-iav&_nc_zt=23&_nc_ht=scontent.fsgn2-6.fna&_nc_gid=OReWBr-Gx_U_75ZehXxGaQ&_nc_ss=7b2a8&oh=00_Af_VWAYH_6r2AIjfJRPcS_nAqd-k_wdBZxljDhe8mypkfw&oe=6A3DE9CF",
-            desc: " Câu Lạc Bộ Ngôn ngữ Hàn Quốc FPT đà nẵng .<br> <b> Hoạt động chính:</b>Tổ chức các buổi học tiếng Hàn, giao lưu văn hóa Hàn Quốc và các hoạt động liên quan đến xứ sở Kim Chi<br>Nếu bạn là một 'tín đồ' lỡ va phải giai điệu bùng nổ của K-Pop, những thước phim K-Drama đầy cảm xúc, hay đơn giản là muốn làm chủ một ngôn ngữ mới để mở ra ngàn cơ hội tương lai, thì FKC chính là trạm dừng chân hoàn hảo dành cho bạn tại FPTU! CLB được thành lập với sứ mệnh tạo ra một không gian giao lưu văn hóa và ngôn ngữ Hàn Quốc giao thoa độc đáo, nơi các bạn sinh viên có thể thỏa sức học hỏi, thực hành giao tiếp và khám phá xứ sở Kim Chi theo cách Gen Z nhất.<br>Tại FKC, xuất phát điểm của bạn là gì không quan trọng — dù bạn là người mới bắt đầu học bảng chữ cái Hangul hay đã là một 'master' ngôn ngữ, chỉ cần bạn mang theo niềm đam mê. Vượt ra khỏi những buổi chia sẻ kiến thức hữu ích, chúng tôi cùng nhau tổ chức những ngày hội văn hóa, thử tài ẩm thực, hay những buổi 'đu trend' vũ đạo cực cháy. FKC không chỉ là một câu lạc bộ học thuật, mà còn là một gia đình lớn ấm áp — ngôi nhà thứ hai nơi kết nối những tâm hồn đồng điệu, giúp bạn tìm thấy những người bạn tri kỷ để cùng viết nên câu chuyện thanh xuân rực rỡ nhất dưới mái trường FPTU.<br> <b> Địa chỉ email:</b>fudakoreanclub@gmail.com<br> <b>Chủ nhiệm:</b>Chưa cập nhật",
-            fbLink: "https://www.facebook.com/profile.php?id=61573508194610",
-            eventLink: "https://www.facebook.com/permalink.php?story_fbid=pfbid0WNp1fDpa6dng13aruGk4mE7iA7DzdUCnHSyCpEyjBtLATSqv5597eXMwQpem2q5Dl&id=61573508194610",
-            eventImg: "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/619297868_122161072970783606_3265300584895604534_n.jpg?stp=dst-jpg_tt6&cstp=mx1290x1026&ctp=s1290x1026&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=n7n3RnPKgp4Q7kNvwFdBgBR&_nc_oc=AdrrV6MJVNuXVWeWsqFus7v3rCnKok71fwfNShU6bDqmEPx2K2FBE2uVxdCoi2lPIFEa0PH-An0rqb5icCwi_IkO&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=3KOMSWaZz9Tkz-sYtp04cA&_nc_ss=7b2a8&oh=00_Af_rGhoSzDQZUwSnOy2rr9a723e9VN-AjwvpRmm4Qr8upQ&oe=6A3DDD02",
-            eventTitle: "RECAP OPEN DAY – NGÀNH NGÔN NGỮ HÀN QUỐC   ",
-            eventDesc: "Open Day ngành Ngôn ngữ Hàn đã diễn ra trong không khí vui vẻ và đầy năng lượng. Một trong những hoạt động được các bạn hưởng ứng nhất chính là trò chơi Gonggi – trò chơi dân gian quen thuộc của Hàn Quốc. Từ hồi hộp, tập trung cho đến những tràng cười sảng khoái, Gonggi thực sự đã giúp mọi người cảm nhận rõ hơn nét văn hoá Hàn theo cách rất gần gũi.Bên cạnh đó, lớp học bảng chữ cái Hàn Quốc (Hangeul) cũng mang đến trải nghiệm thú vị khi các bạn được làm quen với cách viết và cách đọc những chữ cái đầu tiên. Dù chỉ là những bước khởi đầu nhỏ, nhưng lại mở ra sự hứng thú lớn với tiếng Hàn và ngành học nàyCảm ơn tất cả các bạn đã tham gia và góp phần tạo nên một Open Day thật đáng nhớ.Hy vọng sẽ sớm gặp lại mọi người ở những hoạt động tiếp theo! ",
+            image: "https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/481778004_122100033386783606_4515653091167824845_n.jpg?stp=dst-jpg_tt6&cstp=mx2000x2000&ctp=s2000x2000&_nc_cat=111&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_nv8MOlfid4Q7kNvwGXgcIt&_nc_oc=AdrySalzdxMuOprNZaV7A2mOYSIDyWnfbj0siT8o4DdnktDLMuW0KJvIlXTpYlzHCkWVokXYfu8VXcWUe-09-iav&_nc_zt=23&_nc_ht=scontent.fsgn2-6.fna&_nc_gid=OReWBr-Gx_U_75ZehXxGaQ&_nc_ss=7b2a8&oh=00_Af_VWAYH_6r2AIjfJRPcS_nAqd-k_wdBZxljDhe8mypkfw&oe=6A3DE9CF",
+            desc: " Câu Lạc Bộ Ngôn ngữ Hàn Quốc FPT đà nẵng .<br> <b> Hoạt động chính:</b>Tổ chức các buổi học tiếng Hàn, giao lưu văn hóa Hàn Quốc và các hoạt động liên quan đến xứ sở Kim Chi<br>Nếu bạn là một 'tín đồ' lỡ va phải giai điệu bùng nổ của K-Pop, những thước phim K-Drama đầy cảm xúc, hay đơn giản là muốn làm chủ một ngôn ngữ mới để mở ra ngàn cơ hội tương lai, thì FKC chính là trạm dừng chân hoàn hảo dành cho bạn tại FPTU! CLB được thành lập với sứ mệnh tạo ra một không gian giao lưu văn hóa và ngôn ngữ Hàn Quốc giao thoa độc đáo, nơi các bạn sinh viên có thể thỏa sức học hỏi, thực hành giao tiếp và khám phá xứ sở Kim Chi theo cách Gen Z nhất.<br>Tại FKC, xuất phát điểm của bạn là gì không quan trọng — dù bạn là người mới bắt đầu học bảng chữ cái Hangul hay đã là một 'master' ngôn"
         }
     ]
 };
-
 const featuredClubsData = [
-    { 
-        name: "F2K-CLB THIỆN NGUYỆN ", 
-        image: "https://lh3.googleusercontent.com/a-/ALV-UjXUQDvDUxFShoWWbHougyHjr0tFz3E38fX8e0bnTUpya-P0mXW=s48-p",
-        desc: "Gây quỹ, làm tình nguyện đến thăm cái nơi nuôi dưỡng hoặc hoàn cảnh khó khăn trong địa bàn thành phố Đà Nẵng. ",
-        fbLink: "https://www.facebook.com/share/1cKhVuUMTH/?mibextid=wwXIfr",
-        eventLink: "https://www.facebook.com/share/p/1BQ9xuP2cF/",
-        eventImg: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=500",
-        eventTitle: "Giọt Máu Hồng 2026 ",
-        eventDesc: "Mỗi đơn vị máu được trao đi không chỉ là sự sẻ chia, mà còn là niềm hy vọng được tiếp nối cho những người đang cần giúp đỡ. Những giọt máu hôm nay có thể trở thành món quà vô giá, mang đến cơ hội sống cho ai đó vào ngày mai. ",
-        departments: [
-            { title: "Ban Tình Nguyện Viên", content: "Lực lượng nòng cốt tham gia hỗ trợ điều phối trực tiếp, chăm sóc các hoàn cảnh khó khăn tại địa điểm thiện nguyện." },
-            { title: "Ban Hậu Cần & Gây Quỹ", content: "Quản lý ngân quỹ, lên kế hoạch sản xuất đồ handmade hoặc tổ chức bán hàng gây quỹ cho các chiến dịch xã hội." }
-        ]
-    },
-    { name: "FPT Guitar Club", image: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1", desc: "Nơi hòa nhịp những cung đàn mộc mạc, tổ chức các đêm nhạc Acoustic lãng mạn dưới mái trường FPT.", fbLink: "https://www.facebook.com" },
-    { name: "CLB Khởi nghiệp Biz", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f", desc: "Bệ phóng tư duy kinh doanh, khởi nghiệp tài chính dành cho các chủ doanh nghiệp tương lai.", fbLink: "https://www.facebook.com" },
-    { name: "Cờ Vua FPT", image: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b", desc: "Nơi đấu trí cân não, rèn luyện tư duy chiến thuật và giao lưu giữa các kỳ thủ FPT.", fbLink: "https://www.facebook.com" },
+  {
+    name: "EVO-CLB SỰ KIỆN ",
+    image: "https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-6/701509735_1032056015814667_2826165757861870020_n.jpg?stp=dst-jpg_tt6&cstp=mx1920x1920&ctp=s1920x1920&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=dnWIlro2eowQ7kNvwGfvhUz&_nc_oc=AdrbTyThc0IRCalmKG4xO-dCcrJNwm5eajKiI5bppJiTdg63PncIP0HapYoPHnwcPTfzbZoluh_3g91o7XEFtd2W&_nc_zt=23&_nc_ht=scontent.fdad3-6.fna&_nc_gid=R-nshs16Ze7KbIE6qWxDNA&_nc_ss=7b2a8&oh=00_Af_9nXqFERowkGt-jw8HzxFtxCbqz893UX8-RzIPlOAemg&oe=6A3DCD23",
+    desc: " Câu Lạc Bộ sự kiện đại học FPT đà nẵng .<br> <b> Hoạt động chính:</b>Hoạt động chính là phối hợp tổ chức, lên kế hoạch và vận hành các chương trình, sự kiện lớn nhỏ tại FPTU Đà Nẵng<br>Phía sau ánh đèn sân khấu lung linh, những đêm nhạc bùng nổ và những chương trình để lại dấu ấn sâu sắc tại FPTU chính là thế giới của EVo — nơi những ý tưởng điên rồ nhất biến thành hiện thực! CLB được thành lập với mục tiêu tạo ra một 'bệ phóng' thực tế cho tất cả những bạn trẻ đam mê sáng tạo, muốn thử sức mình ở các vai trò từ lên ý tưởng (Concept), viết kịch bản, điều phối âm thanh ánh sáng cho đến truyền thông sự kiện.<br>Tại EVo, chúng tôi không tìm kiếm những chuyên gia có sẵn kinh nghiệm, chúng tôi tìm kiếm những trái tim đầy nhiệt huyết và không ngại lăn xả. Vượt qua những đêm thức trắng chạy deadline, những khoảnh khắc hồi hộp sau cánh gà, chúng tôi cùng nhau lớn lên, học cách chịu áp lực và xử lý khủng học. EVo không chỉ là nơi tổ chức sự kiện, mà còn là một gia đình gắn kết — ngôi nhà thứ hai đầy ắp tiếng cười, nơi bạn tìm thấy những người đồng đội 'vào sinh ra tử' và cùng tạo nên một thời sinh viên rực rỡ nhất tại FPTU.<br> <b> Địa chỉ email:</b>evo.fptudn@gmail.com<br> <b>Chủ nhiệm:</b>Chưa cập nhật",
+    fbLink: "https://www.facebook.com/EVoEventClub",
+    eventLink: "https://www.facebook.com/share/p/1FoaFtEwxi/",
+    eventImg: "https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/711601685_1048614297492172_5957303789588529011_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=U8Md5eFVKk0Q7kNvwFThWIl&_nc_oc=AdqeeJSBQJpkGv8yK4aOnj7Yh-hQ1JBCadNc6ixav4HwMEQtg8syNGuXaOCb9OJ4M7nN9SfZiJD0nqlUBPnmkiGS&_nc_zt=23&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=5q1tB2gCDn2yOan0cmbbUg&_nc_ss=7b2a8&oh=00_Af9yvOV_Wpy-3Zk9zYG09lS4WfouqGaPFFw2aAArrN9VRw&oe=6A3DD3C9",
+    eventTitle: "NHÌN LẠI HÀNH TRÌNH 'NHỮNG NGÀY BÉ LẠI' CÙNG EVo! ",
+    eventDesc: "Một ngày Quốc tế Thiếu nhi thật đáng nhớ đã khép lại cùng với tiếng cười, niềm vui và những khoảnh khắc ngập tràn sắc màu. <br>Từ những trò chơi quen thuộc, những phần quà nhỏ xinh cho đến những phút giây vui đùa bên nhau, tất cả đã góp phần làm nên một ngày thật trọn vẹn. Và có lẽ, giá trị đẹp nhất không nằm ở món quà nhận được, mà ở cảm giác được trở về với những ký ức hồn nhiên và vô tư của tuổi thơ .<br>EVo cảm ơn bạn đã đồng hành và góp mặt trong hành trình thú vị này. Giờ thì hãy cùng chúng mình nhìn lại những khoảnh khắc đặc biệt nhất nhé! . ",
+    eventStartDate: "2026-06-04",
+    eventEndDate: "2026-06-04",
+    departments: [
+      { title: "Ban Truyền Thông:", content: " Phụ trách truyền thông và quảng bá sự kiện." },
+      { title: "Nội dung:", content: "Lên kịch bản và ý tưởng chương trình." },
+      { title: "Kỹ thuật:", content: "Hỗ trợ âm thanh, ánh sáng và kỹ thuật sân khấu." },
+      { title: "Hậu cần:", content: "Chuẩn bị đạo cụ, quản lý cơ sở vật chất sự kiện." }
+    ] 
+  },
+  {
+    name: "Noise Makers ",
+    image: "https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/464785331_122102239022585157_8803925681376272810_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_c0pPP3vvGAQ7kNvwEEsjRg&_nc_oc=Adq4kyLTThyZXMEiK2wCX9xi8SpV_HFzHsI07CpXjyWnJG-Pf6f4y7u5cQTenTOcB01IWFQC5V-BnDqTfpGxPa_2&_nc_zt=23&_nc_ht=scontent.fsgn2-4.fna&_nc_gid=VrIIuJGCSYR9aZ-1wxvX0A&_nc_ss=7b2a8&oh=00_Af-HQJ4t21h4v7vzJg8tn7Eq7P5y0K5PG3ToSxVF6wL9Eg&oe=6A3DBCEF",
+    desc: " Câu Lạc Bộ Nhảy đại học FPT đà nẵng .<br> <b> Hoạt động chính:</b>Hoạt động chính là tập luyện các vũ đạo (nhảy hiện đại, hiphop...) và biểu diễn tại các sự kiện<br>Nếu bạn sở hữu một trái tim luôn đập theo từng bản phối nhạc sôi động, một đôi chân luôn muốn nhún nhảy theo từng giai điệu, hay đơn giản là muốn bước ra khỏi vùng an toàn để tự tin tỏa sáng dưới ánh đèn sân khấu, thì Noise Makers chính là 'vũ trụ' dành riêng cho bạn tại FPTU! CLB được thành lập with mục tiêu tạo ra một không gian nghệ thuật bứt phá, nơi các bạn sinh viên có thể thỏa sức giải phóng năng lượng, sống trọn with đam mê vũ đạo từ Hip-hop, Choreo, K-Pop Dance Cover cho đến những bước nhảy hiện đại đầy cuốn hút.<br>Tại Noise Makers, chúng tôi không tìm kiếm những vũ công chuyên nghiệp, chúng tôi tìm kiếm những tâm hồn sẵn sàng 'cháy' hết mình trên sàn tập. Dù bạn là người chưa từng biết đếm nhịp hay đã là một 'cỗ máy nhảy' thực thụ, bạn luôn có vị trí riêng để tỏa sáng trong gia đình này. Vượt qua những giờ mồ hôi rơi trên sàn tập, những đêm tổng duyệt căng thẳng trước giờ lên sân khấu, chúng tôi cùng nhau lớn lên, cùng vượt qua giới hạn của bản thân. Noise Makers không chỉ là nơi luyện tập vũ đạo, mà còn là một gia đình gắn kết — ngôi nhà thứ hai đầy ắp tiếng cười, nơi bạn tìm thấy những người đồng đội chung tần số để cùng bùng nổ và tạo nên một thời sinh viên rực rỡ nhất tại FPTU.<br> <b> Địa chỉ email:</b>noisemakers1110@gmail.com<br> <b>Chủ nhiệm:</b>Chưa cập nhật",
+    fbLink: "https://www.facebook.com/profile.php?id=61567554722572",
+    eventLink: "https://www.facebook.com/share/p/197mrnsgq2/",
+    eventImg: "https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-6/689458842_122189006690585157_7734116050494083968_n.jpg?stp=dst-jpg_tt6&cstp=mx960x1200&ctp=s960x1200&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=uz_NotgJBDIQ7kNvwHcTx4e&_nc_oc=AdrEJgpq1RhZCDKqfiU6v3h4LeOpMtopt6bicVlVvNgkj9XyCHXTkex-JsJQIGdhqKSLsoG9bmX6JVOHzxBpGX3y&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=EX_dGyKvJMLWxrvUO7bK2w&_nc_ss=7b2a8&oh=00_Af-9ofpcAvu_svLHnPq6utLuNlda1yY3IyMPyDHDPMuXHQ&oe=6A4478FA",
+    eventTitle: "BACK TO SCHOOL SUMMER 2026 - CÙNG KHUẤY ĐỘNG SÂN KHẤU MÙA HÈ ",
+    eventDesc: "Mùa hè không chỉ là những ngày ngập tràn nắng vàng, mà còn là một thời điểm thích hợp để bắt đầu một hành trình mới. Một kỳ học mới đầy mới mẻ đang bắt đầu — mang theo những mục tiêu mới, những thử thách mới và thật nhiều cơ hội để bứt phá.",
+    eventStartDate: "2026-05-12",
+    eventEndDate: "2026-05-12",
+    departments: [
+	{
+    title: "Ban Truyền Thông",
+    content: "Bao gồm Content, Photo, Design: Lên ý tưởng, xây dựng và triển khai các sản phẩm truyền thông. Quản lý Fanpage, TikTok, YouTube và các nền tảng mạng xã hội của CLB; thiết kế, chụp ảnh, quay video và sáng tạo nội dung nhằm quảng bá hình ảnh CLB."
+},
+{
+    title: "Ban Chuyên Môn",
+    content: "Luyện tập nhảy theo lịch định kỳ của CLB, tham gia biểu diễn tại các sự kiện trong và ngoài trường. Cùng xây dựng đội hình, biên đạo các tiết mục mới, không ngừng học hỏi và phát triển kỹ năng biểu diễn."
+},
+{
+    title: "Ban Sự Kiện",
+    content: "Lên kế hoạch và tổ chức các sự kiện của CLB. Chuẩn bị hậu cần, hỗ trợ các buổi biểu diễn, phối hợp cùng các ban để đảm bảo chương trình diễn ra chuyên nghiệp, chỉn chu và thành công."
+}
+] 
+  },
+  { 
+            name: "RHYTHM - Xưởng Làm Nhạc - CLB Sản Xuất Âm Nhạc", 
+            image: "https://scontent.fhan14-3.fna.fbcdn.net/v/t39.30808-6/417121647_122112553088159682_2891120152625101649_n.jpg?stp=dst-jpg_tt6&cstp=mx2000x2000&ctp=s2000x2000&_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFyMsJyueWzu5ie87-IRdsDuyc1qP_3Ome7JzWo__c6ZwHwQ5kA5GSBg7z4yF73gIp_61sMGsdCnzYQnWESzUG0&_nc_ohc=cUBsJ-8Ar80Q7kNvwHzjIGs&_nc_oc=AdoSF3iANhN6c4gf_JGLQ3KWRlnB2q6U9dpDO_xuwX87Qe0Zz9pNt4wngLM8QGQ7FUnVAIzsD5ZAEZIEHzJ-UMt1&_nc_zt=23&_nc_ht=scontent.fhan14-3.fna&_nc_gid=Zbb6PCjhaooC0syUYnCs_w&_nc_ss=7b2a8&oh=00_Af-K3vcGsMc0nAjN6kacE1OTqFEPgkbGBxQa0PwfZfhscA&oe=6A416E87",
+            desc: "Câu Lạc Bộ sản xuất âm nhạc thuộc Đại Học FPT Đà Nẵng.  <br> <b> Hoạt động chính:</b> Sản xuất âm nhạc, thu âm, mixing, liveshow, quay chụp. <br> <b> Địa chỉ email:</b> rhythm.xuonglamnhac@gmail.com     <br> <b>Chủ nhiệm:</b>Lê Minh Phúc ", 
+            fbLink: "https://www.facebook.com/xuonglamnhac.fptdn",
+            eventLink: "https://www.facebook.com/FUDADancingClub/posts/pfbid0XHEViD1hEMc6pnEZxCJosEkhhUr3ckS4sPuNWwf5Rb9HCBmAse1Z4qbbNpo2199Cl",
+            eventImg: "https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-6/731131700_122280123848159682_5153980693674189607_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s1080x1350&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEiatlx-o-fOVQFriHW-Mv1RcoGFaLA21pFygYVosDbWpSz7IXql68NdGIFgLVrBN0JnkxiPfzShnXdqywD6HUF&_nc_ohc=p-QxvBZI-s4Q7kNvwG4WDAF&_nc_oc=Adp2r5IPZcs5gFI7sK56f3kGk0v3nHDr-kymG3ohz9pdsNrEXfQqg_mGG6vqIY7AfIjeZ0OQudlmq2ZymkXGWe_O&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=WN3IrT9Ugg8hb3TVal00JQ&_nc_ss=7b2a8&oh=00_Af9hhkjEyC1zhD4JHbu5JNSaSY21OnRHGM1V8xh4HORbwg&oe=6A415198",
+            eventTitle: "MỞ ĐƠN ĐĂNG KÝ CASTING GEN 3 ĐỢT 2 RHYTHM - XƯỞNG LÀM NHẠC",
+            eventDesc: "GEN 3 vẫn chưa dừng lại. RHYTHM chính thức mở đơn casting đợt 2 dành cho những bạn sinh viên yêu âm nhạc, thích sáng tạo và muốn trở thành một phần của Xưởng Làm Nhạc.",
+            eventStartDate: "2026-06-29",
+            eventEndDate: "2026-06-30",
+            departments: [
+                { title: "BAN ĐIỀU HÀNH - CÁC PHÂN XƯỞNG CHỦ LỰC", content: "<u><b>Talent</b></u><br>- Phụ trách làm việc với khách mời, diễn giả hoặc người biểu diễn trước, trong và sau sự kiện. <br>- Sắp xếp lịch trình, hỗ trợ các yêu cầu của talent và xử lý các tình huống phát sinh. <br><u><b> Producer </b></u><br>- Lập kế hoạch, điều phối và giám sát toàn bộ quá trình tổ chức chương trình. <br>- Phân công công việc, theo dõi tiến độ và đảm bảo sự kiện diễn ra đúng kịch bản.<br><u><b>Media</u></b><br>- Chịu trách nhiệm chụp ảnh, quay video và ghi lại toàn bộ diễn biến của sự kiện. <br>- Thiết kế, chỉnh sửa và đăng tải các nội dung truyền thông trước, trong và sau chương trình. <br><u><b> Event</b></u><br>- Chuẩn bị địa điểm, trang thiết bị, vật dụng và các công tác hậu cần cho sự kiện. <br> Đón tiếp khách mời, hướng dẫn người tham gia và phối hợp vận hành chương trình diễn ra suôn sẻ. " }
+            ]
+        },
+        { 
+            name: "FCS - CLB Không Gian Sáng tạo", 
+            image: "https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-1/459703436_376718592156552_3643906718685240195_n.jpg?stp=dst-jpg_tt6&cstp=mx1620x1620&ctp=s200x200&_nc_cat=109&ccb=1-7&_nc_sid=2d3e12&_nc_eui2=AeFhMm8a4h7Z3jZ9xUd4v_JFFW02hca-mo8VbTaFxr6ajyiLuiJIwej7xoHcAUihbKnxz5hM5f7_2NLR06XNlhL9&_nc_ohc=kVYyGqDQM60Q7kNvwEbcWu9&_nc_oc=Adr7swlFQUHULj2zgaOBjG2kF0WU7vRIcxIQmkDBOzKCjW-02cFYgj27ydIsTd0KINloZhmv04MGexevGsAjv0Dw&_nc_zt=24&_nc_ht=scontent.fhan14-5.fna&_nc_gid=2DeP1JrNpcH9gPfjGu6QGA&_nc_ss=7b2a8&oh=00_Af9x6XGW56BOfTaSllfj448BOWCxAv3993TgdwnZUsQCWg&oe=6A417F98",
+            desc: "FUDA’s Creative Space - kết nối cộng đồng sáng tạo, hiện thực hóa idea. <br> <b> Địa chỉ email:</b> fcs.fptudn@gmail.com    <br> <b>Chủ nhiệm:</b> Trần Viết Duy Huy ",
+            fbLink: "https://www.facebook.com/fudacreativespace?comment_id=Y29tbWV7DoxMjc4MzMyNjgwNzU3NjYwXzEwNjcyMjQ1OTU0ODM0MDA%3D",
+            eventLink: "https://www.facebook.com/nysclubdn/posts/pfbid033rayf992WGT8ZAXwqvWWRFpVQvsBMFNfGJtT1cWKA3wQUVeHeNdDon4ibjro8xT3l",
+            eventImg: "https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-6/707750330_985603997567846_7806027484738079208_n.jpg?stp=cp6_dst-jpg_tt6&cstp=mx2048x1152&ctp=s2048x1152&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGnhryE49iNJlG0VFlasfWuPZkQnhaAkNM9mRCeFoCQ01Z0MihoMnEx86uwZT7WVXI3wUSuTxzbNIr25rMXG0Lb&_nc_ohc=sevDyTurcaEQ7kNvwHXsaL6&_nc_oc=AdqrKZoZJBNKrxOSzCqXU9jhtGk1_Ldl3-CVBNT_NFGW4tsYrNwTZSg9BE2FOTlSJu1NtxXZTgdK8L6E9d1v2RaV&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=XpCveFTZTM7sy0oMY3wQ9Q&_nc_ss=7b2a8&oh=00_Af_4qvLNhXDNsTXZpXhEQULr6Ey0xNPxI03_EsZJd6Xkpw&oe=6A416067",
+            eventTitle: "ART WORKSHOP CRAFTING CULTURE – WORKSHOP VẼ NÓN LÁ ",
+            eventDesc: "Bạn đã bao giờ thử lưu lại dấu ấn sáng tạo của mình trên một chiếc nón lá truyền thống? Trong khuôn khổ Trại hè Jamboree 2026, FUDA's Creative Space mang đến Art Workshop 'Crafting Culture' – hoạt động trải nghiệm vẽ nón lá, nơi các trại sinh có cơ hội khám phá nét đẹp văn hóa Việt Nam thông qua một trong những biểu tượng quen thuộc nhất của dân tộc. Từ những họa tiết mang đậm bản sắc Việt đến những nét vẽ đầy màu sắc sáng tạo, mỗi chiếc nón sẽ trở thành một câu chuyện riêng, góp phần lan tỏa vẻ đẹp văn hóa Việt Nam đến bạn bè trong và ngoài nước. ",
+            eventStartDate: "2025-06-27",
+            eventEndDate: "2025-06-27",
+            departments: [
+                { title: "BAN TRUYỀN THÔNG", content: "<u><b>Tiểu ban Photographer</b></u><br>- Lên ý tưởng chụp ảnh hoặc tìm ảnh theo nội dung do ban Dự Án đề ra.<br>- Tác nghiệp tại các sự kiện do FCS tổ chức hoặc phối hợp thực hiện.<br>- Phối hợp với các team Design để hỗ trợ thiết kế.<br><u><b> Tiểu ban Designer</b></u><br>- Cập nhật xu hướng mới để thiết kế hình ảnh hấp dẫn, thu hút hơn cho các bài đăng.<br>- Định hướng phong cách và gam màu độc đáo, phù hợp cho từng chuỗi bài viết, xây dựng hình ảnh truyền thông cho page.<br> Thiết kế các ấn phẩm quan trọng như poster, standee,... <br><u><b>Tiểu ban Video Editor</u></b><br>- Dựng và chỉnh sửa video cho các sự kiện, dự án.<br>- Phối hợp với tiểu ban Nhiếp Ảnh và Thiết Kế để hoàn thiện video.<br>- Lên ý tưởng và kịch bản cho video truyền thông." },
+                { title: "BAN NỘI DUNG", content: "<u><b>Tiểu ban Event Planner</b></u><br>- Lên kế hoạch và tổ chức các sự kiện của câu lạc bộ.<br>- Phối hợp với các tiểu ban khác để chuẩn bị và thực hiện sự kiện.<br>Đảm bảo sự kiện diễn ra suôn sẻ và đạt được các mục tiêu đề ra.<br><u><b> Tiểu ban Content Creator</b></u><br>- Đề xuất ý tưởng đăng bài trên fanpage để thu hút người xem.<br>- Cập nhật các xu hướng sáng tạo mới để làm nội dung nổi bật.<br> Phối hợp với tiểu ban Nội Dung để đảm bảo sự đồng bộ của nội dung và hình ảnh. <br><u><b>Tiểu ban Content Writer</u></b><br>-Viết bài cho theo kế hoạch truyền thông cho CLB.<br>- Cập nhật thông tin và xu hướng mới để bài viết hấp dẫn.<br>- Đảm bảo chất lượng và chính xác của nội dung." }
+            ]
+        },
+  {
+    name: "TIA-CLB NHẠC CỤ DÂN TỘC ",
+    image: "https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/533762866_1182953063878029_2513570952912146795_n.jpg?stp=dst-jpg_tt6&cstp=mx960x960&ctp=s960x960&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=E9QQVV-0bI8Q7kNvwH8NH1R&_nc_oc=Adr6MEFUxujfZPAXj8fM7q-VCBQZwXwlzysowU_P1nMmmh32GN2krk-sxr3nTU9j-rg3LDxtS2hxWewYUJmPWhqm&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=PhYZRfbtIlEy2iVHbGJ6Jw&_nc_ss=7b2a8&oh=00_Af_zePuLdUaCYGVyJn9nwXXpORm0qvWuSN4Ui_yFrSCAkA&oe=6A3DDF3C",
+    desc: " Câu Lạc Bộ nhạc cụ dân tộc đại học FPT đà nẵng .<br> <b> Hoạt động chính:</b>Tập luyện và biểu diễn các loại nhạc cụ truyền thống của Việt Nam, tham gia vào các sự kiện văn hóa của trường<br><br><br> <b> Địa chỉ email:</b>tia.fptdn@gmail.com<br> <b>Chủ nhiệm:</b>Cao Mỹ Hân",
+    fbLink: "https://www.facebook.com/TIACLUBNHACCUDANTOC",
+    eventLink: "https://www.facebook.com/share/p/1HD9b7CPS6/",
+    eventImg: "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/721297013_1434919418681391_5600764789045009065_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=DRv0GlEWhioQ7kNvwHA97Rb&_nc_oc=Adr8DXTxdpSPsqx-jA_oHayfpPA_YXukkykUGyHiY84aYaVdkv7MeDCc2TDikfthhUgbwIXshYtETtGJdtZ7jXk_&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=En4G__OeaKNXp6wT_sWrbA&_nc_ss=7b2a8&oh=00_Af8V-xxemI2S7kWDKo-8aExKpjDRchfbMeyWIbjAwdz9HA&oe=6A3DC970",
+    eventTitle: "𝐖𝐎𝐑𝐊𝐒𝐇𝐎𝐏 THANH ÂM VIỆT - Giữ hồn dân tộc trong từng giai điệu ngân vang ",
+    eventDesc: "Workshop Thanh Âm Việt kỳ học SUM26 đã chính thức khép lại, nhưng dư âm của tiếng đàn tranh, tiếng sáo và những thanh âm truyền thống dường như vẫn còn vang vọng, để lại trong 𝐓𝐈𝐀 thật nhiều cảm xúc đẹp",
+    eventStartDate: "2026-06-13",
+    eventEndDate: "2026-06-13",
+    departments: [
+      { title: "Ban Truyền Thông", content: "Bao gồm: content, photo, design. Lên ý tưởng, cho ra đời các ấn phẩm truyền thông, xây dựng trang fanpage, tik tok, youtube và các trang truyền thông đại chúng khác của CLB ngày một vững mạnh. " },
+      { title: "Ban Chuyên Môn ", content: "Tập luyện nhạc cụ theo lịch định kì của CLB, tham gia biểu diễn các sự kiện. Liên tục cập nhật bài mới. Giao lưu, học hỏi, thỏa sức thể hiện đam mê." },
+      { title: "Ban Sự Kiện ", content: "Lên kế hoạch tổ chức các sự kiện của CLB. Hậu cần, hỗ trợ các buổi biểu diễn. Giúp TIA luôn xuất hiện trên sân khấu một cách chỉnh chu, chuyên nghiệp nhất. " }
+    ] 
+  }
 ];
 
 function renderRecommendedClubs(interests) {
@@ -729,10 +1098,11 @@ function renderAllEventsToHomepage() {
     const eventsSlider = document.getElementById("homepageEventsSlider");
     if (!eventsSlider) return;
     eventsSlider.innerHTML = "";
-    
-    const allEvents = [];
-    const seenEventTitles = new Set(); 
 
+    const allEvents = [];
+    const seenEventTitles = new Set();
+
+    // Gom toàn bộ sự kiện từ các câu lạc bộ thuộc danh mục
     Object.keys(clubs).forEach(key => {
         clubs[key].forEach(club => {
             if (club.eventTitle && club.eventImg) {
@@ -744,6 +1114,7 @@ function renderAllEventsToHomepage() {
         });
     });
 
+    // Gom sự kiện từ danh sách câu lạc bộ nổi bật (nếu có)
     featuredClubsData.forEach(club => {
         if (club.eventTitle && club.eventImg) {
             if (!seenEventTitles.has(club.eventTitle.toLowerCase().trim())) {
@@ -760,14 +1131,35 @@ function renderAllEventsToHomepage() {
         document.getElementById("homepage-events").style.display = "block";
     }
 
+    // --- ĐOẠN CODE THÊM MỚI: SẮP XẾP SỰ KIỆN ĐÃ KẾT THÚC XUỐNG SAU ---
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Đưa mốc thời gian về đầu ngày hôm nay để so sánh chính xác ngày
+
+    allEvents.sort((a, b) => {
+        // Nếu không có ngày kết thúc thì mặc định xem như chưa kết thúc
+        const dateA = a.eventEndDate ? new Date(a.eventEndDate) : new Date();
+        const dateB = b.eventEndDate ? new Date(b.eventEndDate) : new Date();
+        dateA.setHours(0, 0, 0, 0);
+        dateB.setHours(0, 0, 0, 0);
+
+        const isExpiredA = dateA < today; // true nếu sự kiện A đã kết thúc
+        const isExpiredB = dateB < today; // true nếu sự kiện B đã kết thúc
+
+        // Sắp xếp: sự kiện chưa kết thúc (false) lên trước, sự kiện đã kết thúc (true) ra sau
+        return isExpiredA - isExpiredB;
+    });
+    // -----------------------------------------------------------------
+
+    // Tiến hành render các sự kiện sau khi đã sắp xếp
     allEvents.forEach(clubEvent => {
         const cardElement = document.createElement("div");
         cardElement.className = "card";
         cardElement.innerHTML = `
             <img src="${clubEvent.eventImg}" alt="Event Banner">
+            ${clubEvent.eventEndDate ? createEventBadge(clubEvent.eventEndDate) : ''}
             <div class="card-content">
                 <span style="font-size:0.75rem; color:#F37021; font-weight:700; text-transform:uppercase; margin-bottom:4px; display:block;">
-                     ${clubEvent.name}
+                    ${clubEvent.name}
                 </span>
                 <h3>${clubEvent.eventTitle}</h3>
                 <p>${clubEvent.eventDesc || 'Bấm để xem chi tiết sự kiện.'}</p>
@@ -977,17 +1369,18 @@ function openDetailedPage(clubObj) {
 
     const eventWrapper = document.getElementById("event-section-wrapper");
     const cardContainer = document.getElementById("dynamic-event-card-container");
-    
+	
     if (clubObj.eventTitle && clubObj.eventImg) {
-        cardContainer.innerHTML = `
-            <a href="${clubObj.eventLink || '#'}" target="_blank" class="card" style="min-width:100%; width:100%;">
-                <img src="${clubObj.eventImg}" alt="Event Image">
-                <div class="card-content">
-                    <h3>${clubObj.eventTitle}</h3>
-                    <p>${clubObj.eventDesc || 'Bấm để xem chi tiết sự kiện.'}</p>
-                </div>
-            </a>
-        `;
+    cardContainer.innerHTML = `
+        <a href="${clubObj.eventLink || '#'}" target="_blank" class="card" style="min-width:100%; width:100%;">
+            <img src="${clubObj.eventImg}" alt="Event Image">
+            ${clubObj.eventEndDate ? createEventBadge(clubObj.eventEndDate) : ''}
+            <div class="card-content">
+                <h3>${clubObj.eventTitle}</h3>
+                <p>${clubObj.eventDesc || 'Bấm để xem chi tiết sự kiện.'}</p>
+            </div>
+        </a>
+    `;
         eventWrapper.style.display = "block";
     } else {
         cardContainer.innerHTML = "";
@@ -1004,9 +1397,66 @@ function backToHome() {
     document.getElementById("searchInput").value = "";
     window.scrollTo(0, 0);
 }
+function getEventStatus(endDate) {
+    const today = new Date();
+    const eventEnd = new Date(endDate);
+
+    today.setHours(0,0,0,0);
+    eventEnd.setHours(23,59,59,999);
+
+    return today > eventEnd ? "expired" : "active";
+}
+function createEventBadge(endDate){
+    const status = getEventStatus(endDate);
+
+    if(status === "expired"){
+        return `
+            <span class="event-badge expired">
+                Đã kết thúc
+            </span>
+        `;
+    }
+
+    return `
+        <span class="event-badge active">
+            Đang diễn ra
+        </span>
+    `;
+}
+// --- SỰ KIỆN ĐIỀU KHIỂN NÚT BACK TO TOP ---
+const backToTopBtn = document.getElementById("btnBackToTop");
+
+// Theo dõi sự kiện cuộn chuột của người dùng
+window.addEventListener("scroll", () => {
+    // Nếu cuộn xuống quá 300px thì hiện nút, dưới 300px thì ẩn đi
+    if (window.scrollY > 300) {
+        backToTopBtn.classList.add("show");
+    } else {
+        backToTopBtn.classList.remove("show");
+    }
+});
+
+// Sự kiện click để cuộn mượt lên đầu trang
+backToTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth" /* Cuộn mượt mà không bị khựng */
+    });
+});
+
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
 
 
